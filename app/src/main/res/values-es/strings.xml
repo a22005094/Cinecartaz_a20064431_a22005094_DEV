@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mi Cinecartaz</string>
+    <string name="feature_register_movie">Registrar pelicula</string>
+    <string name="drawer_open">Abierto</string>
+    <string name="drawer_close">Cerrado</string>
+</resources>

@@ -1,0 +1,35 @@
+<resources>
+    <!-- Por default, utiliza este ficheiro, que contém todas as frases em Português. -->
+    <string name="app_name">Cinecartaz</string>
+
+    <!-- Opções @ Drawer -->
+    <string name="drawer_open">Aberto</string>
+    <string name="drawer_close">Fechado</string>
+    <string name="feature_dashboard" translatable="false">Dashboard</string>
+    <string name="feature_register_movie">Registar filme</string>
+
+    <!-- Labels @ Registar Filme -->
+    <string name="lbl_movie_name">Nome do filme:</string>
+    <string name="lbl_movie_name_hint">(Insira o filme a pesquisar…)</string>
+    <string name="lbl_cinema_name">Cinema:</string>
+    <string name="lbl_cinema_name_hint">(Insira o cinema a pesquisar…)</string>
+    <string name="lbl_movie_rating">Avaliação (1 a 10):</string>
+    <string name="lbl_rating_hint">Indique a sua avaliação do filme</string>
+    <string name="lbl_minus" translatable="false">-</string>
+    <string name="lbl_plus" translatable="false">+</string>
+    <string name="lbl_watch_date">Data de visualização:</string>
+    <string name="lbl_movie_photos">Fotografias (opcional):</string>
+    <string name="lbl_add_photo">Adicionar imagem...</string>
+    <string name="exception_add_image">Ocorreu um erro no processamento das imagens. Nem todas as imagens poderão ter sido corretamente adicionadas.</string>
+    <string name="lbl_btn_insert">Adicionar</string>
+
+    <!-- ERROR Handling -->
+    <string name="rationale_rejected_once_permission_storage">AVISO: Rejeitou a permissão de acesso aos ficheiros! É necessário aceitá-la para poder anexar imagens.</string>
+    <string name="rationale_rejected_permanently_permission_storage">AVISO: Rejeitou permanentemente a permissão de acesso aos ficheiros! É necessário aceitá-la nas definições da aplicação.</string>
+    <string name="error_missing_text">ERRO: Deve introduzir texto a pesquisar!</string>
+    <string name="error_no_results_found">ERRO: Não foram encontrados resultados.</string>
+    <string name="error_too_many_results">ERRO: Foram encontrados vários resultados. Por favor, introduza termos mais específicos.</string>
+    <string name="error_internal_error">Erro interno, por favor tente novamente</string>
+
+
+</resources>

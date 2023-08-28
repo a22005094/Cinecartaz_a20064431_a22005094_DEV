@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group>
+        <item
+            android:id="@+id/nav_feature_dashboard"
+            android:icon="@drawable/ic_dashboard"
+            android:title="@string/feature_dashboard" />
+
+        <item
+            android:id="@+id/nav_feature_register_movie"
+            android:icon="@drawable/ic_movie"
+            android:title="@string/feature_register_movie" />
+
+        <!-- TODO addicionar mais conforme necessário. -->
+        <!-- EXEMPLO:
+            <item
+                android:id="@+id/nav_history"
+                android:icon="@drawable/ic_list"
+                android:title="@string/history" />
+        -->
+
+    </group>
+
+</menu>

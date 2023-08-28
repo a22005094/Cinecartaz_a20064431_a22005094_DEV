@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Moviethon</string>
+    <string name="feature_register_movie">Add a movie</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Closed</string>
+</resources>

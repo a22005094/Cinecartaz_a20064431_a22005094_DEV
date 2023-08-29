@@ -1,5 +1,7 @@
 package pt.ulusofona.deisi.cm2223.g20064431_22005094.model
 
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.MovieSearchResultInfo
+
 // * Disclaimer *
 // Créditos: conteúdos disponibilizados pelos Professores, tanto a nível de slides teóricos como das fichas Práticas,
 // que serviram de base e de guião para esta implementação.
@@ -17,7 +19,9 @@ abstract class Cinecartaz {
     // abstract fun clearAllCharacters(onFinished: () -> Unit)
     // -------------------------------------------------------
 
-    abstract fun getMoviesByName(movieName: String, onFinished: (Result<List<OMDBMovie>>) -> Unit)
+    abstract fun getMoviesByName(
+        movieName: String, pageNumber: Int, onFinished: (Result<MovieSearchResultInfo>) -> Unit
+    )
 
     // * Estes métodos não vão ter uso via API.
     abstract fun insertMovie(movie: OMDBMovie, onFinished: () -> Unit)

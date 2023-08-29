@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/imgViewThumbnail"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
+    android:layout_margin="5dp"
+     />
+-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/box_border">
+
+    <!--
+        <TextView
+            android:id="@+id/tv_resultNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.15"
+            android:text="@string/lbl_lorem_ipsum"
+            android:textSize="20sp" />
+    -->
+
+    <TextView
+        android:id="@+id/tv_movieName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.85"
+        android:padding="10dp"
+        android:text="@string/lbl_lorem_ipsum"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+</LinearLayout>

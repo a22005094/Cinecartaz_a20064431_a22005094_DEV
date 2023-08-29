@@ -27,7 +27,7 @@
 
             <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="40dp" />
+                android:layout_height="20dp" />
 
             <!-- Nome do Filme -->
             <TextView
@@ -41,8 +41,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/box_border"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:hint="@string/lbl_movie_name_hint"
-                android:inputType="textAutoCorrect"
+                android:inputType="none"
                 android:padding="5dp" />
 
             <ProgressBar
@@ -55,7 +57,7 @@
 
             <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="40dp" />
+                android:layout_height="20dp" />
 
             <!-- Nome do Cinema -->
             <TextView
@@ -64,18 +66,18 @@
                 android:text="@string/lbl_cinema_name"
                 android:textSize="20sp" />
 
-            <EditText
-                android:id="@+id/et_cinema_name"
+            <AutoCompleteTextView
+                android:id="@+id/actv_cinema_name"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/box_border"
+                android:completionThreshold="2"
                 android:hint="@string/lbl_cinema_name_hint"
-                android:inputType="textAutoCorrect"
                 android:padding="5dp" />
 
             <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="40dp" />
+                android:layout_height="20dp" />
 
             <!-- Rating do filme -->
             <TextView
@@ -83,40 +85,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/lbl_movie_rating"
                 android:textSize="20sp" />
-
-            <!-- TODO review -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="6">
-
-                <Button
-                    android:id="@+id/btn_minus"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.5"
-                    android:text="@string/lbl_minus" />
-
-                <NumberPicker
-                    android:id="@+id/number_picker"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:background="@drawable/box_border"
-                    android:gravity="center"
-                    android:showDividers="none"
-
-                    />
-
-                <Button
-                    android:id="@+id/btn_plus"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.5"
-                    android:text="@string/lbl_plus" />
-
-            </LinearLayout>
 
             <com.google.android.material.slider.Slider
                 android:id="@+id/slider_rating"
@@ -139,36 +107,9 @@
                 android:text=""
                 android:textSize="20sp" />
 
-            <!--
-                <RatingBar
-                    style="@style/Widget.AppCompat.RatingBar.Indicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:numStars="10"
-                    android:rating="5"
-                    android:layout_gravity="center_horizontal"
-                    android:isIndicator="false"
-                    android:scaleX=".9"
-                    android:scaleY=".9"
-                    android:stepSize="1" />
-                <RatingBar
-                    android:id="@+id/dialog_rating_bar"
-                    style="@android:style/Widget.Material.RatingBar.Small"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:isIndicator="false"
-                    android:numStars="10"
-                    android:padding="0dp"
-                    android:scaleX="2"
-                    android:scaleY="2"
-                    android:stepSize="1" />
-            -->
-
-
             <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="40dp" />
+                android:layout_height="20dp" />
 
             <!-- Data de visualização -->
             <TextView
@@ -189,7 +130,7 @@
 
             <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="40dp" />
+                android:layout_height="20dp" />
 
             <!-- Fotografias sobre o filme -->
             <TextView
@@ -212,7 +153,7 @@
 
             <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="40dp" />
+                android:layout_height="20dp" />
 
             <Button
                 android:id="@+id/btn_insert_record"
@@ -222,7 +163,7 @@
 
             <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="40dp" />
+                android:layout_height="20dp" />
         </LinearLayout>
 
         <androidx.legacy.widget.Space

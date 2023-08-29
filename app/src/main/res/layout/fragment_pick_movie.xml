@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context=".fragments.PickMovieFragment">
+
+    <androidx.legacy.widget.Space
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.1" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.8"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
+
+        <androidx.legacy.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <!-- Nome do Filme -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_movie_name"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/et_movie_search"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/box_border"
+            android:hint="@string/lbl_movie_name_hint"
+            android:inputType="textAutoCorrect"
+            android:padding="5dp" />
+
+        <Button
+            android:id="@+id/btn_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_search" />
+
+        <androidx.legacy.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_less_results"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:text="@string/lbl_go_back"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tv_pageCount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.6"
+                android:gravity="center"
+                android:text="@string/lbl_page_count"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/btn_moreResults"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:text="@string/lbl_more"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_infoResults"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/lbl_no_results_found"
+                android:textSize="20sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_results"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <androidx.legacy.widget.Space
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.1" />
+
+</LinearLayout>

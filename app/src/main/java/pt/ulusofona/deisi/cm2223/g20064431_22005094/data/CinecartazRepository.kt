@@ -3,6 +3,7 @@ package pt.ulusofona.deisi.cm2223.g20064431_22005094.data
 import android.content.Context
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.Cinecartaz
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.OMDBMovie
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.MovieSearchResultInfo
 import java.io.IOException
 
 
@@ -33,16 +34,15 @@ class CinecartazRepository(
     // Considerar se isso deve ser feito aqui...
 
 
-    override fun getMoviesByName(movieName: String, onFinished: (Result<List<OMDBMovie>>) -> Unit) {
+    override fun getMoviesByName(
+        movieName: String, pageNumber: Int, onFinished: (Result<MovieSearchResultInfo>) -> Unit
+    ) {
         // (TODO REVER) Chamada 100% à API (?), não se prevê aqui guardar dados localmente pois é apenas uma "pesquisa" momentânea.
 
         if (ConnectivityUtil.isDeviceOnline(context)) {
-            //onFinished(Result.failure(IOException("Churro, isto está por fazer @CinecartazRepositorio line 40")))
-
-            remote.getMoviesByName(movieName) {
+            remote.getMoviesByName(movieName, pageNumber) {
                 onFinished(it)
             }
-
         } else {
             onFinished(Result.failure(IOException("Sem ligação à Internet!")))
         }

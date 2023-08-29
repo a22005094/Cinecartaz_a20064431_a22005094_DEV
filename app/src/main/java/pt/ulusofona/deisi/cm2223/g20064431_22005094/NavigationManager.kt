@@ -3,6 +3,7 @@ package pt.ulusofona.deisi.cm2223.g20064431_22005094
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.fragments.DashboardFragment
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.fragments.PickMovieFragment
 
 // Credits: Aula5 @ Fichas práticas de CM
 object NavigationManager {
@@ -23,6 +24,10 @@ object NavigationManager {
 
     fun goToRegistarFilmeFragment(fm: FragmentManager) {
         placeFragment(fm, RegistarFilmeFragment.newInstance())
+    }
+
+    fun goToPickMovieFragment(fm: FragmentManager) {
+        placeFragment(fm, PickMovieFragment.newInstance())
     }
 
 }

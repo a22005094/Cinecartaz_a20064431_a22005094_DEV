@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.GetMultipleContents
@@ -19,16 +20,15 @@ import com.fondesa.kpermissions.allGranted
 import com.fondesa.kpermissions.allPermanentlyDenied
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.fondesa.kpermissions.extension.send
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.data.CinecartazRepository
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.databinding.FragmentRegistarFilmeBinding
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.Cinema
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.CustomDate
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.CinemasManager
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.Utils.convertUriToBitmap
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.Utils.currentlySelectedMovie
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.Utils.getDataDeOntemEmMillis
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.Utils.isToday
 
 
 /*  CREDITS
@@ -63,16 +63,12 @@ import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.Utils.getDataDeOn
 
 class RegistarFilmeFragment : Fragment() {
 
-    // private val model: CinecartazOkHttp = CinecartazOkHttp()
     private val model = CinecartazRepository.getInstance()
+    private lateinit var binding: FragmentRegistarFilmeBinding
 
     // TODO rever estes dois parametros...
     private var filmeSelecionado: Int = -1
-    private var cinemaSelecionado: Int = -1
-
-    // ---
-
-    private lateinit var binding: FragmentRegistarFilmeBinding
+    private var cinemaSelecionado: Cinema? = null
 
     // (@ datePicker)
     private var dtSelecionada = CustomDate() // para o Date Picker de data de visualização do filme
@@ -108,55 +104,70 @@ class RegistarFilmeFragment : Fragment() {
         // ------------------------------------------------------
         //  Definir lógica @ listeners, eventos, adapter... etc.
         // ------------------------------------------------------
-        // > Number picker
-        binding.numberPicker.minValue = 1
-        binding.numberPicker.maxValue = 10
-        binding.numberPicker.value = 5
 
-        // > Date Picker - predefine p/ data de ontem (só se podem inserir avaliações em datas passadas)
-        dtSelecionada.adicionarDias(-1)
-        binding.tvWatchDate.text = dtSelecionada.toString()
-
-        // > Adapter de imagens
-        // v1 - Método semelhante às fichas, formato Lista
-        // binding.rvImagens.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        // v2 - Formato Grid (mais apelativo para uma "galeria")
-        binding.rvImagens.layoutManager = GridLayoutManager(requireContext(), 3)
-        binding.rvImagens.adapter = imagensAdapter
-
-        // Listeners das EditTexts - a pesquisa é feita no momento em que as EditTexts perdem o foco
+        // * Filme
+        // Configurar listener - a pesquisa é feita no momento em que a EditText perde o foco
         // (exemplo: quando o User seleciona fora da caixa após escrever texto, ou seleciona outra caixa)
-        binding.etMovieName.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                // Perdeu focus - efetuar pesquisa por Filme
-                pesquisarFilme(binding.etMovieName.text.toString())
-            }
+        // TODO - binding.etMovieName. ...
+        binding.etMovieName.setOnClickListener {
+            NavigationManager.goToPickMovieFragment(parentFragmentManager)
         }
 
-        binding.etCinemaName.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                // Perdeu focus - efetuar pesquisa por Cinema
-                pesquisarCinema(binding.etCinemaName.text.toString())
-            }
+        // * Cinema
+        //  > Atualizar a lista JSON (@ cinemas.json)
+        CinemasManager.atualizarListaCinemas(requireContext())
+
+        //  > Configurar adapter a usar c/ lista de Cinemas
+        val arrayAdapter = ArrayAdapter(
+            requireContext(), android.R.layout.simple_dropdown_item_1line, CinemasManager.listaCinemas
+        )
+        binding.actvCinemaName.setAdapter(arrayAdapter)
+
+        //  > Listener para armazenar o Cinema selecionado
+        binding.actvCinemaName.setOnItemClickListener { adapterView, _, position: Int, _ ->
+            cinemaSelecionado = adapterView.getItemAtPosition(position) as Cinema
+
+            Toast.makeText(
+                requireContext(), "Selected: ${adapterView.getItemAtPosition(position)}", Toast.LENGTH_SHORT
+            ).show()
         }
 
-
-        binding.btnMinus.setOnClickListener { decrementarRating() }
-        binding.btnPlus.setOnClickListener { incrementarRating() }
+        // * Rating
         setRatingPickerColor()
         binding.sliderRating.addOnChangeListener { _, _, _ -> setRatingPickerColor() }
 
+        // * Date Picker - predefine p/ data de ontem
+        // (só se podem inserir avaliações em datas passadas)
+        if (isToday(dtSelecionada)) {
+            // Validação para só alterar 1x a data para ontem
+            // (protege de situações de múltiplos acessos ao mesmo fragmento, e.g. múltiplas pesquisas por filmes)
+            dtSelecionada.adicionarDias(-1)
+        }
+
+        binding.tvWatchDate.text = dtSelecionada.toString()
         binding.tvWatchDate.setOnClickListener { showDatePicker() }
+
+        // * Image Picker & Adapter de imagens
         binding.btnAddPhoto.setOnClickListener { lancarPickerImagens() }
+
+        // A RecycleView é apresentada em formato Grid (mais apelativo para "galeria de imagens")
+        binding.rvImagens.layoutManager = GridLayoutManager(requireContext(), 3)
+        binding.rvImagens.adapter = imagensAdapter
+
+        // * Btn gravar
         binding.btnInsertRecord.setOnClickListener { gravarFilme() }
 
-        // atualizar a lista de filmes (cinemas.json)
-        CinemasManager.atualizarListaCinemas(requireContext())
+        // ---------------------
+        //  Zona para testes...
+        // ---------------------
 
-        // -------------------
-        // Zona para testes...
-        // -------------------
-
+        if (currentlySelectedMovie != null) {
+            Toast.makeText(
+                requireContext(),
+                "Selected movie: ${currentlySelectedMovie!!.title}",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
 
     }
 
@@ -164,14 +175,6 @@ class RegistarFilmeFragment : Fragment() {
         // Factory
         @JvmStatic
         fun newInstance() = RegistarFilmeFragment()
-    }
-
-    private fun decrementarRating() {
-        binding.numberPicker.value -= 1
-    }
-
-    private fun incrementarRating() {
-        binding.numberPicker.value += 1
     }
 
     private fun setRatingPickerColor() {
@@ -282,102 +285,6 @@ class RegistarFilmeFragment : Fragment() {
                     requireContext(), getString(R.string.exception_add_image), Toast.LENGTH_LONG
                 ).show()
             }
-        }
-    }
-
-    private fun pesquisarFilme(nomeFilme: String) {
-        if (nomeFilme.isNotEmpty()) {
-            CoroutineScope(Dispatchers.IO).launch {
-                model.getMoviesByName(nomeFilme) { apiResult ->
-                    if (apiResult.isSuccess) {
-                        val listaFilmes = apiResult.getOrDefault(mutableListOf())
-
-                        if (listaFilmes.isEmpty()) {
-                            Toast.makeText(requireContext(), "Sem resultados de pesquisa.", Toast.LENGTH_SHORT).show()
-                        } else {
-                            // Todos os filmes
-                            val result: String = listaFilmes.joinToString { movie ->
-                                movie.title
-                            }
-
-                            CoroutineScope(Dispatchers.Main).launch {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Foram encontrados ${listaFilmes.size}: [$result]",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
-                        }
-                    } else {
-                        // Erro na comunicação c/ API - apresentar msg erro (Toast)
-                        Toast.makeText(requireContext(), apiResult.exceptionOrNull()?.message, Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
-        } else {
-            // Erro - não foi inserido texto a pesquisar
-            binding.etMovieName.error = getString(R.string.error_missing_text)
-        }
-    }
-
-    private fun pesquisarCinema(txtPesquisa: String) {
-        // TODO poderá precisar de retoques...
-
-        // Pesquisa por um Cinema usando o texto da caixa.
-        // Apenas seleciona um cinema se só um resultado foi devolvido, e assinala a caixa a verde.
-        // Caso contrário devolve erro e assinala a caixa a vermelho (input inválido/0 matches/1+ matches)
-
-        var cinemaEncontrado: Cinema? = null
-        var pesquisaSucesso = false
-        var resultMsg = ""
-
-        if (txtPesquisa.isNotEmpty()) {
-            var nrMatches = 0
-            val textoAPesquisar = txtPesquisa.trim().lowercase()
-
-            if (CinemasManager.listaCinemas.size > 0) {
-                for (cinema in CinemasManager.listaCinemas) {
-                    // A pesquisa é feita diretamente por cinemas que tenham o mesmo texto (igual e na mesma ordem).
-                    // TODO: sugestão de melhoria: separar todas as palavras e fazer "ranking" por maior número de matches?
-                    if (cinema.name.lowercase().contains(textoAPesquisar)) {
-                        cinemaEncontrado = cinema
-                        nrMatches++
-                    }
-                }
-
-                // Possíveis resultados:
-                // > 0  Matches = ERROR! Nenhum resultado encontrado
-                // > 1  Match   = OK
-                // > 2+ Matches = ERROR! Tem de ser mais específico...
-
-                if (nrMatches == 0) {  // ERROR
-                    resultMsg = getString(R.string.error_no_results_found)
-                } else if (nrMatches > 1) {
-                    resultMsg = getString(R.string.error_too_many_results)
-                } else {
-                    pesquisaSucesso = true  // OK!
-                    resultMsg = ""  // Não vai ser apresentada msg Toast
-                }
-            } else {
-                resultMsg = getString(R.string.error_internal_error)
-            }
-        } else {
-            // Erro - não foi inserido texto a pesquisar
-            resultMsg = getString(R.string.error_missing_text)
-        }
-
-        if (pesquisaSucesso) {
-            cinemaSelecionado = cinemaEncontrado!!.id
-            binding.etCinemaName.setText(cinemaEncontrado.name)
-            binding.etCinemaName.setBackgroundResource(R.drawable.edit_text_input_success)
-        } else {
-            cinemaSelecionado = -1
-            binding.etCinemaName.setBackgroundResource(R.drawable.edit_text_input_error)
-            binding.etCinemaName.error = resultMsg
-        }
-
-        if (resultMsg.isNotEmpty()) {
-            Toast.makeText(requireContext(), resultMsg, Toast.LENGTH_LONG).show()
         }
     }
 

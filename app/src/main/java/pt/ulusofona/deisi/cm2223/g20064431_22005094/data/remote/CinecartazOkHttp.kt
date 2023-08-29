@@ -11,6 +11,7 @@ import org.json.JSONObject
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.OMDB_API_URL_MOVIE_SEARCH
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.Cinecartaz
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.OMDBMovie
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.MovieSearchResultInfo
 import java.io.IOException
 
 // TODO substituir diretamente o BaseUrl e ApiKey pelos valores nas Constants.kt
@@ -33,9 +34,12 @@ class CinecartazOkHttp : Cinecartaz() {
     // v2 - Cliente independente. Gere internamente a instância OkHttp e o acesso a parâmetros (@Constants.kt)
     private val client: OkHttpClient = OkHttpClient()
 
-    override fun getMoviesByName(movieName: String, onFinished: (Result<List<OMDBMovie>>) -> Unit) {
+    override fun getMoviesByName(
+        movieName: String, pageNumber: Int, onFinished: (Result<MovieSearchResultInfo>) -> Unit
+    ) {
         // 1. Preparar o pedido OkHttp (usar ApiKey & Url respetivos à API LOTR)
-        val request: Request = Request.Builder().url("$OMDB_API_URL_MOVIE_SEARCH$movieName")
+        val requestUrl = "$OMDB_API_URL_MOVIE_SEARCH$movieName&page=$pageNumber"
+        val request: Request = Request.Builder().url(requestUrl)
             //.addHeader("Authorization", "Bearer $apiKey")
             .build()
 
@@ -54,35 +58,55 @@ class CinecartazOkHttp : Cinecartaz() {
 
                 if (!response.isSuccessful) {
                     // ex. HTTP 401, 403, 404, 500, ...
-                    onFinished(Result.failure(IOException("Erro de comunicação com a API (${response.code}): $response")))
+                    //onFinished(Result.failure(IOException("Erro de comunicação com a API (${response.code}): $response")))
+                    onFinished(Result.failure(IOException("API communication error, please try again later")))
                 } else {
                     val body = response.body?.string()
                     if (body != null) {
                         // * Obter o JSON da resposta p/ JsonObject
                         val jsonObject = JSONObject(body)
-                        // * Parse dos objetos p/ JsonArray
-                        val jsonMoviesList = jsonObject["Search"] as JSONArray
 
-                        // * Parse do JsonArray p/ objetos de Classes conhecidas
-                        val moviesList = mutableListOf<OMDBMovie>()
-                        for (i in 0 until jsonMoviesList.length()) {
-                            val jsonMovie = jsonMoviesList[i] as JSONObject
+                        if (jsonObject.getBoolean("Response")) {
 
-                            // * Nota: Caso seja preciso lidar com Strings opcionais, usar "optString"
-                            //         (devolve NULL caso não tenha valor preenchido)
+                            // * Carregar o nº resultados de pesquisa
+                            val nrResults = jsonObject.getInt("totalResults")
 
-                            moviesList.add(
-                                OMDBMovie(
-                                    jsonMovie.getString("Title"),
-                                    jsonMovie.getString("Year").toInt(),
-                                    jsonMovie.getString("imdbID"),
-                                    jsonMovie.getString("Poster")
+                            // * Parse dos objetos p/ JsonArray
+                            val jsonMoviesList = jsonObject["Search"] as JSONArray
+
+                            // * Parse do JsonArray p/ objetos de Classes conhecidas
+                            val moviesList = mutableListOf<OMDBMovie>()
+                            for (i in 0 until jsonMoviesList.length()) {
+                                val jsonMovie = jsonMoviesList[i] as JSONObject
+
+                                // * Nota: Caso seja preciso lidar com Strings opcionais, usar "optString"
+                                //         (devolve NULL caso não tenha valor preenchido)
+
+                                moviesList.add(
+                                    OMDBMovie(
+                                        jsonMovie.getString("Title"),
+                                        jsonMovie.getString("Year").toInt(),
+                                        jsonMovie.getString("imdbID"),
+                                        jsonMovie.getString("Poster")
+                                    )
+                                )
+                            }
+
+                            // Devolver a lista de Characters obtida via API, já como objetos de classes conhecidas
+                            onFinished(
+                                Result.success(
+                                    MovieSearchResultInfo(nrResults, moviesList)
                                 )
                             )
-                        }
 
-                        // Devolver a lista de Characters obtida via API, já como objetos de classes conhecidas
-                        onFinished(Result.success(moviesList))
+                        } else {
+                            // Response != "True"
+                            // - ou erro de API
+                            // - ou não foram encontrados resultados
+
+                            // Devolver OK, mas sem resultados
+                            onFinished(Result.success(MovieSearchResultInfo(0, mutableListOf())))
+                        }
                     }
                 }
             }

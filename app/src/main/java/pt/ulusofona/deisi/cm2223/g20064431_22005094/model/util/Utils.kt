@@ -26,29 +26,42 @@ object Utils {
 
 
     // TODO: Temp list of watched movies
+    var watchedMovie = WatchedMovie(
+        UUID.randomUUID().toString(),
+        OMDBMovie(
+            "Blade Runner",
+            1982,
+            "tt0083658",
+            "Action, Drama, Sci-Fi",
+            8.1,
+            "Ridley Scott",
+            "A blade runner must pursue and terminate four replicants who stole a ship in space and have returned to Earth to find their creator.",
+            "https://m.media-amazon.com/images/M/MV5BNzQzMzJhZTEtOWM4NS00MTdhLTg0YjgtMjM4MDRkZjUwZDBlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg"
+        //"https://m.media-amazon.com/images/M/MV5BMTdjZTliODYtNWExMi00NjQ1LWIzN2MtN2Q5NTg5NTk3NzliL2ltYWdlXkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg"
+        ),
+        Cinema(
+            2589, "Cinemas NOS Centro Comercial Colombo", "Cinemas NOS",
+            38.75366130000005, -9.205767760449193,
+            "Centro Comercial Colombo, Avenida Lusíada",
+            "1500-392", "Lisboa"
+        ),
+        7,
+        Date().time,
+        "No comments")
+
     var watchedMovies: MutableList<WatchedMovie> = mutableListOf(
-        WatchedMovie(
-            UUID.randomUUID().toString(),
-            OMDBMovie(
-                "Blade Runner",
-                1982,
-                "tt0083658",
-                "Action, Drama, Sci-Fi",
-                8.1,
-                "Ridley Scott",
-                "A blade runner must pursue and terminate four replicants who stole a ship in space and have returned to Earth to find their creator.",
-                "https://m.media-amazon.com/images/M/MV5BNzQzMzJhZTEtOWM4NS00MTdhLTg0YjgtMjM4MDRkZjUwZDBlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg"
-            ),
-            Cinema(
-                2589, "Cinemas NOS Centro Comercial Colombo", "Cinemas NOS",
-                38.75366130000005, -9.205767760449193,
-                "Centro Comercial Colombo, Avenida Lusíada",
-                "1500-392", "Lisboa"
-            ),
-            7,
-            Date().time,
-            "No comments"
-        )
+        watchedMovie,
+        watchedMovie,
+        watchedMovie,
+        watchedMovie,
+        watchedMovie,
+        watchedMovie,
+        watchedMovie,
+        watchedMovie,
+        watchedMovie,
+        watchedMovie,
+        watchedMovie,
+        watchedMovie
     )
 
 

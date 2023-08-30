@@ -7,6 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.databinding.ActivityMainBinding
 
+// required imports for location request
+import android.Manifest
+import com.fondesa.kpermissions.allGranted
+import com.fondesa.kpermissions.extension.permissionsBuilder
+import com.fondesa.kpermissions.extension.send
+
+
 // Credits pela implementação desta Activity: Ficha5 prática de CM (material das Aulas)
 
 class MainActivity : AppCompatActivity() {
@@ -19,9 +26,25 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // "Se o ecrã rodar, não vai para o Fragment principal,
-        //  e permanece no Fragmento onde estava anteriormente."
-        if (!screenRotated(savedInstanceState)) NavigationManager.goToDashboardFragment(supportFragmentManager)
+
+        // manage location permission request
+        // If permissions are not granted, the app will exit
+        permissionsBuilder(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION).build().send { result ->
+            if (result.allGranted()) {
+                // if screen rotates, won't navigate to main fragment
+                // and remains in current fragment
+                if (!screenRotated(savedInstanceState))
+                    NavigationManager.goToDashboardFragment(supportFragmentManager)
+            } else {
+                finish()
+            }
+        }
+
+
+
+
     }
 
     override fun onStart() {

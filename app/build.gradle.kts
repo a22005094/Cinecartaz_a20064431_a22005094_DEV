@@ -83,6 +83,7 @@ dependencies {
     // -----------
     // Image management - Glide library
     implementation("com.github.bumptech.glide:glide:4.14.2")
+    //annotationProcessor ("com.github.bumptech.glide:compiler:4.12.2")   // Additional dependency
     // -----------
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")

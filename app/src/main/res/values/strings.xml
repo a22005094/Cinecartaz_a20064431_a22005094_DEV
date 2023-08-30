@@ -9,6 +9,9 @@
     <string name="feature_register_movie">Registar filme</string>
     <string name="feature_list_movies">Os meus filmes</string>
 
+    <!-- labels @ watched movies -->
+    <string name="lbl_image_content_description">Poster do filme</string>
+
     <!-- Labels @ Registar Filme -->
     <string name="lbl_movie_name">Nome do filme:</string>
     <string name="lbl_movie_name_hint">(Insira o filme a pesquisar…)</string>

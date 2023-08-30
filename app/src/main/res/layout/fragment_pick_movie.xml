@@ -22,7 +22,7 @@
 
         <androidx.legacy.widget.Space
             android:layout_width="match_parent"
-            android:layout_height="20dp" />
+            android:layout_height="15dp" />
 
         <!-- Nome do Filme -->
         <TextView
@@ -46,9 +46,6 @@
             android:layout_height="wrap_content"
             android:text="@string/lbl_search" />
 
-        <androidx.legacy.widget.Space
-            android:layout_width="match_parent"
-            android:layout_height="20dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -64,14 +61,30 @@
                 android:text="@string/lbl_go_back"
                 android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/tv_pageCount"
+            <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="0.6"
-                android:gravity="center"
-                android:text="@string/lbl_page_count"
-                android:textSize="20sp" />
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_pageCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/lbl_page_count"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tv_infoResults"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/lbl_results_count"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btn_moreResults"
@@ -83,27 +96,22 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <androidx.legacy.widget.Space
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="15dp" />
 
-            <TextView
-                android:id="@+id/tv_infoResults"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="@string/lbl_no_results_found"
-                android:textSize="20sp" />
+        <TextView
+            android:id="@+id/tv_noResults"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/lbl_no_results_found"
+            android:textSize="20sp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_results"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" />
-
-        </LinearLayout>
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_results"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

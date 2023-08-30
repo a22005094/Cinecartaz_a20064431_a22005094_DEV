@@ -27,6 +27,9 @@ abstract class Cinecartaz {
     abstract fun insertMovie(movie: OMDBMovie, onFinished: () -> Unit)
     abstract fun clearAllMovies(onFinished: () -> Unit)
 
+    // Em análise.
+    // abstract fun getMoviePosterFromUrl(url: String, onFinished: (Result<Bitmap>) -> Unit)
+
     //Para as operações remote que não sejam feitas - considerar colocar isto:
     // >> throw Exception("Illegal operation")
 }

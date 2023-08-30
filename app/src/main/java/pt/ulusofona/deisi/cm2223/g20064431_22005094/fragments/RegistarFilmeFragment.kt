@@ -288,8 +288,16 @@ class RegistarFilmeFragment : Fragment() {
         }
     }
 
+    private fun isFormValid(): Boolean {
+        return false
+    }
+
     private fun gravarFilme() {
         // validar que todos os campos devidos estão preenchidos... mas não esquecer de tratar todos, inclusive os opcionais
+
+        if (isFormValid()) {
+        } else {
+        }
 
     }
 

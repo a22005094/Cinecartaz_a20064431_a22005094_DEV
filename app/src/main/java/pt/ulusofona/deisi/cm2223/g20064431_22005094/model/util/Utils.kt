@@ -1,10 +1,13 @@
 package pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util
 
 import android.content.ContentResolver
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.Cinema
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.CustomDate
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.OMDBMovie
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.WatchedMovie
@@ -58,7 +61,6 @@ object Utils {
         return text.toIntOrNull() != null
     }
 
-
     // Créditos: inspiração @ChatGPT: "How can I convert an image uri to bitmap using android api 23?"
     fun convertUriToBitmap(uri: Uri, contentResolver: ContentResolver): Bitmap? {
         val bitmapResult: Bitmap
@@ -72,6 +74,13 @@ object Utils {
             e.printStackTrace()
         }
         return null
+    }
+
+    // Credits: Esconder teclado Android ao clicar num botão
+    // https://stackoverflow.com/questions/55505049/how-to-close-the-soft-keyboard-from-a-fragment-using-kotlin
+    fun closeKeyboard(view: View) {
+        val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+        imm!!.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
 }

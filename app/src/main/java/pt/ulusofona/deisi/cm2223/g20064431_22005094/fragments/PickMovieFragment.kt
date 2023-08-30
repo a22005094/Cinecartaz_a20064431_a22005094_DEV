@@ -16,6 +16,7 @@ import pt.ulusofona.deisi.cm2223.g20064431_22005094.data.CinecartazRepository
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.databinding.FragmentPickMovieBinding
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.MovieSearchResultInfo
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.Utils
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.Utils.closeKeyboard
 
 // private const val ARG_PARAM1 = "param1"
 
@@ -44,8 +45,9 @@ class PickMovieFragment : Fragment() {
         super.onStart()
 
         resetPageCountLabel()
-        // Esconder inicialmente a textview de nr. resultados
+        // Esconder inicialmente as textview sobre resultados
         binding.tvInfoResults.visibility = View.INVISIBLE
+        binding.tvNoResults.visibility = View.GONE
         // Esconder também os botões p/ mudar de página nos resultados, e a label da página atual
         binding.btnLessResults.visibility = View.INVISIBLE
         binding.btnMoreResults.visibility = View.INVISIBLE
@@ -59,7 +61,12 @@ class PickMovieFragment : Fragment() {
             // Efetuar pesquisa por Filme
             resetPageCountLabel()
             resetPageSettings()
+
+            // Pesquisar
             searchForMovie(binding.etMovieSearch.text.toString(), currentPageNumber)
+
+            // Fechar o teclado Android
+            closeKeyboard(it)
         }
 
         binding.btnLessResults.setOnClickListener {
@@ -99,7 +106,7 @@ class PickMovieFragment : Fragment() {
                             // Apresentar resultados na RecycleView
                             CoroutineScope(Dispatchers.Main).launch {
                                 binding.rvResults.visibility = View.VISIBLE
-
+                                binding.tvNoResults.visibility = View.GONE
                                 binding.tvInfoResults.visibility = View.VISIBLE
                                 binding.tvInfoResults.text =
                                     getString(R.string.lbl_results_count, "${resultsInfo.nrResults}")
@@ -141,9 +148,11 @@ class PickMovieFragment : Fragment() {
 
                             CoroutineScope(Dispatchers.Main).launch {
                                 binding.tvPageCount.visibility = View.INVISIBLE
-                                binding.tvInfoResults.visibility = View.VISIBLE
-                                binding.tvInfoResults.text = getString(R.string.lbl_no_results_found)
+                                binding.tvInfoResults.visibility = View.INVISIBLE
+                                binding.tvNoResults.visibility = View.VISIBLE
                                 binding.rvResults.visibility = View.GONE
+                                binding.btnLessResults.visibility = View.INVISIBLE
+                                binding.btnMoreResults.visibility = View.INVISIBLE
                             }
                         }
 

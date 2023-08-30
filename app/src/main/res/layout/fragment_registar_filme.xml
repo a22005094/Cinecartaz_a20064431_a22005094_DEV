@@ -27,7 +27,7 @@
 
             <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="20dp" />
+                android:layout_height="15dp" />
 
             <!-- Nome do Filme -->
             <TextView
@@ -57,7 +57,7 @@
 
             <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="20dp" />
+                android:layout_height="15dp" />
 
             <!-- Nome do Cinema -->
             <TextView
@@ -77,7 +77,7 @@
 
             <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="20dp" />
+                android:layout_height="15dp" />
 
             <!-- Rating do filme -->
             <TextView
@@ -109,7 +109,7 @@
 
             <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="20dp" />
+                android:layout_height="15dp" />
 
             <!-- Data de visualização -->
             <TextView
@@ -130,7 +130,7 @@
 
             <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="20dp" />
+                android:layout_height="15dp" />
 
             <!-- Fotografias sobre o filme -->
             <TextView
@@ -153,7 +153,7 @@
 
             <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="20dp" />
+                android:layout_height="15dp" />
 
             <Button
                 android:id="@+id/btn_insert_record"
@@ -163,7 +163,7 @@
 
             <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="20dp" />
+                android:layout_height="15dp" />
         </LinearLayout>
 
         <androidx.legacy.widget.Space

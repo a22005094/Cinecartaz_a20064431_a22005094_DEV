@@ -30,7 +30,18 @@ class MovieSearchResultAdapter(private var movies: List<OMDBMovie> = listOf()) :
 
         val movie = movies[position]
         val movieInfo = "${movie.title} (${movie.year})"
-        holder.binding.tvMovieName.text = movieInfo
+
+        /*
+            // TODO - in progress...
+            // TODO - se não tem imagem, preencher com a "NoImage.png"
+            val movieImg = CinecartazRepository.getInstance().getMoviePosterFromUrl(movie.posterUrl) { response ->
+                if (response.isSuccess) {
+                    holder.binding.imgViewThumbnail.setImageBitmap(response.getOrDefault(null))
+                }
+            }
+        */
+
+        holder.binding.tvMovieTitle.text = movieInfo
     }
 
     override fun getItemCount(): Int = movies.size

@@ -37,7 +37,7 @@ class CinecartazOkHttp : Cinecartaz() {
     override fun getMoviesByName(
         movieName: String, pageNumber: Int, onFinished: (Result<MovieSearchResultInfo>) -> Unit
     ) {
-        // 1. Preparar o pedido OkHttp (usar ApiKey & Url respetivos à API LOTR)
+        // 1. Preparar o pedido OkHttp (usar ApiKey & Url respetivos à API OMDB)
         val requestUrl = "$OMDB_API_URL_MOVIE_SEARCH$movieName&page=$pageNumber"
         val request: Request = Request.Builder().url(requestUrl)
             //.addHeader("Authorization", "Bearer $apiKey")

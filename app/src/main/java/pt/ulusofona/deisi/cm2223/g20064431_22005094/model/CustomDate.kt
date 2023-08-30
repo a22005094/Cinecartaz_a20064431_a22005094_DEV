@@ -22,15 +22,16 @@ class CustomDate {
         calendar.timeInMillis = System.currentTimeMillis()
     }
 
-    fun getAno(): Int = calendar.get(Calendar.YEAR)
-    fun getMes(): Int = calendar.get(Calendar.MONTH)  // NOTA: O mês é Zero-based! (0 = Janeiro)
-    fun getDia(): Int = calendar.get(Calendar.DAY_OF_MONTH)
-    fun getDataEmMillis(): Long = calendar.timeInMillis
+    fun getYear(): Int = calendar.get(Calendar.YEAR)
+    fun getMonth(): Int = calendar.get(Calendar.MONTH)  // NOTA: O mês é Zero-based! (0 = Janeiro)
+    fun getDayOfMonth(): Int = calendar.get(Calendar.DAY_OF_MONTH)
+
+    // fun getDateInMillis(): Long = calendar.timeInMillis
 
     // Adiciona (se positivo) ou retira (se negativo) X dias à instância.
-    fun adicionarDias(nrDias: Int) = calendar.add(Calendar.DAY_OF_MONTH, nrDias)
+    fun addDays(nrOfDays: Int) = calendar.add(Calendar.DAY_OF_MONTH, nrOfDays)
 
-    fun alterarDataPara(ano: Int, mes: Int, dia: Int) {
+    fun setDateTo(ano: Int, mes: Int, dia: Int) {
         calendar.set(Calendar.YEAR, ano)
         calendar.set(Calendar.MONTH, mes)
         calendar.set(Calendar.DAY_OF_MONTH, dia)

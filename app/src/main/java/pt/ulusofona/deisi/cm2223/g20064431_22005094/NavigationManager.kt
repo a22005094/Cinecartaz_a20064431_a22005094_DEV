@@ -23,8 +23,8 @@ object NavigationManager {
         placeFragment(fm, DashboardFragment.newInstance())
     }
 
-    fun goToRegistarFilmeFragment(fm: FragmentManager) {
-        placeFragment(fm, RegistarFilmeFragment.newInstance())
+    fun goToRegisterWatchedMovieFragment(fm: FragmentManager) {
+        placeFragment(fm, RegisterWatchedMovieFragment.newInstance())
     }
 
     fun goToPickMovieFragment(fm: FragmentManager) {

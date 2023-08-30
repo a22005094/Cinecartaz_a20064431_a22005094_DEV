@@ -45,13 +45,13 @@ object Utils {
     fun isToday(dtCompare: CustomDate): Boolean {
         val calDate1 = Calendar.getInstance()  // coloca a data de hoje automaticamente
 
-        return (calDate1.get(Calendar.YEAR) == dtCompare.getAno()
-                && calDate1.get(Calendar.MONTH) == dtCompare.getMes()
-                && calDate1.get(Calendar.DAY_OF_MONTH) == dtCompare.getDia())
+        return (calDate1.get(Calendar.YEAR) == dtCompare.getYear()
+                && calDate1.get(Calendar.MONTH) == dtCompare.getMonth()
+                && calDate1.get(Calendar.DAY_OF_MONTH) == dtCompare.getDayOfMonth())
     }
 
 
-    fun getDataDeOntemEmMillis(): Long {
+    fun getYesterdayDateInMillis(): Long {
         val cal = Calendar.getInstance().apply { add(Calendar.DATE, -1) }
         return cal.timeInMillis
     }

@@ -27,7 +27,7 @@ import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.CustomDate
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.CinemasManager
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.Utils.convertUriToBitmap
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.Utils.currentlySelectedMovie
-import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.Utils.getDataDeOntemEmMillis
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.Utils.getYesterdayDateInMillis
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.Utils.isToday
 
 
@@ -61,23 +61,23 @@ import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.Utils.isToday
 // TODO (PENDENTE) opcionalmente, pede-se para usar a localização para pré-selecionar o Cinema +próximo (vale pontos na avaliação)
 
 
-class RegistarFilmeFragment : Fragment() {
+class RegisterWatchedMovieFragment : Fragment() {
 
     private val model = CinecartazRepository.getInstance()
     private lateinit var binding: FragmentRegistarFilmeBinding
 
     // TODO rever estes dois parametros...
-    private var filmeSelecionado: Int = -1
-    private var cinemaSelecionado: Cinema? = null
+    private var selectedMovie: Int = -1
+    private var selectedCinema: Cinema? = null
 
     // (@ datePicker)
-    private var dtSelecionada = CustomDate() // para o Date Picker de data de visualização do filme
+    private var selectedDate = CustomDate() // para o Date Picker de data de visualização do filme
 
     // (@ seleção de Imagens)
     // private lateinit var permissoesLauncher: ActivityResultLauncher<String>   // (OLD) p/ request permissoes se necessário
-    private lateinit var carregarFotoLauncher: ActivityResultLauncher<String> // p/ botão "Selecionar Fotos"
-    private var listaImagens: MutableList<Bitmap> = mutableListOf()
-    private val imagensAdapter = ImagemAdapter()
+    private lateinit var openGalleryLauncher: ActivityResultLauncher<String>     // p/ botão "Selecionar Fotos"
+    private var listOfSelectedImages: MutableList<Bitmap> = mutableListOf()
+    private val selectedImagesAdapter = SelectedImageAdapter()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -87,8 +87,8 @@ class RegistarFilmeFragment : Fragment() {
 
         // Instanciar objeto Launcher p/ lançamento da Activity de seleção de Imagens (@ Galeria).
         // É também registada a Callback a executar c/ o resultado da Activity, i.e., os URIs das Imgs selecionadas.
-        carregarFotoLauncher = registerForActivityResult(GetMultipleContents()) {
-            processarImagensSelecionadas(it)
+        openGalleryLauncher = registerForActivityResult(GetMultipleContents()) {
+            handleSelectedPictures(it)
         }
 
         // *** ViewBinding ***
@@ -115,17 +115,17 @@ class RegistarFilmeFragment : Fragment() {
 
         // * Cinema
         //  > Atualizar a lista JSON (@ cinemas.json)
-        CinemasManager.atualizarListaCinemas(requireContext())
+        CinemasManager.updateListOfCinemas(requireContext())
 
         //  > Configurar adapter a usar c/ lista de Cinemas
         val arrayAdapter = ArrayAdapter(
-            requireContext(), android.R.layout.simple_dropdown_item_1line, CinemasManager.listaCinemas
+            requireContext(), android.R.layout.simple_dropdown_item_1line, CinemasManager.listOfCinemas
         )
         binding.actvCinemaName.setAdapter(arrayAdapter)
 
         //  > Listener para armazenar o Cinema selecionado
         binding.actvCinemaName.setOnItemClickListener { adapterView, _, position: Int, _ ->
-            cinemaSelecionado = adapterView.getItemAtPosition(position) as Cinema
+            selectedCinema = adapterView.getItemAtPosition(position) as Cinema
 
             Toast.makeText(
                 requireContext(), "Selected: ${adapterView.getItemAtPosition(position)}", Toast.LENGTH_SHORT
@@ -138,24 +138,24 @@ class RegistarFilmeFragment : Fragment() {
 
         // * Date Picker - predefine p/ data de ontem
         // (só se podem inserir avaliações em datas passadas)
-        if (isToday(dtSelecionada)) {
+        if (isToday(selectedDate)) {
             // Validação para só alterar 1x a data para ontem
             // (protege de situações de múltiplos acessos ao mesmo fragmento, e.g. múltiplas pesquisas por filmes)
-            dtSelecionada.adicionarDias(-1)
+            selectedDate.addDays(-1)
         }
 
-        binding.tvWatchDate.text = dtSelecionada.toString()
+        binding.tvWatchDate.text = selectedDate.toString()
         binding.tvWatchDate.setOnClickListener { showDatePicker() }
 
         // * Image Picker & Adapter de imagens
-        binding.btnAddPhoto.setOnClickListener { lancarPickerImagens() }
+        binding.btnAddPhoto.setOnClickListener { openImageGallery() }
 
         // A RecycleView é apresentada em formato Grid (mais apelativo para "galeria de imagens")
-        binding.rvImagens.layoutManager = GridLayoutManager(requireContext(), 3)
-        binding.rvImagens.adapter = imagensAdapter
+        binding.rvImages.layoutManager = GridLayoutManager(requireContext(), 3)
+        binding.rvImages.adapter = selectedImagesAdapter
 
         // * Btn gravar
-        binding.btnInsertRecord.setOnClickListener { gravarFilme() }
+        binding.btnInsertRecord.setOnClickListener { saveWatchedMovie() }
 
         // ---------------------
         //  Zona para testes...
@@ -174,7 +174,7 @@ class RegistarFilmeFragment : Fragment() {
     companion object {
         // Factory
         @JvmStatic
-        fun newInstance() = RegistarFilmeFragment()
+        fun newInstance() = RegisterWatchedMovieFragment()
     }
 
     private fun setRatingPickerColor() {
@@ -211,22 +211,26 @@ class RegistarFilmeFragment : Fragment() {
             // [DEBUG] Toast.makeText(requireContext(), "Selecionou ${dia}/${mes}/${ano}...", Toast.LENGTH_SHORT).show()
 
             // atualizar data selecionada na variável
-            dtSelecionada.alterarDataPara(ano, mes, dia)
+            selectedDate.setDateTo(ano, mes, dia)
 
             // atualizar textView para a nova data
-            binding.tvWatchDate.text = dtSelecionada.toString()
+            binding.tvWatchDate.text = selectedDate.toString()
         }
 
         val dtPickDialog = DatePickerDialog(
-            requireContext(), pickListener, dtSelecionada.getAno(), dtSelecionada.getMes(), dtSelecionada.getDia()
+            requireContext(),
+            pickListener,
+            selectedDate.getYear(),
+            selectedDate.getMonth(),
+            selectedDate.getDayOfMonth()
         )
 
         // No máximo, seleciona a data de ontem
-        dtPickDialog.datePicker.maxDate = getDataDeOntemEmMillis()
+        dtPickDialog.datePicker.maxDate = getYesterdayDateInMillis()
         dtPickDialog.show()
     }
 
-    private fun lancarPickerImagens() {
+    private fun openImageGallery() {
         // Lançar multi-image picker usando a Galeria.
 
         // 1. Verificar se a permissão de acesso ao Storage já foi fornecida pelo Utilizador.
@@ -239,7 +243,7 @@ class RegistarFilmeFragment : Fragment() {
                 // "Pass in the MIME type you want to let the user select, as the input" -> neste caso, apenas Imagens
 
                 // permissoesLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-                carregarFotoLauncher.launch("image/*")
+                openGalleryLauncher.launch("image/*")
             } else if (result.allPermanentlyDenied()) {
                 // Permissão rejeitada permanentemente - mostrar Rationale
                 Toast.makeText(
@@ -253,7 +257,7 @@ class RegistarFilmeFragment : Fragment() {
         }
     }
 
-    private fun processarImagensSelecionadas(listaUriImagens: MutableList<Uri>) {
+    private fun handleSelectedPictures(listOfImageUris: MutableList<Uri>) {
         // Por cada imagem selecionada pelo Utilizador:
         // - gerar objeto Bitmap
         // - todo: Resize the image
@@ -261,21 +265,21 @@ class RegistarFilmeFragment : Fragment() {
         // - guardar na lista local de imagens selecionadas
         // - notificar a RecycleView (... adapter!) sobre a alteração de itens
 
-        for (uriImagem in listaUriImagens) {
+        for (imgUri in listOfImageUris) {
             try {
                 // v1 - Erro...
-                //   val bitmapImg = BitmapFactory.decodeFile(uriImagem.path)
+                //   val bitmapImg = BitmapFactory.decodeFile(imgUri.path)
                 // v2 - Deprecated... (https://stackoverflow.com/questions/68840221/kotlin-how-to-convert-image-uri-to-bitmap)
                 //   val src = ImageDecoder.createSource(requireActivity().contentResolver, )
-                //   val imgSrc = ImageDecoder.createSource(requireActivity().contentResolver, uriImagem)
+                //   val imgSrc = ImageDecoder.createSource(requireActivity().contentResolver, imgUri)
                 //   val bitmapImg = ImageDecoder.decodeBitmap(source)
 
-                val bitmapImg = convertUriToBitmap(uriImagem, requireActivity().contentResolver)
+                val bitmapImg = convertUriToBitmap(imgUri, requireActivity().contentResolver)
                 bitmapImg?.let {
                     // Adicionar a nova imagem à lista
-                    listaImagens.add(bitmapImg)
+                    listOfSelectedImages.add(bitmapImg)
                     // Atualiza itens @Adapter & notifica da alteracao
-                    imagensAdapter.updateItems(listaImagens)
+                    selectedImagesAdapter.updateItems(listOfSelectedImages)
                 }
             } catch (exc: Exception) {
                 // Vai continuar a processar as imagens seguintes (se houver),
@@ -292,7 +296,7 @@ class RegistarFilmeFragment : Fragment() {
         return false
     }
 
-    private fun gravarFilme() {
+    private fun saveWatchedMovie() {
         // validar que todos os campos devidos estão preenchidos... mas não esquecer de tratar todos, inclusive os opcionais
 
         if (isFormValid()) {

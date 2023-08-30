@@ -1,6 +1,7 @@
 package pt.ulusofona.deisi.cm2223.g20064431_22005094.data
 
 import android.content.Context
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.R
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.Cinecartaz
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.OMDBMovie
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.MovieSearchResultInfo
@@ -44,8 +45,13 @@ class CinecartazRepository(
                 onFinished(it)
             }
         } else {
-            onFinished(Result.failure(IOException("Sem ligação à Internet!")))
+            // TODO testar output desta string
+            onFinished(Result.failure(IOException(context.getString(R.string.error_no_internet_connection))))
         }
+    }
+
+    override fun getMovieDetailsByImdbId(imdbId: String, onFinished: (Result<OMDBMovie>) -> Unit) {
+        TODO("Not yet implemented")
     }
 
     override fun insertMovie(movie: OMDBMovie, onFinished: () -> Unit) {

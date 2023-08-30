@@ -291,7 +291,7 @@ Thumbs.db
 .idea
 
 api.properties
-local.properties
+#local.properties
 
 # Mobile Tools for Java (J2ME)
 

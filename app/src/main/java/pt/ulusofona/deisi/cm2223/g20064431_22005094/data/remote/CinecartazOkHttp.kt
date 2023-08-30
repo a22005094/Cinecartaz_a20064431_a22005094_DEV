@@ -1,6 +1,5 @@
 package pt.ulusofona.deisi.cm2223.g20064431_22005094.data.remote
 
-import android.util.Log
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
@@ -113,15 +112,21 @@ class CinecartazOkHttp : Cinecartaz() {
         })
     }
 
+    override fun getMovieDetailsByImdbId(imdbId: String, onFinished: (Result<OMDBMovie>) -> Unit) {
+        TODO("Not yet implemented")
+    }
 
-    // * Estes métodos não são utilizados via API (apenas terão uso localmente via DB Room).
+
+    // * Estes métodos não são utilizados via API (são de uso apenas local, via DB Room).
 
     override fun insertMovie(movie: OMDBMovie, onFinished: () -> Unit) {
-        Log.e("APP", "web service is not able to insert Movies!")
+        // Log.e("APP", "web service is not able to insert Movies!")
+        throw Exception("Illegal operation")
     }
 
     override fun clearAllMovies(onFinished: () -> Unit) {
-        Log.e("APP", "web service is not able to clear all Movies!")
+        // Log.e("APP", "web service is not able to clear all Movies!")
+        throw Exception("Illegal operation")
     }
 
 }

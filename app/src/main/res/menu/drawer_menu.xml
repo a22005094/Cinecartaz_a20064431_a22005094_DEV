@@ -10,15 +10,15 @@
         <item
             android:id="@+id/nav_feature_watched_movies"
             android:icon="@drawable/ic_watched_movies"
-            android:title="@string/feature_list_movies"/>
+            android:title="@string/feature_list_movies" />
 
         <item
             android:id="@+id/nav_feature_register_movie"
             android:icon="@drawable/ic_movie"
             android:title="@string/feature_register_movie" />
 
-        <!-- TODO addicionar mais conforme necessário. -->
-        <!-- EXEMPLO:
+        <!-- Add as necessary, e.g.:
+
             <item
                 android:id="@+id/nav_history"
                 android:icon="@drawable/ic_list"

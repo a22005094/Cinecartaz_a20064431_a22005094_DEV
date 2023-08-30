@@ -81,6 +81,9 @@ dependencies {
     implementation("com.google.android.gms:play-services-maps:18.0.2")
     implementation("com.google.android.gms:play-services-location:19.0.1")
     // -----------
+    // Image management - Glide library
+    implementation("com.github.bumptech.glide:glide:4.14.2")
+    // -----------
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.ext:junit-ktx:1.1.3")

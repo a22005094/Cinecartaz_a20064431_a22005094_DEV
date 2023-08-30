@@ -11,12 +11,12 @@ import java.io.IOException
 
 object CinemasManager {
 
-    var listaCinemas: MutableList<Cinema> = mutableListOf()
+    var listOfCinemas: MutableList<Cinema> = mutableListOf()
         private set
 
     // Créditos: https://stackoverflow.com/questions/26891943/adding-static-json-to-an-android-studio-project
     //  e pequenos ajustes c/ apoio ChatGPT para tornar os recursos mais resistentes a memory leaks (libertação devida de recursos)
-    private fun carregarFicheiroCinemas(context: Context): String {
+    private fun loadCinemasFile(context: Context): String {
         var jsonString: String = ""
 
         try {
@@ -41,20 +41,20 @@ object CinemasManager {
         return jsonString
     }
 
-    fun atualizarListaCinemas(context: Context) {
-        val jsonCinemas = carregarFicheiroCinemas(context)
+    fun updateListOfCinemas(context: Context) {
+        val jsonCinemas = loadCinemasFile(context)
 
         // Tratar possivel situacao de erro ao ler o ficheiro (a lista de cinemas fica vazia)
         if (jsonCinemas.isEmpty()) {
-            listaCinemas = mutableListOf()
+            listOfCinemas = mutableListOf()
         } else {
             val jsonObj = JSONObject(jsonCinemas)
-            val jsonListaCinemas = jsonObj["cinemas"] as JSONArray
+            val jsonListCinemas = jsonObj["cinemas"] as JSONArray
 
             // Cada objeto no Array é um cinema a carregar p/ Lista
-            for (i in 0 until jsonListaCinemas.length()) {
-                val cinemaObj = jsonListaCinemas[i] as JSONObject
-                listaCinemas.add(
+            for (i in 0 until jsonListCinemas.length()) {
+                val cinemaObj = jsonListCinemas[i] as JSONObject
+                listOfCinemas.add(
                     Cinema(
                         cinemaObj.getInt("cinema_id"),
                         cinemaObj.getString("cinema_name"),

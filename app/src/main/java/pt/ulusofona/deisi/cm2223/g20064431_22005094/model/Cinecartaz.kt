@@ -19,17 +19,36 @@ abstract class Cinecartaz {
     // abstract fun clearAllCharacters(onFinished: () -> Unit)
     // -------------------------------------------------------
 
+    //  * NOTA IMPORTANTE:
+    //  Em relação à pesquisa de Filmes na API do OMDB, há 2 formas possíveis:
+    //  - 1) Pesquisar filmes por [Nome]   ->  devolve um cj. muito limitado de informações
+    //                                        (title, year, imdbID...) - daqui apenas se vai retirar os [ImdbID]s.
+    //  - 2) Pesquisar filmes por [ImdbID] ->  devolve os detalhes de um filme em específico.
+    //                                        já traz muitas mais informações, e é a chamada "standard" a usar.
+
+    // * API only
     abstract fun getMoviesByName(
         movieName: String, pageNumber: Int, onFinished: (Result<MovieSearchResultInfo>) -> Unit
     )
 
-    // * Estes métodos não vão ter uso via API.
+    // * API & BD
+    abstract fun getMovieDetailsByImdbId(imdbId: String, onFinished: (Result<OMDBMovie>) -> Unit)
+
+    // * BD only
     abstract fun insertMovie(movie: OMDBMovie, onFinished: () -> Unit)
+
+    // * BD only
     abstract fun clearAllMovies(onFinished: () -> Unit)
 
-    // Em análise.
+    // ------------------------------------------------
+    //  Em análise
+    // ------------------------------------------------
     // abstract fun getMoviePosterFromUrl(url: String, onFinished: (Result<Bitmap>) -> Unit)
 
-    //Para as operações remote que não sejam feitas - considerar colocar isto:
-    // >> throw Exception("Illegal operation")
+    // ------------------------------------------------
+    //  NOTA
+    // ------------------------------------------------
+    // Para as operações (API/DB) a não ser permitidas, considerar colocar isto:
+    // > throw Exception("Illegal operation")
+
 }

@@ -3,26 +3,25 @@ package pt.ulusofona.deisi.cm2223.g20064431_22005094.data.local
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.UUID
 
-@Entity(tableName = "avaliacoes")
+@Entity(tableName = "watched_movies")
 data class WatchedMovieRoom(
-    @PrimaryKey val uuid: String = UUID.randomUUID().toString(),
 
-    // ---- TODO - ? ----
-    // Movie ID
-    // @ColumnInfo(name = "imdb_id") val imdbId: String,
-    //    val filme: OMDBMovie
-    // Cinema ID
-    // ...
-    //    val cinema: Cinema
-    // Fotos
-    // ...
-    //    val fotos: List<Image>? = null
-    // -----------
+    // [uuid] desta instancia (atribuido aleatoriamente quando é criada)
+    @PrimaryKey val uuid: String,   // = UUID.randomUUID().toString(),
 
-    @ColumnInfo(name = "avaliacao") val avaliacao: Int,
-    @ColumnInfo(name = "data") val data: Long,
-    @ColumnInfo(name = "observacoes") val observacoes: String
+    // Movie ID - valor nominal.
+    // Refere-se ao ImdbId de um [val movie: OMDBMovie] na classe original
+    @ColumnInfo(name = "movie_imdb_id") val movieImdbId: String,
 
+    // Cinema ID - valor inteiro.
+    // Refere-se a um [val theatre: Cinema] na classe original
+    @ColumnInfo(name = "cinema_id") val cinemaId: Int,
+
+    @ColumnInfo(name = "review") val review: Int,
+    @ColumnInfo(name = "date") val date: Long,
+    @ColumnInfo(name = "comments") val comments: String
+
+    // TODO - BLOB image? BLOB bitmap? (Most likely vai ter de ser uma tabela à parte, btw.)
+    // val photos: List<Bitmap>? = null
 )

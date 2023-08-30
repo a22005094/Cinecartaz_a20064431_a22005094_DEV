@@ -14,15 +14,15 @@ import androidx.room.Query
 interface WatchedMovieDao {
 
     @Insert
-    fun insert(avaliacao: WatchedMovieRoom)
+    fun insert(watchedMovie: WatchedMovieRoom)
 
-    @Query("SELECT * FROM avaliacoes")
+    @Query("SELECT * FROM watched_movies")
     fun getAll(): List<WatchedMovieRoom>
 
-    @Query("SELECT * FROM avaliacoes WHERE uuid = :uuid")
+    @Query("SELECT * FROM watched_movies WHERE uuid = :uuid")
     fun getByUuid(uuid: String): WatchedMovieRoom?
 
-    @Query("DELETE FROM avaliacoes")
+    @Query("DELETE FROM watched_movies")
     fun deleteAll()
 
 }

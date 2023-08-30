@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase
 @Database(entities = [WatchedMovieRoom::class, OMDBMovieRoom::class], version = 1)
 abstract class CinecartazDatabase : RoomDatabase() {
 
-    abstract fun avaliacoesDao(): WatchedMovieDao
+    abstract fun watchedMovieDao(): WatchedMovieDao
     abstract fun omdbMoviesDao(): OMDBMovieDao
 
     companion object {

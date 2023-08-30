@@ -25,21 +25,24 @@ class MovieSearchResultAdapter(private var movies: List<OMDBMovie> = listOf()) :
     }
 
     override fun onBindViewHolder(holder: MovieResultViewHolder, position: Int) {
-        //val resultNumber = position + 1 // "human-friendly"
-        //holder.binding.tvResultNumber.text = "$resultNumber."
+        val movie: OMDBMovie = movies[position]
 
-        val movie = movies[position]
         val movieInfo = "${movie.title} (${movie.year})"
 
-        /*
-            // TODO - in progress...
-            // TODO - se não tem imagem, preencher com a "NoImage.png"
-            val movieImg = CinecartazRepository.getInstance().getMoviePosterFromUrl(movie.posterUrl) { response ->
-                if (response.isSuccess) {
-                    holder.binding.imgViewThumbnail.setImageBitmap(response.getOrDefault(null))
-                }
-            }
-        */
+        // DADOS A USAR:
+        //  > Title
+        //  > Ano
+        //  > Genre
+        //  > Rating imdb
+        //  > Director
+
+        // TODO - se não tem imagem, preencher com a "NoImage.png"
+        // val movieImg = CinecartazRepository.getInstance().getMoviePosterFromUrl(movie.posterUrl) { response ->
+        //     if (response.isSuccess) {
+        //         holder.binding.imgViewThumbnail.setImageBitmap(response.getOrDefault(null))
+        //     }
+        // }
+
 
         holder.binding.tvMovieTitle.text = movieInfo
     }

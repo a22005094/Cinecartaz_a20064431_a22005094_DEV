@@ -8,6 +8,12 @@ import androidx.room.PrimaryKey
 data class OMDBMovieRoom(
     @PrimaryKey @ColumnInfo(name = "imdb_id") val imdbId: String,
     @ColumnInfo(name = "title") val title: String,
-    @ColumnInfo(name = "year") val year: Int,
+    @ColumnInfo(name = "year") val year: Int?,
+    @ColumnInfo(name = "genre") val genre: String,
+    @ColumnInfo(name = "rating_imdb") val ratingImdb: Double?,
+    @ColumnInfo(name = "director") val director: String,
+    @ColumnInfo(name = "plot_short") val plotShort: String,
     @ColumnInfo(name = "poster_url") val posterUrl: String
+
+    // val plotLong: String,  // TODO use?
 )

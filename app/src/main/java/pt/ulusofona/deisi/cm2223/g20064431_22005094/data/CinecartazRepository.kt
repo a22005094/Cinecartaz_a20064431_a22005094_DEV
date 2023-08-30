@@ -51,7 +51,11 @@ class CinecartazRepository(
     }
 
     override fun getMovieDetailsByImdbId(imdbId: String, onFinished: (Result<OMDBMovie>) -> Unit) {
-        TODO("Not yet implemented")
+        if (ConnectivityUtil.isDeviceOnline(context)) {
+            remote.getMovieDetailsByImdbId(imdbId, onFinished)
+        } else {
+            TODO("Not yet implemented")
+        }
     }
 
     override fun insertMovie(movie: OMDBMovie, onFinished: () -> Unit) {

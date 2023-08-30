@@ -160,7 +160,7 @@ class RegisterWatchedMovieFragment : Fragment() {
         // ---------------------
         //  Zona para testes...
         // ---------------------
-
+        // TODO
         if (currentlySelectedMovie != null) {
             Toast.makeText(
                 requireContext(),

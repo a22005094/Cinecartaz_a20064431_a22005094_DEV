@@ -7,7 +7,8 @@ import okhttp3.Request
 import okhttp3.Response
 import org.json.JSONArray
 import org.json.JSONObject
-import pt.ulusofona.deisi.cm2223.g20064431_22005094.OMDB_API_URL_MOVIE_SEARCH
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.OMDB_API_URL_MOVIE_DETAILS
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.OMDB_API_URL_MOVIE_TITLE_SEARCH
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.Cinecartaz
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.OMDBMovie
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.MovieSearchResultInfo
@@ -37,9 +38,9 @@ class CinecartazOkHttp : Cinecartaz() {
         movieName: String, pageNumber: Int, onFinished: (Result<MovieSearchResultInfo>) -> Unit
     ) {
         // 1. Preparar o pedido OkHttp (usar ApiKey & Url respetivos à API OMDB)
-        val requestUrl = "$OMDB_API_URL_MOVIE_SEARCH$movieName&page=$pageNumber"
-        val request: Request = Request.Builder().url(requestUrl)
-            //.addHeader("Authorization", "Bearer $apiKey")
+        val requestUrl = "$OMDB_API_URL_MOVIE_TITLE_SEARCH$movieName&page=$pageNumber"
+        val request: Request = Request.Builder()
+            .url(requestUrl)
             .build()
 
         // 2. Executar o pedido à API, e processar resultado (onFailure vs onResponse)
@@ -47,18 +48,15 @@ class CinecartazOkHttp : Cinecartaz() {
         //    Respostas c/ código de Erro (ex: HTTP 403, 500) tb pertencem ao OnResponse, devendo ser verificado!)
 
         client.newCall(request).enqueue(object : Callback {
-
             override fun onFailure(call: Call, e: IOException) {
                 onFinished(Result.failure(e))
             }
 
             override fun onResponse(call: Call, response: Response) {
                 // Processar resposta recebida
-
                 if (!response.isSuccessful) {
-                    // ex. HTTP 401, 403, 404, 500, ...
-                    //onFinished(Result.failure(IOException("Erro de comunicação com a API (${response.code}): $response")))
-                    onFinished(Result.failure(IOException("API communication error, please try again later")))
+                    // ex. HTTP 401, 403, 500 ...
+                    onFinished(Result.failure(IOException("API communication error (code ${response.code}), please try again later")))
                 } else {
                     val body = response.body?.string()
                     if (body != null) {
@@ -66,38 +64,28 @@ class CinecartazOkHttp : Cinecartaz() {
                         val jsonObject = JSONObject(body)
 
                         if (jsonObject.getBoolean("Response")) {
+                            // OK! Response = true
 
-                            // * Carregar o nº resultados de pesquisa
+                            // * Carregar nº resultados pesquisa
                             val nrResults = jsonObject.getInt("totalResults")
 
                             // * Parse dos objetos p/ JsonArray
-                            val jsonMoviesList = jsonObject["Search"] as JSONArray
+                            val listOfJsonMovies = jsonObject["Search"] as JSONArray
+                            val listOfImdbIDs = mutableListOf<String>()
 
-                            // * Parse do JsonArray p/ objetos de Classes conhecidas
-                            val moviesList = mutableListOf<OMDBMovie>()
-                            for (i in 0 until jsonMoviesList.length()) {
-                                val jsonMovie = jsonMoviesList[i] as JSONObject
-
-                                // * Nota: Caso seja preciso lidar com Strings opcionais, usar "optString"
-                                //         (devolve NULL caso não tenha valor preenchido)
-
-                                moviesList.add(
-                                    OMDBMovie(
-                                        jsonMovie.getString("Title"),
-                                        jsonMovie.getString("Year").toInt(),
-                                        jsonMovie.getString("imdbID"),
-                                        jsonMovie.getString("Poster")
-                                    )
+                            // * Transformar os objetos em lista de Strings só com os imdbId
+                            for (i in 0 until listOfJsonMovies.length()) {
+                                listOfImdbIDs.add(
+                                    (listOfJsonMovies[i] as JSONObject).getString("imdbID")
                                 )
                             }
 
                             // Devolver a lista de Characters obtida via API, já como objetos de classes conhecidas
                             onFinished(
                                 Result.success(
-                                    MovieSearchResultInfo(nrResults, moviesList)
+                                    MovieSearchResultInfo(nrResults, listOfImdbIDs)
                                 )
                             )
-
                         } else {
                             // Response != "True"
                             // - ou erro de API
@@ -113,7 +101,79 @@ class CinecartazOkHttp : Cinecartaz() {
     }
 
     override fun getMovieDetailsByImdbId(imdbId: String, onFinished: (Result<OMDBMovie>) -> Unit) {
-        TODO("Not yet implemented")
+        if (imdbId.isNotEmpty()) {
+
+            // 1. Preparar o pedido OkHttp (usar ApiKey & Url respetivos à API OMDB)
+            val requestUrl = "$OMDB_API_URL_MOVIE_DETAILS$imdbId"
+            val request: Request = Request.Builder()
+                .url(requestUrl)
+                .build()
+
+            // 2. Executar o pedido à API, e processar resultado (onFailure vs onResponse)
+            //    * NOTA: "onFailure" serve para situações onde nem se conseguiu chegar a fazer o pedido (ex. Timeout).
+            //    Respostas c/ código de Erro (ex: HTTP 403, 500) tb pertencem ao OnResponse, devendo ser verificado!)
+
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    onFinished(Result.failure(e))
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    // Processar resposta recebida
+                    if (!response.isSuccessful) {
+                        // ex. HTTP 401, 403, 500 ...
+                        onFinished(Result.failure(IOException("API communication error (code ${response.code}), please try again later")))
+                    } else {
+                        val body = response.body?.string()
+                        if (body != null) {
+                            // * Obter o JSON da resposta p/ JsonObject
+                            val movieJsonObject = JSONObject(body)
+
+                            if (movieJsonObject.getBoolean("Response")) {
+                                // Response = true
+                                // OK! Filme encontrado
+
+                                // TODO perceber se usamos String para todos os campos, ou String, Int? e Double?.
+                                // Tem de se ter atenção pois nem todos os campos vêm sempre presentes
+                                // (ex. existem filmes sem rating ("N/A"), portanto não se pode fazer GetDouble diretamente)
+
+                                val movieYearStr: String = movieJsonObject.getString("Year")
+                                val movieYear: Int? = movieYearStr.toIntOrNull()
+
+                                val movieImdbRatingStr: String = movieJsonObject.getString("imdbRating")
+                                val movieImdbRating: Double? = movieImdbRatingStr.toDoubleOrNull()
+
+                                // * Carregar objeto OMDBMovie com os detalhes do Filme.
+                                val omdbMovie = OMDBMovie(
+                                    movieJsonObject.getString("Title"),
+                                    movieYear,
+                                    movieJsonObject.getString("imdbID"),
+                                    movieJsonObject.getString("Genre"),
+                                    movieImdbRating,
+                                    movieJsonObject.getString("Director"),
+                                    movieJsonObject.getString("Plot"),
+                                    movieJsonObject.getString("Poster")
+                                )
+
+                                // * Devolver dados do Filme.
+                                onFinished(Result.success(omdbMovie))
+
+                            } else {
+                                // Response != "True" --> ERRO
+                                //  - ou erro de API...
+                                //  - ou não foram encontrados resultados... (e aqui devia!)
+                                // A mensagem de erro vem no campo "Error".
+
+                                val errorMsg = movieJsonObject.getString("Error")
+                                onFinished(Result.failure(IOException("API communication error: [$errorMsg]")))
+                            }
+                        }
+                    }
+                }
+            })
+        } else {
+            onFinished(Result.failure(IllegalArgumentException("A Movie ID is required!")))
+        }
     }
 
 

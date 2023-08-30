@@ -14,6 +14,7 @@ import pt.ulusofona.deisi.cm2223.g20064431_22005094.MovieSearchResultAdapter
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.R
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.data.CinecartazRepository
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.databinding.FragmentPickMovieBinding
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.OMDBMovie
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.MovieSearchResultInfo
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.Utils
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.Utils.closeKeyboard
@@ -123,21 +124,33 @@ class PickMovieFragment : Fragment() {
                                     binding.btnMoreResults.visibility = View.INVISIBLE
                                 }
 
-                                resultsAdapter.updateItems(resultsInfo.movieResults)
-                            }
+                                // Tendo recebido a lista de IMDB_ID (string) dos Filmes encontrados,
+                                // converter cada resultado no seu objeto OMDBMovie com detalhes
 
-                            /*  (OLD)
-                                val result: String = listaFilmes.joinToString { movie ->
-                                    movie.title
+                                val listOfOmdbMovies = mutableListOf<OMDBMovie>()
+
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    for (imdbMovieId in resultsInfo.movieResults) {
+                                        model.getMovieDetailsByImdbId(imdbMovieId) { result ->
+                                            if (result.isSuccess) {
+                                                val omdbMovie: OMDBMovie? = result.getOrNull()
+
+                                                omdbMovie?.let {
+                                                    listOfOmdbMovies.add(omdbMovie)
+                                                }
+                                            } else {
+                                                // TODO - manter este Else?
+                                                CoroutineScope(Dispatchers.Main).launch {
+                                                    Toast.makeText(requireContext(), "API error", Toast.LENGTH_LONG)
+                                                        .show()
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
-                                CoroutineScope(Dispatchers.Main).launch {
-                                    Toast.makeText(
-                                        requireContext(),
-                                        "Foram encontrados ${listaFilmes.size}: [$result]",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
-                            */
+
+                                resultsAdapter.updateItems(listOfOmdbMovies)
+                            }
 
                         } else {
                             // Sem resultados!

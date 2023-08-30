@@ -4,10 +4,12 @@ import android.content.ContentResolver
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.Cinema
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.CustomDate
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.OMDBMovie
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.WatchedMovie
 import java.io.IOException
-import java.util.Calendar
+import java.util.*
 
 // Funções de "utilitário" que poderão ser úteis no projeto.
 
@@ -16,6 +18,24 @@ object Utils {
     // Um objeto a utilizar nos fragmentos de "Registar Filme" e "Pesquisar Filme" (lançado a partir do primeiro),
     // para facilitar a seleção de um Filme ao regressar ao fragmento "Registar Filme".
     var currentlySelectedMovie: OMDBMovie? = null
+
+
+    // TODO: Temp list of watched movies
+    var watchedMovies : MutableList<WatchedMovie> = mutableListOf(
+        WatchedMovie(
+            UUID.randomUUID().toString(),
+            OMDBMovie("Blade Runner", 1982, "tt0083658", "https://m.media-amazon.com/images/M/MV5BNzQzMzJhZTEtOWM4NS00MTdhLTg0YjgtMjM4MDRkZjUwZDBlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg"),
+            Cinema(
+                2589, "Cinemas NOS Centro Comercial Colombo", "Cinemas NOS",
+                38.75366130000005, -9.205767760449193,
+                "Centro Comercial Colombo, Avenida Lusíada",
+                "1500-392", "Lisboa"
+            ),
+            7,
+            Date().time,
+            "No comments"
+        )
+    )
 
 
     // Credits: ChatGPT "using android api 23, how can I compare if a date is on the same day as today?"

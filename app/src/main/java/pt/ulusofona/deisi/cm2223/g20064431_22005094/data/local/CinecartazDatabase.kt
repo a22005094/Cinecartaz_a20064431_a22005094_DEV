@@ -6,10 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 // (Aqui declara-se um array c/ todas as entidades (Tabelas) a usar no modelo de dados da DB)
-@Database(entities = [AvaliacaoRoom::class, OMDBMovieRoom::class], version = 1)
+@Database(entities = [WatchedMovieRoom::class, OMDBMovieRoom::class], version = 1)
 abstract class CinecartazDatabase : RoomDatabase() {
 
-    abstract fun avaliacoesDao(): AvaliacaoDao
+    abstract fun avaliacoesDao(): WatchedMovieDao
     abstract fun omdbMoviesDao(): OMDBMovieDao
 
     companion object {

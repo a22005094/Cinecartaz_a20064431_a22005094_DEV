@@ -6,12 +6,12 @@ import java.util.UUID
 // TODO assert que só se pode inserir com Datas passadas!
 // > Data Class?... Class?...
 
-data class Avaliacao(
+data class WatchedMovie(
     val uuid: String = UUID.randomUUID().toString(),
-    val filme: OMDBMovie, // TODO ?
-    val cinema: Cinema,   // TODO ?
-    val avaliacao: Int,
-    val data: Long,
-    val observacoes: String,
-    val fotos: List<Bitmap>? = null  // TODO Image? Bitmap?
+    val movie: OMDBMovie, // TODO ?
+    val theatre: Cinema,   // TODO ?
+    val review: Int,
+    val date: Long,
+    val comments: String,
+    val photos: List<Bitmap>? = null  // TODO Image? Bitmap?
 )

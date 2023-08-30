@@ -9,6 +9,9 @@ const val OMDB_API_BASE_URL = "http://www.omdbapi.com/?apikey=$OMDB_API_TOKEN"
 // Predefine já o formato esperado para a pesquisa de Filmes.
 const val OMDB_API_URL_MOVIE_SEARCH = "$OMDB_API_BASE_URL&type=movie&s="
 
+// Global constant with the maximum rating value
+const val MAX_RATING_VALUE = 10
+
 // ---------------------------------------------------------
 // Apenas para alguns testes iniciais... :)
 //const val LOTR_API_BASE_URL = "https://the-one-api.dev/v2"

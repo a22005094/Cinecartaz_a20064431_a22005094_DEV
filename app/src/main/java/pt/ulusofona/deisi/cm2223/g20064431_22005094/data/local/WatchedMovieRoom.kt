@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import java.util.UUID
 
 @Entity(tableName = "avaliacoes")
-data class AvaliacaoRoom(
+data class WatchedMovieRoom(
     @PrimaryKey val uuid: String = UUID.randomUUID().toString(),
 
     // ---- TODO - ? ----

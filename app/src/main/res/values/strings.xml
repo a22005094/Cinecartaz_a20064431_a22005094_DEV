@@ -7,6 +7,7 @@
     <string name="drawer_close">Fechado</string>
     <string name="feature_dashboard" translatable="false">Dashboard</string>
     <string name="feature_register_movie">Registar filme</string>
+    <string name="feature_list_movies">Os meus filmes</string>
 
     <!-- Labels @ Registar Filme -->
     <string name="lbl_movie_name">Nome do filme:</string>
@@ -19,7 +20,7 @@
     <string name="lbl_plus" translatable="false">+</string>
     <string name="lbl_watch_date">Data de visualização:</string>
     <string name="lbl_movie_photos">Fotografias (opcional):</string>
-    <string name="lbl_add_photo">Adicionar imagem...</string>
+    <string name="lbl_add_photo">Adicionar imagem…</string>
     <string name="exception_add_image">Ocorreu um erro no processamento das imagens. Nem todas as imagens poderão ter sido corretamente adicionadas.</string>
     <string name="lbl_btn_insert">Adicionar</string>
 
@@ -32,6 +33,7 @@
 
     <string name="error_too_many_results">ERRO: Foram encontrados vários resultados. Por favor, introduza termos mais específicos.</string>
     <string name="error_internal_error">Erro interno, por favor tente novamente</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="feature_choose_movie">Selecionar filme</string>

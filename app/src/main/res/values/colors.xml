@@ -20,6 +20,9 @@
     <color name="rating_step4">#4CAF50</color>
     <color name="rating_step5">#024E1B</color>
 
+    <!-- background colors -->
+    <color name="gray_shade">#D5E8E8E8</color>
+
     <!-- 
         *** Outros exemplos (@ projeto LOTR GitHub & Calculator) ***
         <color name="purple_200">#FFBB86FC</color>

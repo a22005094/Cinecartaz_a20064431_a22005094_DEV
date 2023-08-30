@@ -11,16 +11,16 @@ import androidx.room.Query
 */
 
 @Dao
-interface AvaliacaoDao {
+interface WatchedMovieDao {
 
     @Insert
-    fun insert(avaliacao: AvaliacaoRoom)
+    fun insert(avaliacao: WatchedMovieRoom)
 
     @Query("SELECT * FROM avaliacoes")
-    fun getAll(): List<AvaliacaoRoom>
+    fun getAll(): List<WatchedMovieRoom>
 
     @Query("SELECT * FROM avaliacoes WHERE uuid = :uuid")
-    fun getByUuid(uuid: String): AvaliacaoRoom?
+    fun getByUuid(uuid: String): WatchedMovieRoom?
 
     @Query("DELETE FROM avaliacoes")
     fun deleteAll()

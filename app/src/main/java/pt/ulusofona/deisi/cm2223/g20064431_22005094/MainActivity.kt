@@ -56,6 +56,7 @@ class MainActivity : AppCompatActivity() {
     private fun onClickNavigationItem(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_feature_dashboard -> NavigationManager.goToDashboardFragment(supportFragmentManager)
+            R.id.nav_feature_watched_movies -> NavigationManager.goToWatchedMovieListFragment(supportFragmentManager)
             R.id.nav_feature_register_movie -> NavigationManager.goToRegistarFilmeFragment(supportFragmentManager)
             // TODO: add more as necessary... as new features are added :)
         }

@@ -8,6 +8,11 @@
             android:title="@string/feature_dashboard" />
 
         <item
+            android:id="@+id/nav_feature_watched_movies"
+            android:icon="@drawable/ic_watched_movies"
+            android:title="@string/feature_list_movies"/>
+
+        <item
             android:id="@+id/nav_feature_register_movie"
             android:icon="@drawable/ic_movie"
             android:title="@string/feature_register_movie" />

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rv_item_watched_movie"
+    android:layout_margin="10sp"
+    app:layout_scrollEffect="compress"
+    android:background="@color/gray_shade"
+    >
+
+    <ImageView
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:id="@+id/iv_imageview"
+        android:layout_centerVertical="true"
+        android:layout_marginHorizontal="10dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/iv_imageview"
+        android:id="@+id/tv_movie"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_evaluation"
+        android:layout_toRightOf="@id/iv_imageview"
+        android:layout_below="@id/tv_movie"
+        android:textSize="18sp"
+        />
+
+
+</RelativeLayout>

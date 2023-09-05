@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-        android:name=".data.CinecartazApplication"
+        android:name=".model.CinecartazApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -34,11 +34,9 @@
                 android:value="" />
         </activity>
 
-        <!-- TODO
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="INSERIR_API_KEY_AQUI!" />
-        -->
-    </application>
+            android:value="AIzaSyDtTcb5LuDNXYAIkZTJnlZlomMia7dHRx8"/>
 
+    </application>
 </manifest>

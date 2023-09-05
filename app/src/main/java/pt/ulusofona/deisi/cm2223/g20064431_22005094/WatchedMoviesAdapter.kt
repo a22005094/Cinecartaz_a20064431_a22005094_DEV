@@ -1,7 +1,6 @@
 package pt.ulusofona.deisi.cm2223.g20064431_22005094
 
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -42,7 +41,7 @@ class WatchedMoviesAdapter (private var watchedMovies: List<WatchedMovie> = list
 
 
         // TODO: Remove!!
-        Log.i("RMata", "@@@ ${watchedMovies[position].movie.title} / ${watchedMovies[position].review}")
+        // Log.i("RMata", "@@@ ${watchedMovies[position].movie.title} / ${watchedMovies[position].review}")
         holder.binding.tvYear.text = "2023"
     }
 }

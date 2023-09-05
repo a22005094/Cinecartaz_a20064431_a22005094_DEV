@@ -99,6 +99,7 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_feature_dashboard -> NavigationManager.goToDashboardFragment(supportFragmentManager)
             R.id.nav_feature_watched_movies -> NavigationManager.goToWatchedMovieListFragment(supportFragmentManager)
             R.id.nav_feature_register_movie -> NavigationManager.goToRegisterWatchedMovieFragment(supportFragmentManager)
+            R.id.nav_feature_watched_movies_map -> NavigationManager.goToMapFragment(supportFragmentManager)
             // TODO: add more as necessary... as new features are added :)
         }
         binding.drawer.closeDrawer(GravityCompat.START)

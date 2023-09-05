@@ -97,4 +97,12 @@ dependencies {
     //        MUITO INTERESSANTE! ver [OkHttp], [JsonObject], [Result @onSuccess + onFailure], [AlertDialog], [ProgressIndicator] (@ async)!
     //        Poderá também ser interessante isto (Fichas atualizadas): https://github.com/ULHT-CM-2022-23
 
+    // needed to launch permissions window
+    implementation("com.github.fondesa:kpermissions:3.3.0")
+
+    // Fused location lib (higher precision than GPS only
+    implementation ("com.google.android.gms:play-services-location:19.0.1")
+
+    // Google keys usage
+    implementation ("com.google.android.gms:play-services-maps:18.0.2")
 }

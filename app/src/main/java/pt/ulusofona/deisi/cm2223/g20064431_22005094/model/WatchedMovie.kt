@@ -7,7 +7,7 @@ import java.util.UUID
 data class WatchedMovie(
     val uuid: String = UUID.randomUUID().toString(),
     val movie: OMDBMovie,
-    val theatre: Cinema,
+    var theatre: Cinema,
     val review: Int,
     val date: Long,
     val comments: String,

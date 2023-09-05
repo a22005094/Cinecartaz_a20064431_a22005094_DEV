@@ -5,5 +5,11 @@
     <string name="drawer_open">Abierto</string>
     <string name="drawer_close">Cerrado</string>
     <string name="feature_list_movies">Mis pelis</string>
+    <string name="feature_lis_movies_map">Mis pelis (mapa)</string>
     <string name="lbl_image_content_description">Cartel de la película</string>
+    <string name="rating_too_weak">Muy flojo</string>
+    <string name="rating_weak">Flojo</string>
+    <string name="rating_avg">Regular</string>
+    <string name="rating_good">Bueno</string>
+    <string name="rating_xl">Excelente</string>
 </resources>

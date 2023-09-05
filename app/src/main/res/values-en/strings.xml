@@ -5,5 +5,11 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Closed</string>
     <string name="feature_list_movies">My movies</string>
+    <string name="feature_lis_movies_map">My movies (map)</string>
     <string name="lbl_image_content_description">Movie Poster</string>
+    <string name="rating_too_weak">Too Weak</string>
+    <string name="rating_weak">Weak</string>
+    <string name="rating_avg">Average</string>
+    <string name="rating_good">Good</string>
+    <string name="rating_xl">Excellent</string>
 </resources>

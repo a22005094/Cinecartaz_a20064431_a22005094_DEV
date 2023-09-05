@@ -23,6 +23,13 @@
     <!-- background colors -->
     <color name="gray_shade">#D5E8E8E8</color>
 
+    <!-- colors for map markers -->
+    <color name="color_marker_red">#930000</color>
+    <color name="color_marker_orange">#FF5722</color>
+    <color name="color_marker_light_blue">#00BCD4</color>
+    <color name="color_marker_light_green">#8EFF8E</color>
+    <color name="color_marker_green">#00AF00</color>
+
     <!-- 
         *** Outros exemplos (@ projeto LOTR GitHub & Calculator) ***
         <color name="purple_200">#FFBB86FC</color>

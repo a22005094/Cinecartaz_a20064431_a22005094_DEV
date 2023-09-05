@@ -13,6 +13,11 @@
             android:title="@string/feature_list_movies" />
 
         <item
+            android:id="@+id/nav_feature_watched_movies_map"
+            android:icon="@drawable/ic_map"
+            android:title="@string/feature_lis_movies_map" />
+
+        <item
             android:id="@+id/nav_feature_register_movie"
             android:icon="@drawable/ic_movie"
             android:title="@string/feature_register_movie" />

@@ -42,4 +42,8 @@ object NavigationManager {
         placeFragment(fm, VoiceSearchFragment.newInstance())
     }
 
+    fun goToMapFragment(fm: FragmentManager) {
+        placeFragment(fm, MapFragment.newInstance())
+    }
+
 }

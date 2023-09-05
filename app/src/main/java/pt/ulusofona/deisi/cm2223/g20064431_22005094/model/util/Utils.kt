@@ -3,6 +3,8 @@ package pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.R
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.Cinema
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.CustomDate
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.OMDBMovie
@@ -49,9 +51,34 @@ object Utils {
         ), 7, Date().time, "No comments"
     )
 
+    var watchedMovie2 = WatchedMovie(
+        UUID.randomUUID().toString(),
+        OMDBMovie(
+            "Blade Runner",
+            1982,
+            "tt0083658",
+            "Action, Drama, Sci-Fi",
+            8.1,
+            "Ridley Scott",
+            "A blade runner must pursue and terminate four replicants who stole a ship in space and have returned to Earth to find their creator.",
+            "https://m.media-amazon.com/images/M/MV5BNzQzMzJhZTEtOWM4NS00MTdhLTg0YjgtMjM4MDRkZjUwZDBlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
+            //"https://m.media-amazon.com/images/M/MV5BMTdjZTliODYtNWExMi00NjQ1LWIzN2MtN2Q5NTg5NTk3NzliL2ltYWdlXkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg"
+        null
+        ),
+        Cinema(
+            1357, "UCI Cinemas Ubbo", "UCI Cinemas",
+            38.77588027958963, -9.22224658418028,
+            "Avenida Cruzeiro Seixas, 7", "2650-504", "Amadora",
+            mutableListOf()
+        ),
+        7,
+        Date().time,
+        "No comments")
+
+
     var watchedMovies: MutableList<WatchedMovie> = mutableListOf(
         watchedMovie,
-        watchedMovie,
+        watchedMovie2,
         watchedMovie,
         watchedMovie,
         watchedMovie,
@@ -80,6 +107,7 @@ object Utils {
         return cal.timeInMillis
     }
 
+
     /*
         fun isInt(text: String): Boolean = return text.toIntOrNull() != null
         fun isDouble(text: String): Boolean = return text.toDoubleOrNull() != null
@@ -93,4 +121,29 @@ object Utils {
         imm!!.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
+
+    // Function to decode rating into a string value
+    fun decodeSatisfactionString (context: Context, rating: Int) {
+        when(rating) {
+            1, 2 -> context.getString(R.string.rating_too_weak)
+            3, 4 -> context.getString(R.string.rating_weak)
+            5, 6 -> context.getString(R.string.rating_avg)
+            7, 8 -> context.getString(R.string.rating_good)
+            9, 10 -> context.getString(R.string.rating_xl)
+        }
+    }
+
+    // method to define a color, based on rating.
+    // specific colors are used, based on available google maps marker colors
+    // https://developers.google.com/android/reference/com/google/android/gms/maps/model/BitmapDescriptorFactory#constant-summary
+    fun decodeSatisfactionColor (rating: Int): Float {
+        return when(rating) {
+            1, 2 -> BitmapDescriptorFactory.HUE_RED
+            3, 4 -> BitmapDescriptorFactory.HUE_ORANGE
+            5, 6 -> BitmapDescriptorFactory.HUE_YELLOW
+            7, 8 -> BitmapDescriptorFactory.HUE_BLUE
+            9, 10 -> BitmapDescriptorFactory.HUE_GREEN
+            else -> BitmapDescriptorFactory.HUE_CYAN
+        }
+    }
 }

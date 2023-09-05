@@ -9,6 +9,7 @@
     <string name="feature_register_movie">Registar filme</string>
     <string name="feature_list_movies">Os meus filmes</string>
     <string name="feature_choose_movie">Selecionar filme</string>
+    <string name="feature_lis_movies_map">Os meus filmes (mapa)</string>
 
     <!-- labels @ watched movies -->
     <string name="lbl_image_content_description">Poster do filme</string>
@@ -55,5 +56,12 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- rating decoding values -->
+    <string name="rating_too_weak">Muito Fraco</string>
+    <string name="rating_weak">Fraco</string>
+    <string name="rating_avg">Mediano</string>
+    <string name="rating_good">Bom</string>
+    <string name="rating_xl">Excelente</string>
 
 </resources>

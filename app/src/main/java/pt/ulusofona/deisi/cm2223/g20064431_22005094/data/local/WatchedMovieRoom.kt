@@ -3,6 +3,7 @@ package pt.ulusofona.deisi.cm2223.g20064431_22005094.data.local
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.Date
 
 @Entity(tableName = "watched_movies")
 data class WatchedMovieRoom(
@@ -20,8 +21,6 @@ data class WatchedMovieRoom(
 
     @ColumnInfo(name = "review") val review: Int,
     @ColumnInfo(name = "date") val date: Long,
-    @ColumnInfo(name = "comments") val comments: String
-
-    // TODO - BLOB image? BLOB bitmap? (Most likely vai ter de ser uma tabela à parte, btw.)
-    // val photos: List<Bitmap>? = null
+    @ColumnInfo(name = "comments") val comments: String,
+    @ColumnInfo(name = "timestamp") val timestamp: Long = Date().time
 )

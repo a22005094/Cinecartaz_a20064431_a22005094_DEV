@@ -10,7 +10,9 @@ import org.json.JSONObject
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.OMDB_API_URL_MOVIE_DETAILS
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.OMDB_API_URL_MOVIE_TITLE_SEARCH
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.Cinecartaz
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.CustomImage
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.OMDBMovie
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.WatchedMovie
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.MovieSearchResultInfo
 import java.io.IOException
 
@@ -152,7 +154,11 @@ class CinecartazOkHttp : Cinecartaz() {
                                     movieImdbRating,
                                     movieJsonObject.getString("Director"),
                                     movieJsonObject.getString("Plot"),
-                                    movieJsonObject.getString("Poster")
+                                    movieJsonObject.getString("Poster"),
+
+                                    // O parâmetro do Bitmap fica para já a Null.
+                                    // Só será preenchido no Adapter @PickMovieFragment ao selecionar (OnClick) um Filme
+                                    null
                                 )
 
                                 // * Devolver dados do Filme.
@@ -179,7 +185,19 @@ class CinecartazOkHttp : Cinecartaz() {
 
     // * Estes métodos não são utilizados via API (são de uso apenas local, via DB Room).
 
-    override fun insertMovie(movie: OMDBMovie, onFinished: () -> Unit) {
+    override fun getWatchedMovies(onFinished: (Result<List<WatchedMovie>>) -> Unit) {
+        throw Exception("Illegal operation")
+    }
+
+    override fun insertWatchedMovie(watchedMovie: WatchedMovie, onFinished: () -> Unit) {
+        TODO("Not yet implemented")
+    }
+
+    override fun insertImage(image: CustomImage, onFinished: () -> Unit) {
+        TODO("Not yet implemented")
+    }
+
+    override fun insertOMDBMovie(movie: OMDBMovie, onFinished: () -> Unit) {
         // Log.e("APP", "web service is not able to insert Movies!")
         throw Exception("Illegal operation")
     }

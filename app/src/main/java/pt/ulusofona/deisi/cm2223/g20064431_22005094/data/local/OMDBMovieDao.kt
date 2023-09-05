@@ -12,7 +12,7 @@ import androidx.room.*
 @Dao
 interface OMDBMovieDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(movie: OMDBMovieRoom)
 
     // @Insert(onConflict = OnConflictStrategy.REPLACE)

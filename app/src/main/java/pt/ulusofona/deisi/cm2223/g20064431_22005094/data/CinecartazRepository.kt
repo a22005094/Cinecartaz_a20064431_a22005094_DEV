@@ -3,7 +3,9 @@ package pt.ulusofona.deisi.cm2223.g20064431_22005094.data
 import android.content.Context
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.R
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.Cinecartaz
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.CustomImage
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.OMDBMovie
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.WatchedMovie
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.MovieSearchResultInfo
 import java.io.IOException
 
@@ -58,11 +60,28 @@ class CinecartazRepository(
         }
     }
 
-    override fun insertMovie(movie: OMDBMovie, onFinished: () -> Unit) {
+    override fun getWatchedMovies(onFinished: (Result<List<WatchedMovie>>) -> Unit) {
+        // * BD only
+        local.getWatchedMovies(onFinished)
+    }
+
+    override fun insertWatchedMovie(watchedMovie: WatchedMovie, onFinished: () -> Unit) {
+        // * BD only
+        local.insertWatchedMovie(watchedMovie, onFinished)
+    }
+
+    override fun insertOMDBMovie(movie: OMDBMovie, onFinished: () -> Unit) {
+        // * BD only
+        // TODO...
+    }
+
+    override fun insertImage(image: CustomImage, onFinished: () -> Unit) {
+        // * BD only
         TODO("Not yet implemented")
     }
 
     override fun clearAllMovies(onFinished: () -> Unit) {
+        // * BD only
         TODO("Not yet implemented")
     }
 

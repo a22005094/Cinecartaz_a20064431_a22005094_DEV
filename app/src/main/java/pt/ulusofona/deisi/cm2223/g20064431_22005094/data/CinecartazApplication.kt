@@ -17,7 +17,8 @@ class CinecartazApplication : Application() {
     private fun initCinecartazRoom(): CinecartazRoom {
         return CinecartazRoom(
             CinecartazDatabase.getInstance(applicationContext).watchedMovieDao(),
-            CinecartazDatabase.getInstance(applicationContext).omdbMoviesDao()
+            CinecartazDatabase.getInstance(applicationContext).omdbMoviesDao(),
+            CinecartazDatabase.getInstance(applicationContext).imagesDao()
         )
     }
 

@@ -3,8 +3,10 @@ package pt.ulusofona.deisi.cm2223.g20064431_22005094
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.fragments.DashboardFragment
-import pt.ulusofona.deisi.cm2223.g20064431_22005094.fragments.WatchedMoviesFragment
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.fragments.PickMovieFragment
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.fragments.RegisterWatchedMovieFragment
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.fragments.VoiceSearchFragment
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.fragments.WatchedMoviesFragment
 
 // Credits: Aula5 @ Fichas práticas de CM
 object NavigationManager {
@@ -33,6 +35,11 @@ object NavigationManager {
 
     fun goToWatchedMovieListFragment(fm: FragmentManager) {
         placeFragment(fm, WatchedMoviesFragment.newInstance())
+    }
+
+    // TODO rever (eliminar)
+    fun goToVoiceSearchFragment(fm: FragmentManager) {
+        placeFragment(fm, VoiceSearchFragment.newInstance())
     }
 
 }

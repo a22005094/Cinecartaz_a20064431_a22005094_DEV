@@ -20,7 +20,21 @@
         <FrameLayout
             android:id="@+id/frame"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_voice_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                android:layout_margin="16dp"
+                android:contentDescription="@string/lbl_speak_description"
+                android:src="@drawable/ic_speak"
+                app:borderWidth="5dp"
+                app:elevation="5dp"
+                app:fabSize="mini" />
+
+        </FrameLayout>
 
     </LinearLayout>
 

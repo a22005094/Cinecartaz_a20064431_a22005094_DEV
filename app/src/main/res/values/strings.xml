@@ -2,50 +2,58 @@
     <!-- Por default, utiliza este ficheiro, que contém todas as frases em Português. -->
     <string name="app_name">Cinecartaz</string>
 
-    <!-- Opções @ Drawer -->
+    <!-- Opções @ Drawer & outros -->
     <string name="drawer_open">Aberto</string>
     <string name="drawer_close">Fechado</string>
     <string name="feature_dashboard" translatable="false">Dashboard</string>
     <string name="feature_register_movie">Registar filme</string>
     <string name="feature_list_movies">Os meus filmes</string>
+    <string name="feature_choose_movie">Selecionar filme</string>
 
     <!-- labels @ watched movies -->
     <string name="lbl_image_content_description">Poster do filme</string>
 
     <!-- Labels @ Registar Filme -->
-    <string name="lbl_movie_name">Nome do filme:</string>
-    <string name="lbl_movie_name_hint">(Insira o filme a pesquisar…)</string>
-    <string name="lbl_cinema_name">Cinema:</string>
-    <string name="lbl_cinema_name_hint">(Insira o cinema a pesquisar…)</string>
-    <string name="lbl_movie_rating">Avaliação (1 a 10):</string>
+    <string name="lbl_movie">Nome do filme</string>
+    <string name="lbl_click_to_search_movie">(Clique para pesquisar…)</string>
+    <string name="lbl_movie_name_hint">(Introduza o filme a pesquisar…)</string>
+    <string name="lbl_cinema">Cinema</string>
+    <string name="lbl_cinema_name_hint">(Introduza o nome do cinema…)</string>
+    <string name="lbl_movie_rating">Avaliação (1 a 10)</string>
     <string name="lbl_rating_hint">Indique a sua avaliação do filme</string>
     <string name="lbl_minus" translatable="false">-</string>
     <string name="lbl_plus" translatable="false">+</string>
-    <string name="lbl_watch_date">Data de visualização:</string>
-    <string name="lbl_movie_photos">Fotografias (opcional):</string>
+    <string name="lbl_watch_date">Data de visualização</string>
+    <string name="lbl_movie_photos">Fotografias (opcional)</string>
     <string name="lbl_add_photo">Adicionar imagem…</string>
-    <string name="exception_add_image">Ocorreu um erro no processamento das imagens. Nem todas as imagens poderão ter sido corretamente adicionadas.</string>
-    <string name="lbl_btn_insert">Adicionar</string>
+    <string name="lbl_obs">Observações (máx. 200 caracteres)</string>
+    <string name="lbl_obs_hint">(Opcional: Introduza observações…)</string>
+    <string name="lbl_btn_insert">Gravar Filme</string>
+    <string name="lbl_movie_saved">Filme gravado</string>
 
-    <!-- ERROR Handling -->
+    <!-- Other helper labels, hint texts, etc. -->
     <string name="rationale_rejected_once_permission_storage">AVISO: Rejeitou a permissão de acesso aos ficheiros! É necessário aceitá-la para poder anexar imagens.</string>
     <string name="rationale_rejected_permanently_permission_storage">AVISO: Rejeitou permanentemente a permissão de acesso aos ficheiros! É necessário aceitá-la nas definições da aplicação.</string>
-    <string name="error_missing_text">ERRO: Deve introduzir texto a pesquisar!</string>
-    <string name="lbl_no_results_found">Não foram encontrados resultados.</string>
     <string name="lbl_results_count">%1$s resultados</string>
-
-    <string name="error_too_many_results">ERRO: Foram encontrados vários resultados. Por favor, introduza termos mais específicos.</string>
-    <string name="error_internal_error">Erro interno, por favor tente novamente</string>
-    <string name="error_no_internet_connection">Sem ligação à Internet</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="feature_choose_movie">Selecionar filme</string>
+    <string name="lbl_no_results_found">Não foram encontrados resultados.</string>
     <string name="lbl_search">Pesquisar</string>
+    <string name="lbl_cancel">Cancelar</string>
     <string name="lbl_lorem_ipsum">Lorem ipsum</string>
     <string name="lbl_go_back" translatable="false">&lt;—</string>
     <string name="lbl_more" translatable="false">—&gt;</string>
-    <string name="warn_no_more_results">Sem mais resultados a apresentar.</string>
     <string name="lbl_page_count">Página: %1$s/%2$s</string>
+    <string name="lbl_speak_description">Pesquisar por um filme com a voz</string>
+
+    <!-- Errors & Warnings -->
+    <string name="error_missing_text">ERRO: Deve introduzir texto a pesquisar!</string>
+    <string name="error_too_many_results">ERRO: Foram encontrados vários resultados. Por favor, introduza termos mais específicos.</string>
+    <string name="error_internal_error">Erro interno, por favor tente novamente</string>
+    <string name="error_no_internet_connection">Sem ligação à Internet</string>
+    <string name="warn_no_more_results">Sem mais resultados a apresentar.</string>
+    <string name="exception_add_image">Ocorreu um erro no processamento das imagens. Nem todas as imagens poderão ter sido corretamente adicionadas.</string>
+    <string name="error_missing_required_data">Por favor preencha os campos obrigatórios em falta:</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

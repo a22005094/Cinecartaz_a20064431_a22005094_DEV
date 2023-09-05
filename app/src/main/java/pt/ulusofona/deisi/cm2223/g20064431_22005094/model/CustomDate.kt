@@ -37,6 +37,9 @@ class CustomDate {
         calendar.set(Calendar.DAY_OF_MONTH, dia)
     }
 
+    // Devolve a data em formato Long (millis)
+    fun toMillis(): Long = calendar.timeInMillis
+
     // Escreve no formato dd/MM/yyyy, ex: "31/12/1990"
     override fun toString(): String = sdf.format(calendar.time)
 

@@ -8,7 +8,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.MovieSearchResultAdapter
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.R
@@ -18,13 +21,17 @@ import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.OMDBMovie
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.MovieSearchResultInfo
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.Utils
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.Utils.closeKeyboard
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 // private const val ARG_PARAM1 = "param1"
+
+// TODO - confirmar se ainda está a crashar quando está sem Net...
 
 class PickMovieFragment : Fragment() {
     private val model = CinecartazRepository.getInstance()
     private lateinit var binding: FragmentPickMovieBinding
-    private val resultsAdapter = MovieSearchResultAdapter()
+    private val resultsAdapter = MovieSearchResultAdapter(::onMovieClick)
 
     // -------------------------------
     // * Para usar na "gestão de páginas" dos resultados obtidos nas pesquisas.
@@ -104,6 +111,8 @@ class PickMovieFragment : Fragment() {
                             }
                             // -------------------------------
 
+                            // PARTE 1 - Adaptar interface para resultados da API (mas ainda sem informação sobre os Filmes)
+
                             // Apresentar resultados na RecycleView
                             CoroutineScope(Dispatchers.Main).launch {
                                 binding.rvResults.visibility = View.VISIBLE
@@ -123,34 +132,68 @@ class PickMovieFragment : Fragment() {
                                     binding.btnLessResults.visibility = View.INVISIBLE
                                     binding.btnMoreResults.visibility = View.INVISIBLE
                                 }
+                            }
 
-                                // Tendo recebido a lista de IMDB_ID (string) dos Filmes encontrados,
-                                // converter cada resultado no seu objeto OMDBMovie com detalhes
+                            // PARTE 2 - resultados convertidos para OMDBMovies
 
-                                val listOfOmdbMovies = mutableListOf<OMDBMovie>()
+                            // Tendo recebido a lista de IMDB_ID (string) dos Filmes encontrados,
+                            // converter cada resultado no seu objeto OMDBMovie com detalhes
 
-                                CoroutineScope(Dispatchers.IO).launch {
-                                    for (imdbMovieId in resultsInfo.movieResults) {
-                                        model.getMovieDetailsByImdbId(imdbMovieId) { result ->
-                                            if (result.isSuccess) {
-                                                val omdbMovie: OMDBMovie? = result.getOrNull()
+                            // ** NOTA ** - TODO referenciar isto no Readme
+                            //  A utilização de múltiplas chamadas à API a partir de uma lista inicial de valores
+                            //  foi um tema que ofereceu alguma dificuldade, por existir um FOR loop (síncrono)
+                            //  em conjunto com chamadas à API (assíncronas), que exigiu um grau maior de cuidado
+                            //  em garantir que todas as chamadas estão concluídas no Loop antes de executar mais instruções
+                            //  pós-carregamentos via API (para, por ex., atualizar o adapter com a lista final de resultados).
+                            //  Surgia o problema de que o FOR, logo na 1ª iteração, lançava o pedido à API e logo a seguir
+                            //  saltava imediatamente para as instruções seguintes ao Loop, provocando resultados indesejados
+                            //  como o update ao Adapter de filmes sem ter ainda quaisquer items inseridos (nem sequer
+                            //  esperava por completar a 1ª chamada à API... mas depois continuava a emitir os pedidos em background)
+                            //
+                            //  Inicialmente, fez-se uma leitura de capítulos sobre processamento assíncrono em Kotlin
+                            //  na documentação oficial, tentando, por exemplo, recorrer ao uso de um Flow e recolher dados com
+                            //  collect {} (https://kotlinlang.org/docs/flow.html), mas não devolveu os resultados esperados.
+                            //  Eventualmente foi resolvido, mas com queries ao ChatGPT, interrogando sobre o tema de execução de
+                            //  chamadas à API e a necessidade de aguardar pela finalização de todas as chamadas async esperadas,
+                            //  antes de prosseguir com operações seguintes. O código aqui resultante surge então com
+                            //  apoio de uma Demo fornecida pela ferramenta.
+                            //
 
-                                                omdbMovie?.let {
-                                                    listOfOmdbMovies.add(omdbMovie)
+                            CoroutineScope(Dispatchers.IO).launch {
+                                var listOfOmdbMovies = mutableListOf<OMDBMovie>()
+                                val deferredResults = mutableListOf<Deferred<Unit>>()
+
+                                for (imdbMovieId in resultsInfo.movieResults) {
+                                    val deferred = async {
+                                        suspendCoroutine<Unit> { continuation ->
+                                            model.getMovieDetailsByImdbId(imdbMovieId) { result ->
+                                                if (result.isSuccess) {
+                                                    val omdbMovie: OMDBMovie? = result.getOrNull()
+
+                                                    omdbMovie?.let {
+                                                        listOfOmdbMovies.add(omdbMovie)
+                                                    }
                                                 }
-                                            } else {
-                                                // TODO - manter este Else?
-                                                CoroutineScope(Dispatchers.Main).launch {
-                                                    Toast.makeText(requireContext(), "API error", Toast.LENGTH_LONG)
-                                                        .show()
-                                                }
+                                                continuation.resume(Unit)
                                             }
                                         }
                                     }
+                                    deferredResults.add(deferred)
                                 }
 
-                                resultsAdapter.updateItems(listOfOmdbMovies)
+                                // Await all deferred results
+                                deferredResults.awaitAll()
+
+                                // NEW! Ordenar os resultados por ordem decrescente do Ano.
+                                listOfOmdbMovies =
+                                    listOfOmdbMovies.sortedByDescending { movie -> movie.year }.toMutableList()
+
+                                CoroutineScope(Dispatchers.Main).launch {
+                                    resultsAdapter.updateItems(listOfOmdbMovies)
+                                }
                             }
+                            // --------------
+
 
                         } else {
                             // Sem resultados!
@@ -170,8 +213,11 @@ class PickMovieFragment : Fragment() {
                         }
 
                     } else {
-                        // Erro na comunicação c/ API - apresentar msg erro (Toast)
-                        Toast.makeText(requireContext(), apiResult.exceptionOrNull()?.message, Toast.LENGTH_LONG).show()
+                        CoroutineScope(Dispatchers.Main).launch {
+                            // Erro na comunicação c/ API - apresentar msg erro (Toast)
+                            Toast.makeText(requireContext(), apiResult.exceptionOrNull()?.message, Toast.LENGTH_LONG)
+                                .show()
+                        }
                     }
                 }
             }
@@ -210,6 +256,19 @@ class PickMovieFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance() = PickMovieFragment()
+    }
+
+
+    private fun onMovieClick(movie: OMDBMovie) {
+        //  A utilizar no Adapter.
+        //  Serve para registar seleção do filme que foi selecionado neste Fragmento
+        //  e recuar para o menu anterior, já com esta seleção feita.
+
+        // * Selecionar o filme
+        Utils.currentlySelectedMovie = movie
+
+        // * Recuar para a página anterior
+        requireActivity().supportFragmentManager.popBackStack()
     }
 
 }

@@ -34,6 +34,7 @@ import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.WatchedMovie
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.CinemasManager
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.ImageUtils.convertUriToByteArray
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.Utils
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.Utils.closeKeyboard
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.Utils.getYesterdayDateInMillis
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.Utils.isToday
 
@@ -163,7 +164,12 @@ class RegisterWatchedMovieFragment : Fragment() {
         binding.rvImages.adapter = selectedImagesAdapter
 
         // * Btn gravar form
-        binding.btnSubmit.setOnClickListener { submitForm() }
+        binding.btnSubmit.setOnClickListener {
+            // fechar teclado, caso esteja aberto
+            closeKeyboard(it)
+            // gravar Filme (se estiver tudo OK)
+            submitForm()
+        }
     }
 
 
@@ -179,6 +185,8 @@ class RegisterWatchedMovieFragment : Fragment() {
         //  e depois se recuou novamente para este Fragmento (volta a executar a função)
         if (Utils.currentlySelectedMovie != null) {
             binding.etMovieName.setText(Utils.currentlySelectedMovie.toString())
+            // limpar msg erro (se existir)
+            binding.etMovieName.error = null
         } else {
             binding.etMovieName.setText("")
         }
@@ -330,13 +338,13 @@ class RegisterWatchedMovieFragment : Fragment() {
 
         if (Utils.currentlySelectedMovie == null) {
             // Falta indicar o Filme
-            binding.etMovieName.error = "ERRO: Deve selecionar um Filme!"
+            binding.etMovieName.error = getString(R.string.error_missing_movie)
             // Adicionar campo em falta para mensagem de erro (translation-aware)
             missingValuesList.add(getString(R.string.lbl_movie))
         }
 
         if (selectedCinema == null) {
-            binding.actvCinemaName.error = "ERRO: Deve selecionar um Cinema!"
+            binding.actvCinemaName.error = getString(R.string.error_missing_cinema)
             // Adicionar campo em falta para mensagem de erro (translation-aware)
             missingValuesList.add(getString(R.string.lbl_cinema))
         }
@@ -350,10 +358,10 @@ class RegisterWatchedMovieFragment : Fragment() {
 
             Toast.makeText(requireContext(), sb.toString(), Toast.LENGTH_LONG).show()
         } else {
-            // formulário OK - inserir WatchedMovie na BD
+            // Formulário OK - inserir WatchedMovie na BD
 
             // Informar user da operação
-            Toast.makeText(requireContext(), "Saving...", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.lbl_saving_movie), Toast.LENGTH_SHORT).show()
 
             // Preparar modelo
             val newWatchedMovie = WatchedMovie(
@@ -374,16 +382,24 @@ class RegisterWatchedMovieFragment : Fragment() {
             CoroutineScope(Dispatchers.IO).launch {
                 model.insertWatchedMovie(newWatchedMovie) {
                     CoroutineScope(Dispatchers.Main).launch {
-                        Toast.makeText(requireContext(), "Data inserted!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.lbl_movie_saved_successfully),
+                            Toast.LENGTH_SHORT
+                        ).show()
 
-                        // TODO - o que fazer depois, ao inserir com sucesso?
-                        binding.btnSubmit.isEnabled = false
-                        binding.btnSubmit.text = getString(R.string.lbl_movie_saved)
+                        // (old)
+                        // binding.btnSubmit.isEnabled = false
+                        // binding.btnSubmit.text = getString(R.string.lbl_movie_saved)
+
+                        // Terminar o fragmento atual e mover para a Lista de Filmes Vistos
+                        activity?.let {
+                            NavigationManager.popCurrentFragment(activity!!.supportFragmentManager)
+                            NavigationManager.goToWatchedMovieListFragment(activity!!.supportFragmentManager)
+                        }
                     }
                 }
             }
-
-
         }
     }
 

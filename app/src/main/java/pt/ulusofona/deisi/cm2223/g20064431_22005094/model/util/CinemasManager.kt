@@ -26,7 +26,7 @@ object CinemasManager {
     // Créditos: https://stackoverflow.com/questions/26891943/adding-static-json-to-an-android-studio-project
     //  e pequenos ajustes c/ apoio ChatGPT para tornar os recursos mais resistentes a memory leaks (libertação devida de recursos)
     private fun loadCinemasFile(context: Context): String {
-        var jsonString = ""
+        var jsonString: String
 
         try {
             val assetManager = context.assets
@@ -121,7 +121,7 @@ object CinemasManager {
 
     // Credits pela documentação oficial estudada:
     // https://kotlinlang.org/docs/coroutines-and-channels.html#suspending-functions
-    suspend fun updateListOfCinemas(context: Context) {
+    fun updateListOfCinemas(context: Context) {
         val jsonCinemas = loadCinemasFile(context)
 
         // Tratar possivel situacao de erro ao ler o ficheiro (a lista de cinemas fica vazia)
@@ -153,7 +153,7 @@ object CinemasManager {
 
                     // Com a lista obtida de URLs imagens, carregar respetiva lista de Imagens
                     var listOfCinemaImages: List<CustomImage>? = null
-                    val result: Result<List<CustomImage>> = Result.success(mutableListOf()) // loadCinemaImages(cinemaId, listOfImageUrls)
+                    val result: Result<List<CustomImage>> = loadCinemaImages(cinemaId, listOfImageUrls)
 
                     if (result.isSuccess) {
                         listOfCinemaImages = result.getOrNull()
@@ -170,7 +170,7 @@ object CinemasManager {
                             cinemaObj.getString("postcode"),
                             cinemaObj.getString("county"),
                             listOfImageUrls,
-                            listOfCinemaImages
+                            null  // neste ponto são carregados sem imagens (carregar as imagens depois se aplicável)
                         )
                     )
 
@@ -179,7 +179,23 @@ object CinemasManager {
         }
     }
 
-    // TODO use me
+    suspend fun getCinemasImages() {
+        // TODO - atualmente desativado (out of scope)
+        // Com a lista de cinemas carregada, percorrer cada cinema da lista e
+        // a partir dos URLs de imagens, carregar respetivas imagens para Memória
+
+        listOfCinemas.forEach { cinema ->
+            var listOfCinemaImages: List<CustomImage>? = null
+            val result: Result<List<CustomImage>> = loadCinemaImages(cinema.id, cinema.imageUrls)
+
+            if (result.isSuccess) {
+                listOfCinemaImages = result.getOrNull()
+            }
+
+            cinema.photos = listOfCinemaImages
+        }
+    }
+
     fun getCinemaById(cinemaId: Int): Cinema? {
         // NOTA: Assume que existe SEMPRE um Cinema com o ID especificado.
         // (o que neste cenário vai ser garantido, pois esta função só vai ser chamada quando se lêem registos da BD...

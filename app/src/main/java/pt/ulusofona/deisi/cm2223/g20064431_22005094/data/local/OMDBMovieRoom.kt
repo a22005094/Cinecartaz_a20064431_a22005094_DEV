@@ -15,7 +15,7 @@ data class OMDBMovieRoom(
     @ColumnInfo(name = "director") val director: String,
     @ColumnInfo(name = "plot_short") val plotShort: String,
     @ColumnInfo(name = "poster_url") val posterUrl: String,
+    @ColumnInfo(name = "release_date") val releaseDate: Long,
+    @ColumnInfo(name = "imdb_votes") val imdbVotes: Int?,
     @ColumnInfo(name = "timestamp") val timestamp: Long = Date().time
 )
-
-// TODO falta o campo ReleaseDate (e confirmar o que mais poderá também faltar)

@@ -9,6 +9,10 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <!-- For accelerometer (Detect phone shake) -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:name=".model.CinecartazApplication"
         android:allowBackup="true"
@@ -36,7 +40,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDtTcb5LuDNXYAIkZTJnlZlomMia7dHRx8"/>
+            android:value="AIzaSyDtTcb5LuDNXYAIkZTJnlZlomMia7dHRx8" />
 
     </application>
 </manifest>

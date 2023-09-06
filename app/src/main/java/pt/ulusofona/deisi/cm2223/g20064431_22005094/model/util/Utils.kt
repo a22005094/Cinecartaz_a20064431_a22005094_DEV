@@ -36,8 +36,9 @@ object Utils {
             8.1,
             "Ridley Scott",
             "A blade runner must pursue and terminate four replicants who stole a ship in space and have returned to Earth to find their creator.",
+            Date().time,
+            3,
             "https://m.media-amazon.com/images/M/MV5BNzQzMzJhZTEtOWM4NS00MTdhLTg0YjgtMjM4MDRkZjUwZDBlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
-
             // TODO - sorry, não consegui agora fornecer aqui um Bitmap diretamente p/ refletir a alteração na classe OMDBMovie
             null
             //"https://m.media-amazon.com/images/M/MV5BMTdjZTliODYtNWExMi00NjQ1LWIzN2MtN2Q5NTg5NTk3NzliL2ltYWdlXkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg"
@@ -64,9 +65,11 @@ object Utils {
             8.1,
             "Ridley Scott",
             "A blade runner must pursue and terminate four replicants who stole a ship in space and have returned to Earth to find their creator.",
+            Date().time,
+            50,
             "https://m.media-amazon.com/images/M/MV5BNzQzMzJhZTEtOWM4NS00MTdhLTg0YjgtMjM4MDRkZjUwZDBlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
             //"https://m.media-amazon.com/images/M/MV5BMTdjZTliODYtNWExMi00NjQ1LWIzN2MtN2Q5NTg5NTk3NzliL2ltYWdlXkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg"
-        null
+            null
         ),
         Cinema(
             1357, "UCI Cinemas Ubbo", "UCI Cinemas",
@@ -76,7 +79,8 @@ object Utils {
         ),
         7,
         Date().time,
-        "No comments")
+        "No comments"
+    )
 
     /
     var watchedMovies: MutableList<WatchedMovie> = mutableListOf(
@@ -128,8 +132,8 @@ object Utils {
 
 
     // Function to decode rating into a string value
-    fun decodeSatisfactionString (context: Context, rating: Int) {
-        when(rating) {
+    fun decodeSatisfactionString(context: Context, rating: Int) {
+        when (rating) {
             1, 2 -> context.getString(R.string.rating_too_weak)
             3, 4 -> context.getString(R.string.rating_weak)
             5, 6 -> context.getString(R.string.rating_avg)
@@ -141,8 +145,8 @@ object Utils {
     // method to define a color, based on rating.
     // specific colors are used, based on available google maps marker colors
     // https://developers.google.com/android/reference/com/google/android/gms/maps/model/BitmapDescriptorFactory#constant-summary
-    fun decodeSatisfactionColor (rating: Int): Float {
-        return when(rating) {
+    fun decodeSatisfactionColor(rating: Int): Float {
+        return when (rating) {
             1, 2 -> BitmapDescriptorFactory.HUE_RED
             3, 4 -> BitmapDescriptorFactory.HUE_ORANGE
             5, 6 -> BitmapDescriptorFactory.HUE_YELLOW

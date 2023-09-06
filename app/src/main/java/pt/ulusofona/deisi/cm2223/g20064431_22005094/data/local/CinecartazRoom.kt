@@ -18,7 +18,7 @@ class CinecartazRoom(
     // Classe que aglomerar toda a gestão local de dados (BD), seja de Avaliações, OMDBMovies, etc.
     // É o objeto que responde à vertente local deste projeto (@ padrão Repository).
 
-    override fun getMoviesByName(
+    override fun getOmdbMoviesByName(
         movieName: String, pageNumber: Int, onFinished: (Result<MovieSearchResultInfo>) -> Unit
     ) {
         throw Exception("Illegal operation")
@@ -47,6 +47,11 @@ class CinecartazRoom(
                 // A variável "cinemaObj" não é null-checked, pois neste projeto os dados dos Cinemas vão sempre iguais
                 // (a origem dos dados dos Cinemas, "cinemas.json", é um ficheiro estático).
 
+                // imagens anexadas do dispositivo (0...N imagens)
+                val watchedMovieImgs = getCustomImageByRefId(movieRoomObj.uuid)
+                // poster do filme (ou 0 ou 1 imagem)
+                val omdbMovieImgs = getCustomImageByRefId(omdbMovieRoomObj.imdbId)
+
                 val omdbMovieObj = OMDBMovie(
                     omdbMovieRoomObj.title,
                     omdbMovieRoomObj.year,
@@ -55,8 +60,11 @@ class CinecartazRoom(
                     omdbMovieRoomObj.ratingImdb,
                     omdbMovieRoomObj.director,
                     omdbMovieRoomObj.plotShort,
+                    omdbMovieRoomObj.releaseDate,
+                    omdbMovieRoomObj.imdbVotes,
                     omdbMovieRoomObj.posterUrl,
-                    null              // TODO falta carregar aqui o ByteArray do poster
+                    // Carrega a imagem se tiver
+                    if (omdbMovieImgs.isNotEmpty()) omdbMovieImgs.first() else null
                 )
 
                 // Para estas questões intermédias de conversões [Long] <-> [Date] (bidirecionalmente),
@@ -73,7 +81,7 @@ class CinecartazRoom(
                         review = movieRoomObj.review,
                         date = movieRoomObj.date,
                         comments = movieRoomObj.comments,
-                        null           // TODO falta carregar aqui o ByteArray das imagens anexadas
+                        photos = watchedMovieImgs
                     )
                 )
             }
@@ -82,16 +90,12 @@ class CinecartazRoom(
 
         onFinished(Result.success(listOfWatchedMovies))
 
-        //
-        // TODO - Obter as fotos do WatchedMovie, poster do OMDBMovie e imagens do Cinema.
         // TODO - E se estiver Online... atualizar dados do OMDBMovie?
-        //
-
     }
 
     override fun getWatchedMovie(UuiD: String, onFinished: (Result<WatchedMovie>) -> Unit) {
         val resultWatchedMovie = watchedMoviesDao.getByUuid(UuiD)
-        if (resultWatchedMovie != null){
+        if (resultWatchedMovie != null) {
 
             val resultMovie = getMovieByOMDBId(resultWatchedMovie.movieImdbId)
             if (resultMovie == null) {
@@ -105,17 +109,27 @@ class CinecartazRoom(
                 return
             }
 
-            // get photos taken when the theatre was visit TODO
+            // GET PHOTOS
+            // (removed) get photos taken when the theatre was visit TODO
+
+            // imagens anexadas do dispositivo (0...N imagens)
+            val watchedMovieImgs = getCustomImageByRefId(UuiD)
+            // poster do filme (ou 0 ou 1 imagem)
+            val omdbMovieImgs = getCustomImageByRefId(resultMovie.imdbId)
+
+            // atribuir poster (da BD) no objeto OmdbMovie
+            resultMovie.poster = if (omdbMovieImgs.isNotEmpty()) omdbMovieImgs.first() else null
 
             // create return object with retrieved information
             val watchedMovie = WatchedMovie(
                 resultWatchedMovie.uuid,
-                resultMovie!!,
-                resultCinema!!,
+                resultMovie,
+                resultCinema,
                 resultWatchedMovie.review,
                 resultWatchedMovie.date,
                 resultWatchedMovie.comments,
-                null
+                // carregar as imagens anexadas no device (pelo user)
+                watchedMovieImgs
             )
             onFinished(Result.success(watchedMovie))
 
@@ -123,6 +137,53 @@ class CinecartazRoom(
             onFinished(Result.failure(IOException("No data found for UuiD ${UuiD}!!")))
         }
     }
+
+    override fun getWatchedMoviesImdbIdsWithTitleLike(name: String, onFinished: (Result<List<String>>) -> Unit) {
+        // Em princípio devolverá sempre resposta de Sucesso, independentemente do valor da Contagem
+        onFinished(Result.success(watchedMoviesDao.getAllUuidsWithOmdbMovieTitleLike(name)))
+    }
+
+    override fun getWorstRatedWatchedMovie(onFinished: (Result<WatchedMovie>) -> Unit) {
+        val resultWatchedMovie = watchedMoviesDao.getWorstRated()
+        if (resultWatchedMovie != null) {
+
+            val resultMovie = getMovieByOMDBId(resultWatchedMovie.movieImdbId)
+            if (resultMovie == null) {
+                // TODO - ?
+                //onFinished(Result.failure(IOException("No data found for movie id ${resultWatchedMovie.movieImdbId}!!")))
+                return
+            }
+
+            val resultCinema = CinemasManager.getCinemaById(resultWatchedMovie.cinemaId)
+            if (resultCinema == null) {
+                // TODO - ?
+                //onFinished(Result.failure(IOException("No data found for cinema id ${resultWatchedMovie.cinemaId}!!")))
+                return
+            }
+
+            onFinished(
+                Result.success(
+                    WatchedMovie(
+                        uuid = resultWatchedMovie.uuid,
+                        movie = resultMovie,
+                        theatre = resultCinema,
+                        review = resultWatchedMovie.review,
+                        date = resultWatchedMovie.date,
+                        comments = resultWatchedMovie.comments,
+                        null // photo does not matter here
+                    )
+                )
+            )
+
+        } else {
+            // TODO - ?
+        }
+    }
+
+    override fun getBestRatedWatchedMovie(onFinished: (Result<WatchedMovie>) -> Unit) {
+        TODO("Not yet implemented")
+    }
+
 
     override fun insertWatchedMovie(watchedMovie: WatchedMovie, onFinished: () -> Unit) {
         // Inserir um WatchedMovie implica um conjunto de operações:
@@ -153,7 +214,9 @@ class CinecartazRoom(
                 watchedMovie.movie.ratingImdb,
                 watchedMovie.movie.director,
                 watchedMovie.movie.plotShort,
-                watchedMovie.movie.posterUrl
+                watchedMovie.movie.posterUrl,
+                watchedMovie.movie.releaseDate,
+                watchedMovie.movie.imdbVotes
             )
         )
 
@@ -200,31 +263,37 @@ class CinecartazRoom(
         onFinished()
     }
 
-    override fun insertOMDBMovie(movie: OMDBMovie, onFinished: () -> Unit) {
-        TODO("Not yet implemented")
-    }
+    // Não aplicável.
+    // A função insertWatchedMovie() já trata da inserção de todos os modelos individualmente:
+    // - Filme visto (WatchedMovie);
+    // - Filme do IMDB vindo da API (OmdbMovie)
+    // - Imagens (imagens anexadas pelo utilizador, poster do filme e fotos do cinema selecionado)
 
-    override fun insertImage(image: CustomImage, onFinished: () -> Unit) {
-        TODO("Not yet implemented")
-        // Avaliar se é mesmo necessário
-    }
+    // override fun insertOMDBMovie(movie: OMDBMovie, onFinished: () -> Unit) {
+    //     throw Exception("Illegal operation - done via insertWatchedMovie()")
+    // }
 
-    override fun clearAllMovies(onFinished: () -> Unit) {
-        TODO("Not yet implemented")
-    }
+    // override fun insertImage(image: CustomImage, onFinished: () -> Unit) {
+    //     throw Exception("Illegal operation - done via insertWatchedMovie()")
+    // }
+
+    // override fun clearAllMovies(onFinished: () -> Unit) {
+    //     throw Exception("Illegal operation - done via insertWatchedMovie()")
+    // }
 
     override fun getAllCustomImagesByRefId(
         refId: String,
-        onFinished: (Result<List<CustomImage>>) -> Unit) {
+        onFinished: (Result<List<CustomImage>>) -> Unit
+    ) {
 
-        val resultCustomImages : List<CustomImage> = getCustomImageByRefId(refId)
+        val resultCustomImages: List<CustomImage> = getCustomImageByRefId(refId)
         onFinished(Result.success(resultCustomImages))
     }
 
 // ------------ Custom ROOM/DAO methods
 
 
-    fun getCustomImageByRefId(refId : String): List<CustomImage> {
+    fun getCustomImageByRefId(refId: String): List<CustomImage> {
         val resultCustomImageDao = imagesDao.getAllByRefId(refId)
 
         if (!resultCustomImageDao.isNullOrEmpty()) {
@@ -242,10 +311,10 @@ class CinecartazRoom(
 
 
     // get movie object
-    fun getMovieByOMDBId( omdbMovieId: String) : OMDBMovie?{
-        val resultMovieDao = omdbMoviesDao.getByImdbId( omdbMovieId )
+    fun getMovieByOMDBId(omdbMovieId: String): OMDBMovie? {
+        val resultMovieDao = omdbMoviesDao.getByImdbId(omdbMovieId)
 
-        if (resultMovieDao != null){
+        if (resultMovieDao != null) {
             return OMDBMovie(
                 resultMovieDao.title,
                 resultMovieDao.year,
@@ -254,9 +323,11 @@ class CinecartazRoom(
                 resultMovieDao.ratingImdb,
                 resultMovieDao.director,
                 resultMovieDao.plotShort,
+                resultMovieDao.releaseDate,
+                resultMovieDao.imdbVotes,
                 resultMovieDao.posterUrl,
                 getCustomImageByRefId(resultMovieDao.imdbId).let {
-                    if ( it.isNotEmpty() ) it.first() else null
+                    if (it.isNotEmpty()) it.first() else null
                 }
             )
         }

@@ -5,7 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.R
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.data.CinecartazRepository
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.databinding.FragmentDashboardBinding
 
 
@@ -17,6 +21,7 @@ import pt.ulusofona.deisi.cm2223.g20064431_22005094.databinding.FragmentDashboar
 // - ...
 
 class DashboardFragment : Fragment() {
+    private val model = CinecartazRepository.getInstance()
     private lateinit var binding: FragmentDashboardBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -29,6 +34,36 @@ class DashboardFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_dashboard, container, false)
         binding = FragmentDashboardBinding.bind(view)
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        // TODO retestar possível crash relacionado com load dos cinemas
+        // loadStatistics()
+    }
+
+    private fun loadStatistics() {
+        // Stat #1: Worst-rated movie!
+        CoroutineScope(Dispatchers.IO).launch {
+            model.getWorstRatedWatchedMovie { result ->
+                if (result.isSuccess) {
+                    val watchedMovie = result.getOrNull()
+                    watchedMovie?.let {
+                        val statText = "${watchedMovie.movie.title}: ${watchedMovie.review}"
+                        binding.tvStat1.text = statText
+                    }
+                }
+            }
+        }
+
+        // Stat #2: Best-rated movie!
+        // CoroutineScope(Dispatchers.IO).launch {
+        //
+        // }
+
+        // Stat #3: Cinema mais visitado (( Não faz sentido, porque aqui usamos só 1 filme para 1 cinema... ))
+        // ...
     }
 
     // Factory

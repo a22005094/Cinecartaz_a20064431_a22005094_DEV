@@ -69,7 +69,8 @@ class WatchedMoviesFragment(
             model.getWatchedMovies { result ->
                 if (result.isSuccess) {
 
-                    var listOfWatchedMovies: MutableList<WatchedMovie> = result.getOrDefault(mutableListOf()).toMutableList()
+                    var listOfWatchedMovies: MutableList<WatchedMovie> =
+                        result.getOrDefault(mutableListOf()).toMutableList()
 
                     adapter = WatchedMoviesAdapter(listOfWatchedMovies, ::onMovieClick)
 
@@ -137,7 +138,7 @@ class WatchedMoviesFragment(
 
 
             // #1 - obter os filmes que correspondem ao nome de pesquisa
-            if (!searchTerm.isNullOrEmpty()) {
+            if (searchTerm.isNullOrEmpty()) {
                 //
                 // Vamos querer usar todos os filmes inseridos
                 //
@@ -146,12 +147,13 @@ class WatchedMoviesFragment(
                         listOfWatchedMovies = result.getOrDefault(mutableListOf()).toMutableList().toMutableList()
 
                         // calculate distances
-                        listOfWatchedMovies = Utils.calcDistancesOnMoviesList(listOfWatchedMovies, Utils.lastKnownLocation)
+                        listOfWatchedMovies =
+                            Utils.calcDistancesOnMoviesList(listOfWatchedMovies, Utils.lastKnownLocation)
 
                         // filter
                         var listAux = mutableListOf<WatchedMovie>()
-                        for (watched in listOfWatchedMovies){
-                            if (watched.calcDistance < distancia){
+                        for (watched in listOfWatchedMovies) {
+                            if (watched.calcDistance < distancia) {
                                 listAux.add(watched)
                             }
                         }
@@ -175,17 +177,18 @@ class WatchedMoviesFragment(
                 //
                 // Vamos querer filtrar os resultados pelo nome
                 //
-                model.getWatchedMoviesWithTitleLike(searchTerm!!) { result ->
+                model.getWatchedMoviesWithTitleLike(searchTerm) { result ->
                     if (result.isSuccess) {
                         listOfWatchedMovies = result.getOrDefault(mutableListOf()).toMutableList()
 
                         // calculate distances
-                        listOfWatchedMovies = Utils.calcDistancesOnMoviesList(listOfWatchedMovies, Utils.lastKnownLocation)
+                        listOfWatchedMovies =
+                            Utils.calcDistancesOnMoviesList(listOfWatchedMovies, Utils.lastKnownLocation)
 
                         // filter
                         var listAux = mutableListOf<WatchedMovie>()
-                        for (watched in listOfWatchedMovies){
-                            if (watched.calcDistance < distancia){
+                        for (watched in listOfWatchedMovies) {
+                            if (watched.calcDistance < distancia) {
                                 listAux.add(watched)
                             }
                         }

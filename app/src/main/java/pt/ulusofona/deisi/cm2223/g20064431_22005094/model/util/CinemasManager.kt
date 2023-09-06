@@ -151,14 +151,6 @@ object CinemasManager {
                         }
                     }
 
-                    // Com a lista obtida de URLs imagens, carregar respetiva lista de Imagens
-                    var listOfCinemaImages: List<CustomImage>? = null
-                    val result: Result<List<CustomImage>> = loadCinemaImages(cinemaId, listOfImageUrls)
-
-                    if (result.isSuccess) {
-                        listOfCinemaImages = result.getOrNull()
-                    }
-
                     listOfCinemas.add(
                         Cinema(
                             cinemaId,

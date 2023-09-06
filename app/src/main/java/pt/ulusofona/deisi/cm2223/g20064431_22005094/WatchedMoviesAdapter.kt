@@ -10,7 +10,7 @@ import pt.ulusofona.deisi.cm2223.g20064431_22005094.databinding.ItemWatchedMovie
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.WatchedMovie
 
 class WatchedMoviesAdapter(
-    private var watchedMovies: List<WatchedMovie> = listOf(),
+    private var watchedMovies: MutableList<WatchedMovie> = mutableListOf(),
     private val onMovieClick: (String) -> Unit
 ) :
     RecyclerView.Adapter<WatchedMoviesAdapter.WatchedMoviesHolder>() {

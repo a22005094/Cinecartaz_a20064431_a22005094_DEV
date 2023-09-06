@@ -5,6 +5,7 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Closed</string>
     <string name="feature_list_movies">My movies</string>
+    <string name="feature_choose_movie">Choose Movie</string>
     <string name="feature_lis_movies_map">My movies (map)</string>
     <string name="lbl_image_content_description">Movie Poster</string>
     <string name="rating_too_weak">Too Weak</string>
@@ -12,7 +13,18 @@
     <string name="rating_avg">Average</string>
     <string name="rating_good">Good</string>
     <string name="rating_xl">Excellent</string>
+    <string name="lbl_movie">Movie title</string>
+    <string name="lbl_click_to_search_movie">(Click to search)</string>
+    <string name="lbl_movie_name_hint">(Enter movie title)</string>
+    <string name="lbl_cinema">Theater</string>
+    <string name="lbl_cinema_name_hint">(Theatre name...)</string>
+    <string name="lbl_movie_rating">Rating 1..10</string>
+    <string name="lbl_rating_hint">Enter you movie rating</string>
+    <string name="lbl_watch_date">Seen date</string>
+    <string name="lbl_movie_photos">Photos (Optional)</string>
+    <string name="lbl_add_photo">Add a photo</string>
     <string name="lbl_obs">Notes (200 characters max)</string>
+    <string name="lbl_obs_hint">(Optional: enter comments)</string>
     <string name="lbl_seen_at">Seen at:</string>
     <string name="lbl_experience_rating">Experience:</string>
     <string name="lbl_imdb_rating">IMDB:</string>

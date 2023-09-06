@@ -6,13 +6,10 @@ import android.view.inputmethod.InputMethodManager
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.R
-import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.Cinema
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.CustomDate
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.OMDBMovie
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.WatchedMovie
 import java.util.Calendar
-import java.util.Date
-import java.util.UUID
 import kotlin.math.*
 
 
@@ -23,6 +20,8 @@ object Utils {
     // Um objeto a utilizar nos fragmentos de "Registar Filme" e "Pesquisar Filme" (lançado a partir do primeiro),
     // para facilitar a seleção de um Filme ao regressar ao fragmento "Registar Filme".
     var currentlySelectedMovie: OMDBMovie? = null
+
+    var lastKnownLocation : LatLng = LatLng(0.0, 0.0)
 
 
     /*
@@ -175,7 +174,7 @@ object Utils {
         return earthRadius * c
     }
 
-    fun calcDistancesonListMovies(watchedMovies: MutableList<WatchedMovie>, point: LatLng): MutableList<WatchedMovie>{
+    fun calcDistancesOnMoviesList(watchedMovies: MutableList<WatchedMovie>, point: LatLng): MutableList<WatchedMovie>{
         var newList = watchedMovies
 
         newList.forEach{
@@ -185,4 +184,13 @@ object Utils {
         return newList
     }
 
+    fun filterMoviesList(watchedMovies: MutableList<WatchedMovie>, keywords: String): MutableList<WatchedMovie> {
+        var newList = mutableListOf<WatchedMovie>()
+
+        watchedMovies.filterTo(newList,  {
+            keywords in it.movie.title
+        })
+
+        return newList
+    }
 }

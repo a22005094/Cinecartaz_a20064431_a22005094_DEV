@@ -53,6 +53,7 @@ class FusedLocation private constructor(context: Context) : LocationCallback() {
         Log.i(TAG, "previous location $lastKnownLocation")
         lastKnownLocation = newLocation
         Log.i(TAG, "---new location $lastKnownLocation, which distances $distance")
+        Utils.lastKnownLocation = lastKnownLocation
     }
 
     companion object {

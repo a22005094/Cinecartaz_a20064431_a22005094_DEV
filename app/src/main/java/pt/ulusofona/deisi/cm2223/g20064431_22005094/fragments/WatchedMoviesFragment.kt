@@ -1,6 +1,5 @@
 package pt.ulusofona.deisi.cm2223.g20064431_22005094.fragments
 
-import FusedLocation
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -59,6 +58,12 @@ class WatchedMoviesFragment(
             searchForResults()
         }
 
+        binding.radioDistanceNa.isChecked = true
+        binding.radioDistance500.isChecked = false
+        binding.radioDistance1000.isChecked = false
+
+        binding.sortAscend.isChecked = false
+        binding.sortDescend.isChecked = true
 
         CoroutineScope(Dispatchers.IO).launch {
             model.getWatchedMovies { result ->
@@ -127,6 +132,9 @@ class WatchedMoviesFragment(
                 distancia = 1000
             }
 
+            // Ordenação: asc ou desc?
+            var sortAscending = (binding.sortAscend.isChecked)
+
 
             // #1 - obter os filmes que correspondem ao nome de pesquisa
             if (!searchTerm.isNullOrEmpty()) {
@@ -150,6 +158,13 @@ class WatchedMoviesFragment(
 
                         // No final, passar os resultados finais para o objeto global neste fragmento, "listOfCurrentResults"
                         listOfCurrentResults = listAux
+
+                        if (sortAscending) {
+                            listOfCurrentResults.sortBy { it.movie.ratingImdb }
+
+                        } else {
+                            listOfCurrentResults.sortByDescending { it.movie.ratingImdb }
+                        }
 
                         CoroutineScope(Dispatchers.Main).launch { adapter.updateItems(listOfCurrentResults) }
                     }
@@ -178,20 +193,19 @@ class WatchedMoviesFragment(
                         // No final, passar os resultados finais para o objeto global neste fragmento, "listOfCurrentResults"
                         listOfCurrentResults = listAux
 
+                        if (sortAscending) {
+                            listOfCurrentResults.sortBy { it.movie.ratingImdb }
+
+                        } else {
+                            listOfCurrentResults.sortByDescending { it.movie.ratingImdb }
+                        }
+
                         CoroutineScope(Dispatchers.Main).launch { adapter.updateItems(listOfCurrentResults) }
                     }
                 }
 
-
-
             }
 
-
-            // #2 - dentro dos filmes obtidos, filtrar por distância
-
-
-
-            // (isto vai ser preciso para a ordenação)
         }
 
     }

@@ -79,6 +79,9 @@
     <string name="lbl_distance_select_500m">500</string>
     <string name="lbl_distance_select_1000m">1000</string>
     <string name="lbl_apply_filter">Aplicar filtro</string>
+    <string name="lbl_order_resa">Ordenação</string>
+    <string name="lbl_order_results_asc">Asc.</string>
+    <string name="lbl_order_results_desc">Desc.</string>
 
     <!-- Errors & Warnings -->
     <string name="error_missing_movie">ERRO: Deve selecionar um Filme!</string>

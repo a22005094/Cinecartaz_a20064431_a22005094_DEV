@@ -10,6 +10,7 @@
     <color name="white">#FFFFFF</color>
     <color name="gray">#5A606F</color>
     <color name="black">#FF000000</color>
+    <color name="color_blue">#0446B8</color>
 
     <!-- Cores-guia para inputs em formulários. -->
     <color name="green_input_ok">#40CF40</color>

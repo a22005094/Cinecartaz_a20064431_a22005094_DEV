@@ -37,7 +37,7 @@ class CinecartazOkHttp : Cinecartaz() {
     // v2 - Cliente independente. Gere internamente a instância OkHttp e o acesso a parâmetros (@Constants.kt)
     private val client: OkHttpClient = OkHttpClient()
 
-    override fun getOmdbMoviesByName(
+    override fun getOmdbMovieIdsByName(
         movieName: String, pageNumber: Int, onFinished: (Result<MovieSearchResultInfo>) -> Unit
     ) {
         // 1. Preparar o pedido OkHttp (usar ApiKey & Url respetivos à API OMDB)
@@ -226,6 +226,10 @@ class CinecartazOkHttp : Cinecartaz() {
     }
 
     override fun insertWatchedMovie(watchedMovie: WatchedMovie, onFinished: () -> Unit) {
+        throw Exception("Illegal operation")
+    }
+
+    override fun getWatchedMoviesWithTitleLike(name: String, onFinished: (Result<List<WatchedMovie>>) -> Unit) {
         throw Exception("Illegal operation")
     }
 

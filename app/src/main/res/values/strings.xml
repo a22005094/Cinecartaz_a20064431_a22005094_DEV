@@ -70,6 +70,15 @@
     <string name="lbl_showing_results_for_query">A mostrar %1$s resultados para \'%2$s\'.</string>
     <string name="lbl_register_now_shake">Regista Já!</string>
     <string name="lbl_ratings_word">votos</string>
+    <string name="lbl_link_visit" translatable="false">Link IMDB</string>
+
+    <!-- Listagem de filmes: filtragens -->
+    <string name="lbl_filter_results">Filtrar resultados</string>
+    <string name="lbl_distance_select">Distância (m)</string>
+    <string name="lbl_distance_select_none">N/A</string>
+    <string name="lbl_distance_select_500m">500</string>
+    <string name="lbl_distance_select_1000m">1000</string>
+    <string name="lbl_apply_filter">Aplicar filtro</string>
 
     <!-- Errors & Warnings -->
     <string name="error_missing_movie">ERRO: Deve selecionar um Filme!</string>

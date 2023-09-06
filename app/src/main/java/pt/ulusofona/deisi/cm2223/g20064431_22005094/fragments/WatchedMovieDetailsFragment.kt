@@ -1,5 +1,6 @@
 package pt.ulusofona.deisi.cm2223.g20064431_22005094.fragments
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -16,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.ARG_WATCHED_MOVIE_UUID
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.ASSET_PLACEHOLDER_NO_IMAGE
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.IMDB_BASE_URL
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.MAX_RATING_VALUE
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.NavigationManager
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.PhotoAdapter
@@ -35,6 +37,7 @@ class WatchedMovieDetailsFragment : Fragment() {
     private var watchedMovie: WatchedMovie? = null
     private val model = CinecartazRepository.getInstance()
     private var photoList: List<CustomImage> = mutableListOf()
+    private var movieImdbId: String = ""
 
     // Recycle view
     val photoAdapter = PhotoAdapter(photoList)
@@ -74,6 +77,12 @@ class WatchedMovieDetailsFragment : Fragment() {
             }
         })
 
+        binding.tvOpenLinkImdb.setOnClickListener {
+            if (movieImdbId.isNotEmpty()) {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("$IMDB_BASE_URL$movieImdbId"))
+                startActivity(intent)
+            }
+        }
 
         return binding.root
     }
@@ -123,6 +132,8 @@ class WatchedMovieDetailsFragment : Fragment() {
                             binding.tvExperienceRating.text = "${watchedMovie!!.review}/${MAX_RATING_VALUE}"
                             binding.tvObs.text = watchedMovie!!.comments
 
+                            // Preenche o link para visitar no browser
+                            movieImdbId = watchedMovie!!.movie.imdbId
 
                             // Se o filme tiver Poster, mostra a sua imagem (vindo da BD)
                             // Caso contrário predefine para o Asset "sem imagem"

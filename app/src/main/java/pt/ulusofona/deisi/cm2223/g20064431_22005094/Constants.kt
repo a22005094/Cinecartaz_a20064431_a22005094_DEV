@@ -12,7 +12,9 @@ const val OMDB_API_BASE_URL = "https://www.omdbapi.com/?apikey=$OMDB_API_TOKEN"
 // Predefine já o formato esperado para a pesquisa de Filmes.
 const val OMDB_API_URL_MOVIE_TITLE_SEARCH = "$OMDB_API_BASE_URL&type=movie&s="
 const val OMDB_API_URL_MOVIE_DETAILS = "$OMDB_API_BASE_URL&i="
+const val IMDB_BASE_URL = "https://www.imdb.com/title/"  // for opening IMDB links on browser (@ WatchedMovie details)
 
+// A default asset for missing pictures.
 const val ASSET_PLACEHOLDER_NO_IMAGE = "movie_no_image.png"
 
 // Global constant with the maximum rating value

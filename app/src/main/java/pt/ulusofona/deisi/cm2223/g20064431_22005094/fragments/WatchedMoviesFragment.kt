@@ -18,13 +18,18 @@ import pt.ulusofona.deisi.cm2223.g20064431_22005094.databinding.FragmentWatchedM
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.WatchedMovie
 
 
-class WatchedMoviesFragment (
-): Fragment() {
+class WatchedMoviesFragment(
+) : Fragment() {
 
     private lateinit var binding: FragmentWatchedMoviesBinding
+
     //val adapter = WatchedMoviesAdapter(Utils.watchedMovies)
     private var adapter = WatchedMoviesAdapter(mutableListOf(), ::onMovieClick)
     private val model = CinecartazRepository.getInstance()
+
+    // Armazena a lista de resultados atuais.
+    // Usado para ordenar os resultados da página.
+    private var listOfCurrentResults = mutableListOf<WatchedMovie>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +47,16 @@ class WatchedMoviesFragment (
 
     override fun onStart() {
         super.onStart()
+
+        //binding.radioBtnNone.isChecked = true
+        //binding.radioBtn500.isChecked = false
+        //binding.radioBtn1000.isChecked = false
+        //binding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
+
+        binding.btnFilter.setOnClickListener {
+            searchForResults()
+        }
+
 
         CoroutineScope(Dispatchers.IO).launch {
             model.getWatchedMovies { result ->
@@ -64,10 +79,18 @@ class WatchedMoviesFragment (
         }
     }
 
+
     //TODO - test invocation of movie details, from click in movie list (activity<-fragment<-adapter)
-    private fun onMovieClick(watchedMovieUUID: String){
+    private fun onMovieClick(watchedMovieUUID: String) {
         Log.i("RMata", watchedMovieUUID)
 
+        // invoque
+        activity?.supportFragmentManager?.let {
+            NavigationManager.goToWatchedMovieDetailsFragment(
+                it,
+                watchedMovieUUID
+            )
+        }
         // invoque movie detail fragment
         activity?.supportFragmentManager?.let { NavigationManager.goToWatchedMovieDetailsFragment(it, watchedMovieUUID) }
 
@@ -78,4 +101,44 @@ class WatchedMoviesFragment (
         @JvmStatic
         fun newInstance() = WatchedMoviesFragment()
     }
+
+    private fun searchForResults() {
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val searchTerm: String? = binding.etMovieName.text?.toString()
+            var listOfWatchedMovies: List<WatchedMovie>
+
+            // #1 - obter os filmes que correspondem ao nome de pesquisa
+            if (!searchTerm.isNullOrEmpty()) {
+                //
+                // Vamos querer filtrar os resultados pelo nome
+                //
+                model.getWatchedMovies { result ->
+                    if (result.isSuccess) {
+                        listOfWatchedMovies = result.getOrDefault(mutableListOf())
+
+                    }
+                }
+
+
+            } else {
+                //
+                // Vamos querer usar todos os filmes inseridos
+                //
+                model.getWatchedMoviesWithTitleLike(searchTerm!!) { result ->
+                    if (result.isSuccess) {
+                        listOfWatchedMovies = result.getOrDefault(mutableListOf())
+
+                    }
+                }
+
+
+            }
+
+            // #2 - dentro dos filmes obtidos, filtrar por distância
+        }
+
+    }
+
+
 }

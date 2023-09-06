@@ -18,7 +18,7 @@ class CinecartazRoom(
     // Classe que aglomerar toda a gestão local de dados (BD), seja de Avaliações, OMDBMovies, etc.
     // É o objeto que responde à vertente local deste projeto (@ padrão Repository).
 
-    override fun getOmdbMoviesByName(
+    override fun getOmdbMovieIdsByName(
         movieName: String, pageNumber: Int, onFinished: (Result<MovieSearchResultInfo>) -> Unit
     ) {
         throw Exception("Illegal operation")
@@ -184,6 +184,71 @@ class CinecartazRoom(
         TODO("Not yet implemented")
     }
 
+    override fun getWatchedMoviesWithTitleLike(name: String, onFinished: (Result<List<WatchedMovie>>) -> Unit) {
+        // Semelhante à função "getWatchedMovies()".
+
+        // para os objetos Room
+        val listOfWatchedMoviesRoom: List<WatchedMovieRoom> =
+            watchedMoviesDao.getAllWithOmdbMovieTitleLike(name) ?: mutableListOf()
+        // para os objetos completos a usar in-App (os resultados da pesquisa, per se)
+        val listOfWatchedMovies = mutableListOf<WatchedMovie>()
+
+        for (movieRoomObj in listOfWatchedMoviesRoom) {
+
+            // No Room, os filmes vistos (WatchedMovie) referencia o respetivo OMDBMovie e Cinema
+            // através dos seus IDs (na BD não existe uma "gravação direta" de objetos).
+            // Portanto, para carregar para memória o objeto WatchedMovie "puro", completo e já com referência
+            // aos objetos associados OMDBMovie e Cinema, é necessário buscá-los a partir dos IDs.
+            val omdbMovieRoomObj = omdbMoviesDao.getByImdbId(movieRoomObj.movieImdbId)
+            val cinemaObj = CinemasManager.getCinemaById(movieRoomObj.cinemaId)!!
+
+            if (omdbMovieRoomObj != null) {
+                // A variável "cinemaObj" não é null-checked, pois neste projeto os dados dos Cinemas vão sempre iguais
+                // (a origem dos dados dos Cinemas, "cinemas.json", é um ficheiro estático).
+
+                // imagens anexadas do dispositivo (0...N imagens)
+                val watchedMovieImgs = getCustomImageByRefId(movieRoomObj.uuid)
+                // poster do filme (ou 0 ou 1 imagem)
+                val omdbMovieImgs = getCustomImageByRefId(omdbMovieRoomObj.imdbId)
+
+                val omdbMovieObj = OMDBMovie(
+                    omdbMovieRoomObj.title,
+                    omdbMovieRoomObj.year,
+                    omdbMovieRoomObj.imdbId,
+                    omdbMovieRoomObj.genre,
+                    omdbMovieRoomObj.ratingImdb,
+                    omdbMovieRoomObj.director,
+                    omdbMovieRoomObj.plotShort,
+                    omdbMovieRoomObj.releaseDate,
+                    omdbMovieRoomObj.imdbVotes,
+                    omdbMovieRoomObj.posterUrl,
+                    // Carrega a imagem se tiver
+                    if (omdbMovieImgs.isNotEmpty()) omdbMovieImgs.first() else null
+                )
+
+                // Para estas questões intermédias de conversões [Long] <-> [Date] (bidirecionalmente),
+                //  foi analisada a possibilidade de utilizar uma classe de TypeConverters no Room
+                //  (ver: https://developer.android.com/training/data-storage/room/referencing-data).
+                // No entanto foi descartada - na classe do Modelo efetuou-se a alteração para
+                //  já usar diretamente o tipo de dados Long.
+
+                listOfWatchedMovies.add(
+                    WatchedMovie(
+                        uuid = movieRoomObj.uuid,
+                        movie = omdbMovieObj,
+                        theatre = cinemaObj,
+                        review = movieRoomObj.review,
+                        date = movieRoomObj.date,
+                        comments = movieRoomObj.comments,
+                        photos = watchedMovieImgs
+                    )
+                )
+            }
+
+        }
+
+        onFinished(Result.success(listOfWatchedMovies))
+    }
 
     override fun insertWatchedMovie(watchedMovie: WatchedMovie, onFinished: () -> Unit) {
         // Inserir um WatchedMovie implica um conjunto de operações:

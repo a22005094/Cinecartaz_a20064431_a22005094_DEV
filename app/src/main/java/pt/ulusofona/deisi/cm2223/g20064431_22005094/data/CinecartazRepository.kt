@@ -19,12 +19,12 @@ class CinecartazRepository(
 ) : Cinecartaz() {
 
 
-    override fun getOmdbMoviesByName(
+    override fun getOmdbMovieIdsByName(
         movieName: String, pageNumber: Int, onFinished: (Result<MovieSearchResultInfo>) -> Unit
     ) {
         // API only. Esta pesquisa é apenas de âmbito Online, e é utilizada no menu de pesquisa & seleção de um Filme.
         if (ConnectivityUtil.isDeviceOnline(context)) {
-            remote.getOmdbMoviesByName(movieName, pageNumber) {
+            remote.getOmdbMovieIdsByName(movieName, pageNumber) {
                 onFinished(it)
             }
         } else {
@@ -76,6 +76,12 @@ class CinecartazRepository(
         onFinished: (Result<List<CustomImage>>) -> Unit
     ) {
         local.getAllCustomImagesByRefId(refId, onFinished)
+    }
+
+    // * BD ONLY
+    // Filtragem de resultados @ Lista de filmes
+    override fun getWatchedMoviesWithTitleLike(name: String, onFinished: (Result<List<WatchedMovie>>) -> Unit) {
+        local.getWatchedMoviesWithTitleLike(name, onFinished)
     }
 
 

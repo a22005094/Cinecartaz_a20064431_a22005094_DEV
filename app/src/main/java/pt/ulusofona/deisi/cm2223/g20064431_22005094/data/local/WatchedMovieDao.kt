@@ -31,6 +31,14 @@ interface WatchedMovieDao {
     )
     fun getAllUuidsWithOmdbMovieTitleLike(name: String): List<String>
 
+    // PARA FILTRAGEM
+    // Semelhante à versão de Uuids, mas aqui pretende devolver o objeto
+    @Query(
+        "SELECT watched_movies.* FROM watched_movies " +
+                "INNER JOIN omdb_movies ON watched_movies.movie_imdb_id = omdb_movies.imdb_id " +
+                "WHERE omdb_movies.title LIKE '%' || :name || '%'"
+    )
+    fun getAllWithOmdbMovieTitleLike(name: String): List<WatchedMovieRoom>?
 
     //@Query("SELECT * FROM watched_movies INNER JOIN omdb_movies ON watched_movies.movie_imdb_id = omdb_movies.imdb_id ORDER BY watched_movies.review LIMIT 1")
     @Query("SELECT * FROM watched_movies ORDER BY watched_movies.review LIMIT 1")

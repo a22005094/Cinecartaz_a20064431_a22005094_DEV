@@ -21,7 +21,7 @@ abstract class Cinecartaz {
     //  - em relação ao filme, devolve um cj. muito limitado de informações (title, year, imdbID...)
     //  - daqui apenas se pretende retirar os [ImdbID]s para carregar mais detalhes de seguida.
     //  - Retorna um objeto com o NºResultados e lista de ImdbIDs (String) dos Filmes encontrados
-    abstract fun getOmdbMoviesByName(
+    abstract fun getOmdbMovieIdsByName(
         movieName: String, pageNumber: Int, onFinished: (Result<MovieSearchResultInfo>) -> Unit
     )
 
@@ -51,7 +51,16 @@ abstract class Cinecartaz {
     abstract fun getAllCustomImagesByRefId(refId: String, onFinished: (Result<List<CustomImage>>) -> Unit)
 
 
-    // *** (BD only) Estatísticas do Dashboard (TODO) ***
+    // ---------------------------------------
+    // Para o menu Lista de Filmes - filtragem
+    // ---------------------------------------
+    // * BD only - devolve a lista de IMDB_IDs de filmes vistos que contenham o(s) termo(s) de pesquisa
+    // (a utilizar na Pesquisa de Filmes por Voz)
+    abstract fun getWatchedMoviesWithTitleLike(name: String, onFinished: (Result<List<WatchedMovie>>) -> Unit)
+
+
+    // *** (REMOVED) *** - Não foi desenvolvido
+    // *** (BD only) Estatísticas do Dashboard
     abstract fun getWorstRatedWatchedMovie(onFinished: (Result<WatchedMovie>) -> Unit)
     abstract fun getBestRatedWatchedMovie(onFinished: (Result<WatchedMovie>) -> Unit)
 

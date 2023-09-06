@@ -15,7 +15,7 @@ import java.util.Locale
 class CustomDate(dateInMillis: Long = System.currentTimeMillis()) {
     // Para armazenar a Data
     private val calendar = Calendar.getInstance()
-    private val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    private val sdf = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
 
     // - Nesta classe é possível instanciar um objeto com uma Data predefinida,
     //     preenchendo o parâmetro [dateInMillis] (data pretendida em milissegundos).

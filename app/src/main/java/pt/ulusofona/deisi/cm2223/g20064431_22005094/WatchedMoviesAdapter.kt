@@ -1,5 +1,6 @@
 package pt.ulusofona.deisi.cm2223.g20064431_22005094
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -61,4 +62,13 @@ class WatchedMoviesAdapter(
         // Log.i("RMata", "@@@ ${watchedMovies[position].movie.title} / ${watchedMovies[position].review}")
         holder.binding.tvYear.text = "2023"
     }
+
+
+    // Para atualizar diretamente a lista de Imagens
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateItems(items: List<WatchedMovie>) {
+        this.watchedMovies = items
+        notifyDataSetChanged()
+    }
+
 }

@@ -48,6 +48,8 @@ abstract class Cinecartaz {
     // get a movie from DB
     abstract fun getWatchedMovie(UuiD: String, onFinished: (Result<WatchedMovie>) -> Unit)
 
+    abstract fun getAllCustomImagesByRefId(refId: String, onFinished: (Result<List<CustomImage>>) -> Unit)
+
 
     //  -----------------------------------
     //  ------------- INSERTS -------------

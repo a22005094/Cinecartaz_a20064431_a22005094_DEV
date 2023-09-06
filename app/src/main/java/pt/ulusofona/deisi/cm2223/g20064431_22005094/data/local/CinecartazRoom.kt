@@ -213,8 +213,15 @@ class CinecartazRoom(
         TODO("Not yet implemented")
     }
 
+    override fun getAllCustomImagesByRefId(
+        refId: String,
+        onFinished: (Result<List<CustomImage>>) -> Unit) {
 
-    // ------------ Custom ROOM/DAO methods
+        val resultCustomImages : List<CustomImage> = getCustomImageByRefId(refId)
+        onFinished(Result.success(resultCustomImages))
+    }
+
+// ------------ Custom ROOM/DAO methods
 
 
     fun getCustomImageByRefId(refId : String): List<CustomImage> {

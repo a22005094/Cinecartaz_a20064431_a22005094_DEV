@@ -189,6 +189,13 @@ class CinecartazOkHttp : Cinecartaz() {
         throw Exception("Illegal operation")
     }
 
+    override fun getAllCustomImagesByRefId(
+        refId: String,
+        onFinished: (Result<List<CustomImage>>) -> Unit
+    ) {
+        throw Exception("Illegal operation")
+    }
+
     override fun getWatchedMovie(UuiD: String, onFinished: (Result<WatchedMovie>) -> Unit) {
         throw Exception("Illegal operation")
     }

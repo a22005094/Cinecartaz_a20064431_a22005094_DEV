@@ -19,7 +19,6 @@ class WatchedMoviesAdapter (
 
     // MyMoviesAdapter implementation
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WatchedMoviesHolder {
-        // TODO - TEST!!
         return WatchedMoviesHolder(
             ItemWatchedMoviesBinding.inflate(
                 LayoutInflater.from(parent.context),

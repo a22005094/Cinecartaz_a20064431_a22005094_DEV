@@ -73,5 +73,6 @@
     <string name="rating_avg">Mediano</string>
     <string name="rating_good">Bom</string>
     <string name="rating_xl">Excelente</string>
+    <string name="lbl_seen_date1">Visto a:</string>
 
 </resources>

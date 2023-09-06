@@ -1,6 +1,5 @@
 package pt.ulusofona.deisi.cm2223.g20064431_22005094.fragments
 
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,17 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import pt.ulusofona.deisi.cm2223.g20064431_22005094.ARG_WATCHED_MOVIE_UUID
-import pt.ulusofona.deisi.cm2223.g20064431_22005094.MAX_RATING_VALUE
-import pt.ulusofona.deisi.cm2223.g20064431_22005094.NavigationManager
-import pt.ulusofona.deisi.cm2223.g20064431_22005094.R
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.*
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.data.CinecartazRepository
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.databinding.FragmentWatchedMovieDetailsBinding
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.CustomDate
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.CustomImage
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.WatchedMovie
 
 class WatchedMovieDetailsFragment : Fragment() {
@@ -28,6 +28,10 @@ class WatchedMovieDetailsFragment : Fragment() {
     private var watchedMovieUuiD: String? = null
     private var watchedMovie: WatchedMovie? = null
     private val model = CinecartazRepository.getInstance()
+    private var photoList : List<CustomImage> = mutableListOf()
+
+    // Recycle view
+    val photoAdapter = PhotoAdapter(photoList)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +47,25 @@ class WatchedMovieDetailsFragment : Fragment() {
         savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_watched_movie_details, container, false)
         binding = FragmentWatchedMovieDetailsBinding.bind(view)
+
+
+
+        // initialize photos recycler view
+        binding.photoRecyclerView.adapter = photoAdapter
+        binding.photoRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+        // View pager
+        val viewPager: ViewPager2 = binding.viewPager
+        val viewPagerPhotoAdapter = ViewPagerPhotoAdapter(photoList)
+        // initialize photos view pager
+        viewPager.adapter = viewPagerPhotoAdapter
+
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                binding.photoRecyclerView.scrollToPosition(position)
+            }
+        })
+
 
         return binding.root
     }
@@ -78,11 +101,22 @@ class WatchedMovieDetailsFragment : Fragment() {
                             binding.tvExperienceRating.text ="${watchedMovie!!.review}/${MAX_RATING_VALUE}"
                             binding.tvObs.text = watchedMovie!!.comments
 
-
-
                             Glide.with(binding.ivPoster.context).asBitmap().
                             load(watchedMovie?.movie?.poster?.imageData)
                                 .into(binding.ivPoster)// .error(R.drawable.ic_watched_movies);
+
+
+                            CoroutineScope(Dispatchers.IO).launch{
+                                model.getAllCustomImagesByRefId(watchedMovie!!.uuid) { result ->
+                                    if (result.isSuccess) {
+                                        photoList = result.getOrDefault(listOf())
+
+                                        CoroutineScope(Dispatchers.Main).launch {
+                                            photoAdapter.updateItems(photoList)
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }

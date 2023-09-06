@@ -89,6 +89,13 @@ class CinecartazRepository(
         local.getWatchedMovie(UuiD, onFinished)
     }
 
+    override fun getAllCustomImagesByRefId(
+        refId: String,
+        onFinished: (Result<List<CustomImage>>) -> Unit
+    ) {
+        local.getAllCustomImagesByRefId(refId, onFinished)
+    }
+
     // --------------------------------------
     // * Gestão do Singleton
     // --------------------------------------

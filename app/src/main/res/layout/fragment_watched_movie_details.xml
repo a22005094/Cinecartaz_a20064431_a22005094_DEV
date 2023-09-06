@@ -16,10 +16,22 @@
 
 
             <TextView
-                android:id="@+id/tv_seen_date"
+                android:id="@+id/lbl_seen_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/lbl_seen_date1"
+                android:textSize="16sp"
+                android:gravity="right"
+                android:layout_marginRight="10px"
+                android:layout_toLeftOf="@id/tv_seen_date"
+                />
+
+            <TextView
+                android:id="@+id/tv_seen_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="data de visualização"
+                android:layout_alignParentRight="true"
                 android:textSize="16sp"
                 android:gravity="right"
                 />
@@ -41,10 +53,11 @@
                 android:minLines="1"
                 android:maxLines="2"
                 android:ellipsize="end"
-                android:gravity="center_horizontal"
+                android:gravity="left"
                 android:textStyle="bold"
-                android:textSize="36sp"
+                android:textSize="24sp"
                 android:layout_below="@id/tv_filler1"
+                android:layout_toRightOf="@id/iv_poster"
                 />
 
             <TextView
@@ -60,7 +73,18 @@
                 android:id="@+id/iv_poster"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/tv_filler1"
+                android:layout_margin="10px"
+                />
+
+            <TextView
+                android:id="@+id/tv_filler1b"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
                 android:layout_below="@id/tv_title"
+                android:layout_toRightOf="@id/iv_poster"
+                android:gravity="center|center_vertical"
                 />
 
             <TextView
@@ -69,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_title"
                 android:text="@string/lbl_launch_date"
-                android:textSize="26sp"
+                android:textSize="20sp"
                 android:layout_toRightOf="@id/iv_poster"
                 android:layout_marginLeft="10px"
                 />
@@ -78,7 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_title"
-                android:textSize="26sp"
+                android:textSize="20sp"
                 android:layout_toRightOf="@id/lbl_launch_date"
                 />
 
@@ -86,7 +110,7 @@
                 android:id="@+id/tv_genre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="26sp"
+                android:textSize="20sp"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:layout_below="@id/tv_year"
@@ -119,7 +143,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/lbl_imdb_rating"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 android:layout_below="@id/tv_filler2"
                 android:layout_toLeftOf="@id/tv_imdb_rating"
@@ -134,7 +158,7 @@
                 android:layout_marginTop="0dp"
                 android:layout_toRightOf="@id/iv_poster"
                 android:text="9.2/10"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -236,20 +260,31 @@
                 android:layout_marginLeft="5dp"
                 />
 
+
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_below="@id/tv_experience_rating"
+                />
+
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_photo_captures"
+                android:id="@+id/photoRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_lbl_experience_rating"
-                android:orientation="horizontal"
+                android:layout_below="@id/tv_experience_rating"
                 />
+
+
+
 
             <TextView
                 android:id="@+id/tv_filler4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="10sp"
-                android:layout_below="@id/rv_photo_captures"
+                android:layout_below="@id/photoRecyclerView"
                 />
             <View
                 android:id="@+id/v_separator_2"

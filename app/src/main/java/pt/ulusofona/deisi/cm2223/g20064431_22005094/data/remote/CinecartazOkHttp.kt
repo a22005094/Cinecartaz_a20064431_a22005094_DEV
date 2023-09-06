@@ -189,6 +189,10 @@ class CinecartazOkHttp : Cinecartaz() {
         throw Exception("Illegal operation")
     }
 
+    override fun getWatchedMovie(UuiD: String, onFinished: (Result<WatchedMovie>) -> Unit) {
+        throw Exception("Illegal operation")
+    }
+
     override fun insertWatchedMovie(watchedMovie: WatchedMovie, onFinished: () -> Unit) {
         TODO("Not yet implemented")
     }

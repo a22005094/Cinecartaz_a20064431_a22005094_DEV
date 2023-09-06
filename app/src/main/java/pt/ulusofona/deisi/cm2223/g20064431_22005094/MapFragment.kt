@@ -32,15 +32,6 @@ class MapFragment : Fragment(), OnLocationChangedListener {
         binding.map.onCreate(savedInstanceState)
         binding.map.getMapAsync { map ->
             this.map = map
-//            // Coloca um ponto azul no mapa com a localização do utilizador
-//            map.isMyLocationEnabled = true
-//            // Adiciona um marker na universidade com o nome ULHT ao clicar
-//            map.addMarker(
-//                MarkerOptions()
-//                .position(LatLng(38.75814, -9.15179))
-//                .title("ULHT")
-//            )
-            //map.setLatLngBoundsForCameraTarget(MAP_BOUNDS)
             map?.moveCamera(CameraUpdateFactory.newLatLngBounds(MAP_BOUNDS, 10))
         }
 

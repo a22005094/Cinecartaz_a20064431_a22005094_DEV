@@ -7,6 +7,7 @@ import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.OMDBMovie
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.WatchedMovie
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.CinemasManager
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.MovieSearchResultInfo
+import java.io.IOException
 
 class CinecartazRoom(
     private val watchedMoviesDao: WatchedMovieDao,
@@ -86,6 +87,41 @@ class CinecartazRoom(
         // TODO - E se estiver Online... atualizar dados do OMDBMovie?
         //
 
+    }
+
+    override fun getWatchedMovie(UuiD: String, onFinished: (Result<WatchedMovie>) -> Unit) {
+        val resultWatchedMovie = watchedMoviesDao.getByUuid(UuiD)
+        if (resultWatchedMovie != null){
+
+            val resultMovie = getMovieByOMDBId(resultWatchedMovie.movieImdbId)
+            if (resultMovie == null) {
+                onFinished(Result.failure(IOException("No data found for movie id ${resultWatchedMovie.movieImdbId}!!")))
+                return
+            }
+
+            val resultCinema = CinemasManager.getCinemaById(resultWatchedMovie.cinemaId)
+            if (resultCinema == null) {
+                onFinished(Result.failure(IOException("No data found for cinema id ${resultWatchedMovie.cinemaId}!!")))
+                return
+            }
+
+            // get photos taken when the theatre was visit TODO
+
+            // create return object with retrieved information
+            val watchedMovie = WatchedMovie(
+                resultWatchedMovie.uuid,
+                resultMovie!!,
+                resultCinema!!,
+                resultWatchedMovie.review,
+                resultWatchedMovie.date,
+                resultWatchedMovie.comments,
+                null
+            )
+            onFinished(Result.success(watchedMovie))
+
+        } else {
+            onFinished(Result.failure(IOException("No data found for UuiD ${UuiD}!!")))
+        }
     }
 
     override fun insertWatchedMovie(watchedMovie: WatchedMovie, onFinished: () -> Unit) {
@@ -177,4 +213,48 @@ class CinecartazRoom(
         TODO("Not yet implemented")
     }
 
+
+    // ------------ Custom ROOM/DAO methods
+
+
+    fun getCustomImageByRefId(refId : String): List<CustomImage> {
+        val resultCustomImageDao = imagesDao.getAllByRefId(refId)
+
+        if (!resultCustomImageDao.isNullOrEmpty()) {
+            return resultCustomImageDao.map {
+                CustomImage(
+                    it.uuid,
+                    it.refId,
+                    it.imageName,
+                    Base64.decode(it.imageData, Base64.DEFAULT)
+                )
+            }.toList()
+        }
+        return emptyList()
+    }
+
+
+    // get movie object
+    fun getMovieByOMDBId( omdbMovieId: String) : OMDBMovie?{
+        val resultMovieDao = omdbMoviesDao.getByImdbId( omdbMovieId )
+
+        if (resultMovieDao != null){
+            return OMDBMovie(
+                resultMovieDao.title,
+                resultMovieDao.year,
+                resultMovieDao.imdbId,
+                resultMovieDao.genre,
+                resultMovieDao.ratingImdb,
+                resultMovieDao.director,
+                resultMovieDao.plotShort,
+                resultMovieDao.posterUrl,
+                getCustomImageByRefId(resultMovieDao.imdbId).let {
+                    if ( it.isNotEmpty() ) it.first() else null
+                }
+            )
+        }
+        return null
+    }
+
+    // get cinema object
 }

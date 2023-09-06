@@ -190,7 +190,7 @@ object CinemasManager {
             throw NullPointerException("List of cinemas should have already been initialized!")
         }
 
-        return listOfCinemas.find { it.id == cinemaId }!!
+        return listOfCinemas.find { it.id == cinemaId }
     }
 
 }

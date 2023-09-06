@@ -32,6 +32,15 @@
     <string name="lbl_btn_insert">Gravar Filme</string>
     <string name="lbl_movie_saved">Filme gravado</string>
 
+    <!-- movie details -->
+    <string name="lbl_seen_at">Visto no:</string>
+    <string name="lbl_experience_rating">Experiência:</string>
+    <string name="lbl_imdb_rating">IMDB:</string>
+    <string name="lbl_seen_date">em:</string>
+    <string name="lbl_launch_date">Lançado em:</string>
+    <string name="lbl_obs2">Observações:</string>
+
+
     <!-- Other helper labels, hint texts, etc. -->
     <string name="rationale_rejected_once_permission_storage">AVISO: Rejeitou a permissão de acesso aos ficheiros! É necessário aceitá-la para poder anexar imagens.</string>
     <string name="rationale_rejected_permanently_permission_storage">AVISO: Rejeitou permanentemente a permissão de acesso aos ficheiros! É necessário aceitá-la nas definições da aplicação.</string>
@@ -53,11 +62,12 @@
     <string name="warn_no_more_results">Sem mais resultados a apresentar.</string>
     <string name="exception_add_image">Ocorreu um erro no processamento das imagens. Nem todas as imagens poderão ter sido corretamente adicionadas.</string>
     <string name="error_missing_required_data">Por favor preencha os campos obrigatórios em falta:</string>
+    <string name="error_no_data_found">Não foram encontrados dados!</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">Hello blank fragment. This is just a test text to test a test</string>
 
-    <!-- rating decoding values -->
+    <!-- rating decode values -->
     <string name="rating_too_weak">Muito Fraco</string>
     <string name="rating_weak">Fraco</string>
     <string name="rating_avg">Mediano</string>

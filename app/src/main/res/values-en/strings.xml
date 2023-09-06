@@ -12,4 +12,12 @@
     <string name="rating_avg">Average</string>
     <string name="rating_good">Good</string>
     <string name="rating_xl">Excellent</string>
+    <string name="lbl_obs">Notes (200 characters max)</string>
+    <string name="lbl_seen_at">Seen at:</string>
+    <string name="lbl_experience_rating">Experience:</string>
+    <string name="lbl_imdb_rating">IMDB:</string>
+    <string name="lbl_seen_date">Date:</string>
+    <string name="lbl_launch_date">Premiere:</string>
+    <string name="lbl_obs2">Notes:</string>
+    <string name="error_no_data_found">No data found</string>
 </resources>

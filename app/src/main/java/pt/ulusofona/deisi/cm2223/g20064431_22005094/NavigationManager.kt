@@ -8,6 +8,7 @@ import pt.ulusofona.deisi.cm2223.g20064431_22005094.fragments.RegisterWatchedMov
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.fragments.VoiceSearchFragment
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.fragments.WatchedMoviesFragment
 
+
 // Credits: Aula5 @ Fichas práticas de CM
 object NavigationManager {
 
@@ -20,6 +21,10 @@ object NavigationManager {
 
 
     // ** Adicionar aqui as funções de navegação para novos Fragmentos **
+
+    fun popCurrentFragment(fm: FragmentManager) {
+        fm.popBackStack()
+    }
 
     fun goToDashboardFragment(fm: FragmentManager) {
         placeFragment(fm, DashboardFragment.newInstance())
@@ -44,6 +49,10 @@ object NavigationManager {
 
     fun goToMapFragment(fm: FragmentManager) {
         placeFragment(fm, MapFragment.newInstance())
+    }
+
+    fun goToWatchedMovieDetailsFragment(fm: FragmentManager, watechMovieUuiD: String) {
+        placeFragment(fm, WatchedMovieDetailsFragment.newInstance(watechMovieUuiD))
     }
 
 }

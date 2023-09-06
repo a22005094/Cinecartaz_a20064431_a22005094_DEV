@@ -15,7 +15,7 @@ interface CustomImageDao {
     fun insertAll(images: List<CustomImageRoom>)
 
     @Query("SELECT * FROM images WHERE ref_id = :refId")
-    fun getAllByRefId(refId: String): List<CustomImageRoom>
+    fun getAllByRefId(refId: String): List<CustomImageRoom>?
 
     @Query("DELETE FROM images")
     fun deleteAll()

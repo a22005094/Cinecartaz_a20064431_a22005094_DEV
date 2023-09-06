@@ -45,6 +45,10 @@ abstract class Cinecartaz {
     abstract fun getWatchedMovies(onFinished: (Result<List<WatchedMovie>>) -> Unit)
 
 
+    // get a movie from DB
+    abstract fun getWatchedMovie(UuiD: String, onFinished: (Result<WatchedMovie>) -> Unit)
+
+
     //  -----------------------------------
     //  ------------- INSERTS -------------
     //  -----------------------------------

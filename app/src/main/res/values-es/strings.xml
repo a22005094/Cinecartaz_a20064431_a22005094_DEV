@@ -12,4 +12,12 @@
     <string name="rating_avg">Regular</string>
     <string name="rating_good">Bueno</string>
     <string name="rating_xl">Excelente</string>
+    <string name="lbl_seen_at">Visto en el:</string>
+    <string name="lbl_experience_rating">Como ha ido:</string>
+    <string name="lbl_imdb_rating">IMDB:</string>
+    <string name="lbl_obs">Observaciones (máximo 200 caracteres)</string>
+    <string name="lbl_seen_date">Fecha:</string>
+    <string name="lbl_launch_date">Lanzamiento:</string>
+    <string name="lbl_obs2">Observaciones:</string>
+    <string name="error_no_data_found">No existen datos</string>
 </resources>

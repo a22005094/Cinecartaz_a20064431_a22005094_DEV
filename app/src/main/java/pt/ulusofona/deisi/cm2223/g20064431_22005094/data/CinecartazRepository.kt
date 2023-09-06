@@ -85,6 +85,9 @@ class CinecartazRepository(
         TODO("Not yet implemented")
     }
 
+    override fun getWatchedMovie(UuiD: String, onFinished: (Result<WatchedMovie>) -> Unit) {
+        local.getWatchedMovie(UuiD, onFinished)
+    }
 
     // --------------------------------------
     // * Gestão do Singleton

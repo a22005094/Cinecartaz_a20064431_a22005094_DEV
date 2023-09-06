@@ -104,5 +104,5 @@ dependencies {
     implementation ("com.google.android.gms:play-services-location:19.0.1")
 
     // Google keys usage
-    implementation ("com.google.android.gms:play-services-maps:18.0.2")
+    implementation ("com.google.android.gms:play-services-maps:18.1.0")
 }

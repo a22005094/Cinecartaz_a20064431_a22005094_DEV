@@ -3,7 +3,9 @@ import android.content.Context
 import android.os.Looper
 import android.util.Log
 import com.google.android.gms.location.*
+import com.google.android.gms.maps.model.LatLng
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.OnLocationChangedListener
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.Utils
 
 @SuppressLint("MissingPermission")
 class FusedLocation private constructor(context: Context) : LocationCallback() {
@@ -21,6 +23,9 @@ class FusedLocation private constructor(context: Context) : LocationCallback() {
         priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         interval = TIME_BETWEEN_UPDATES
     }
+
+    var lastKnownLocation: LatLng = LatLng(0.0, 0.0)
+        private set
 
     init {
 
@@ -40,8 +45,14 @@ class FusedLocation private constructor(context: Context) : LocationCallback() {
 
     // Este método é invocado sempre que a posição se alterar
     override fun onLocationResult(locationResult: LocationResult) {
+        val newLocation = LatLng( locationResult.lastLocation.latitude,locationResult.lastLocation.longitude)
+        val distance = Utils.calculateDistance(lastKnownLocation, newLocation)
         Log.i(TAG, locationResult.lastLocation.toString())
         notifyListeners(locationResult)
+
+        Log.i(TAG, "previous location $lastKnownLocation")
+        lastKnownLocation = newLocation
+        Log.i(TAG, "---new location $lastKnownLocation, which distances $distance")
     }
 
     companion object {
@@ -60,6 +71,9 @@ class FusedLocation private constructor(context: Context) : LocationCallback() {
         // Se tivermos vários listeners, temos de os notificar com um forEach
         fun notifyListeners(locationResult: LocationResult) {
             val location = locationResult.lastLocation
+            Utils.currentLocation = LatLng(
+                locationResult.lastLocation.latitude,
+                locationResult.lastLocation.longitude)
             listener?.onLocationChanged(location.latitude, location.longitude)
         }
 

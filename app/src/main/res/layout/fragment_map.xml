@@ -8,17 +8,8 @@
     <com.google.android.gms.maps.MapView
         android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <TextView
-        android:id="@+id/tvCityName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:background="#FFFFA500"
-        android:textColor="#FFFFFFFF"
-        android:gravity="center"
-        android:layout_gravity="bottom"/>
+        android:layout_height="match_parent"
+        android:contentDescription="@string/lbl_map_description"
+        />
 
 </FrameLayout>

@@ -1,6 +1,5 @@
 package pt.ulusofona.deisi.cm2223.g20064431_22005094.fragments
 
-import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -69,7 +68,7 @@ class WatchedMoviesFragment (
     private fun onMovieClick(watchedMovieUUID: String){
         Log.i("RMata", watchedMovieUUID)
 
-        // invoque
+        // invoque movie detail fragment
         activity?.supportFragmentManager?.let { NavigationManager.goToWatchedMovieDetailsFragment(it, watchedMovieUUID) }
 
     }

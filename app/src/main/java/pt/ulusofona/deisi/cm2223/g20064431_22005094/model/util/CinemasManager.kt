@@ -26,7 +26,7 @@ object CinemasManager {
     // Créditos: https://stackoverflow.com/questions/26891943/adding-static-json-to-an-android-studio-project
     //  e pequenos ajustes c/ apoio ChatGPT para tornar os recursos mais resistentes a memory leaks (libertação devida de recursos)
     private fun loadCinemasFile(context: Context): String {
-        var jsonString: String = ""
+        var jsonString = ""
 
         try {
             val assetManager = context.assets
@@ -153,7 +153,7 @@ object CinemasManager {
 
                     // Com a lista obtida de URLs imagens, carregar respetiva lista de Imagens
                     var listOfCinemaImages: List<CustomImage>? = null
-                    val result: Result<List<CustomImage>> = loadCinemaImages(cinemaId, listOfImageUrls)
+                    val result: Result<List<CustomImage>> = Result.success(mutableListOf()) // loadCinemaImages(cinemaId, listOfImageUrls)
 
                     if (result.isSuccess) {
                         listOfCinemaImages = result.getOrNull()

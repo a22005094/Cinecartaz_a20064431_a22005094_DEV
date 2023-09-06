@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.R
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.Cinema
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.CustomDate
@@ -12,6 +13,7 @@ import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.WatchedMovie
 import java.util.Calendar
 import java.util.Date
 import java.util.UUID
+import kotlin.math.*
 
 
 // Funções de "utilitário" que poderão ser úteis no projeto.
@@ -23,6 +25,7 @@ object Utils {
     var currentlySelectedMovie: OMDBMovie? = null
 
 
+    /*
     // TODO: Temp list of watched movies
     var watchedMovie = WatchedMovie(
         UUID.randomUUID().toString(), OMDBMovie(
@@ -75,7 +78,7 @@ object Utils {
         Date().time,
         "No comments")
 
-
+    /
     var watchedMovies: MutableList<WatchedMovie> = mutableListOf(
         watchedMovie,
         watchedMovie2,
@@ -90,7 +93,9 @@ object Utils {
         watchedMovie,
         watchedMovie
     )
+    */
 
+    var currentLocation : LatLng = LatLng(0.0,0.0);
 
     // Credits: ChatGPT "using android api 23, how can I compare if a date is on the same day as today?"
     fun isToday(dtCompare: CustomDate): Boolean {
@@ -146,4 +151,34 @@ object Utils {
             else -> BitmapDescriptorFactory.HUE_CYAN
         }
     }
+
+    fun calculateDistance(coord1: LatLng, coord2: LatLng): Double {
+        val earthRadius = 6371 // Radius of the Earth in kilometers
+
+        // Convert latitude and longitude from degrees to radians
+        val lat1 = Math.toRadians(coord1.latitude)
+        val lon1 = Math.toRadians(coord1.longitude)
+        val lat2 = Math.toRadians(coord2.latitude)
+        val lon2 = Math.toRadians(coord2.longitude)
+
+        // Haversine formula
+        val dLat = lat2 - lat1
+        val dLon = lon2 - lon1
+        val a = sin(dLat / 2).pow(2) + cos(lat1) * cos(lat2) * sin(dLon / 2).pow(2)
+        val c = 2 * atan2(sqrt(a), sqrt(1 - a))
+
+        // Calculate the distance
+        return earthRadius * c
+    }
+
+    fun calcDistancesonListMovies(watchedMovies: MutableList<WatchedMovie>, point: LatLng): MutableList<WatchedMovie>{
+        var newList = watchedMovies
+
+        newList.forEach{
+            it.calcDistance = calculateDistance(
+                LatLng(it.theatre.latitude, it.theatre.longitude),point) }
+
+        return newList
+    }
+
 }

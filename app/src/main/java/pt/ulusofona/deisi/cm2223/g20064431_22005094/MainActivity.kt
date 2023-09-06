@@ -26,7 +26,7 @@ import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.CinemasManager
 // TODO rever
 const val INTENT_VOICE_SEARCH = 0
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity()  {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

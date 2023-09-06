@@ -14,5 +14,6 @@ data class WatchedMovie(
 
     // A lista de fotos anexadas ao filme registado.
     // Está como [var] para permitir reatribuições mais tarde, conforme necessário.
-    var photos: List<CustomImage>? = null
+    var photos: List<CustomImage>? = null,
+    var calcDistance : Double = 0.0
 )

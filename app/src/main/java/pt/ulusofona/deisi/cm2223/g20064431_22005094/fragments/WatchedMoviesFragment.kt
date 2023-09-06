@@ -141,7 +141,17 @@ class WatchedMoviesFragment(
                         listOfWatchedMovies = Utils.calcDistancesOnMoviesList(listOfWatchedMovies, Utils.lastKnownLocation)
 
                         // filter
-                        listOfWatchedMovies.filterTo(listOfWatchedMovies, { it.calcDistance < distancia})
+                        var listAux = mutableListOf<WatchedMovie>()
+                        for (watched in listOfWatchedMovies){
+                            if (watched.calcDistance < distancia){
+                                listAux.add(watched)
+                            }
+                        }
+
+                        // No final, passar os resultados finais para o objeto global neste fragmento, "listOfCurrentResults"
+                        listOfCurrentResults = listAux
+
+                        CoroutineScope(Dispatchers.Main).launch { adapter.updateItems(listOfCurrentResults) }
                     }
                 }
 
@@ -158,9 +168,20 @@ class WatchedMoviesFragment(
                         listOfWatchedMovies = Utils.calcDistancesOnMoviesList(listOfWatchedMovies, Utils.lastKnownLocation)
 
                         // filter
-                        listOfWatchedMovies.filterTo(listOfWatchedMovies, { it.calcDistance < distancia})
+                        var listAux = mutableListOf<WatchedMovie>()
+                        for (watched in listOfWatchedMovies){
+                            if (watched.calcDistance < distancia){
+                                listAux.add(watched)
+                            }
+                        }
+
+                        // No final, passar os resultados finais para o objeto global neste fragmento, "listOfCurrentResults"
+                        listOfCurrentResults = listAux
+
+                        CoroutineScope(Dispatchers.Main).launch { adapter.updateItems(listOfCurrentResults) }
                     }
                 }
+
 
 
             }
@@ -169,7 +190,7 @@ class WatchedMoviesFragment(
             // #2 - dentro dos filmes obtidos, filtrar por distância
 
 
-            // No final, passar os resultados finais para o objeto global neste fragmento, "listOfCurrentResults"
+
             // (isto vai ser preciso para a ordenação)
         }
 

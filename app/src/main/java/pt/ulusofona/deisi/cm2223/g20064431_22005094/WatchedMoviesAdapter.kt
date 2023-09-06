@@ -66,7 +66,7 @@ class WatchedMoviesAdapter(
 
     // Para atualizar diretamente a lista de Imagens
     @SuppressLint("NotifyDataSetChanged")
-    fun updateItems(items: List<WatchedMovie>) {
+    fun updateItems(items: MutableList<WatchedMovie>) {
         this.watchedMovies = items
         notifyDataSetChanged()
     }

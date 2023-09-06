@@ -3,12 +3,12 @@
 <!-- TODO - rever! -->
 
 <resources>
-    <color name="color_primary">#008577</color>
-    <color name="color_primary_dark">#00574B</color>
+    <color name="color_light_primary">#008577</color>
+    <color name="color_light_primary_dark">#00574B</color>
+    <color name="color_dark_primary">#FF6200EE</color>
     <color name="color_accent">#D81B60</color>
     <color name="white">#FFFFFF</color>
     <color name="gray">#5A606F</color>
-    <!-- <color name="dark_gray">#4A4A4A</color> -->
     <color name="black">#FF000000</color>
 
     <!-- Cores-guia para inputs em formulários. -->
@@ -40,7 +40,7 @@
         <color name="orange">#FFFFA500</color>
     -->
 
-    <!-- Apenas para testes... -->
+    <!-- Algumas cores adicionais -->
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>

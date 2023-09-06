@@ -45,4 +45,25 @@ class CustomDate(dateInMillis: Long = System.currentTimeMillis()) {
     // Escreve no formato dd/MM/yyyy, ex: "31/12/1990"
     override fun toString(): String = sdf.format(calendar.time)
 
+    companion object {
+        // Para usar quando se lê a data da API (Release date do filme)
+        // Credits ChatGPT @ query que pede como fazer parse deste formato para Calendar
+        @JvmStatic
+        fun fromHumanReadableDate(dtString: String): CustomDate {
+            // O formato aqui esperado é o "dd MMM yyyy" (que vem da API).
+            // Por exemplo: "18 Dec 2009"
+            try {
+                val dtParser = SimpleDateFormat("dd MMM yyyy", Locale.US)
+                val dtParsed = dtParser.parse(dtString)
+                return CustomDate(dtParsed.time)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            // Devolve uma data de fallback se o parse falhar
+            // (facilmente se verificará que ocorreu um erro neste parâmetro)
+            return CustomDate(0L)
+        }
+    }
+
 }

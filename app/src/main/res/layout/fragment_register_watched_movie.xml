@@ -27,7 +27,7 @@
 
             <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="15dp" />
+                android:layout_height="10dp" />
 
             <!-- Nome do Filme -->
             <TextView
@@ -46,8 +46,8 @@
                 android:focusableInTouchMode="false"
                 android:hint="@string/lbl_click_to_search_movie"
                 android:inputType="none"
-                android:maxLines="1"
-                android:padding="5dp" />
+                android:padding="5dp"
+                android:singleLine="true" />
 
             <!-- TODO use? -->
             <ProgressBar
@@ -60,7 +60,7 @@
 
             <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="15dp" />
+                android:layout_height="10dp" />
 
             <!-- Nome do Cinema -->
             <TextView
@@ -82,14 +82,33 @@
 
             <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="15dp" />
+                android:layout_height="10dp" />
 
             <!-- Rating do filme -->
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/lbl_movie_rating"
-                android:textSize="20sp" />
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.8"
+                    android:text="@string/lbl_movie_rating"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/slider_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:background="@drawable/box_border"
+                    android:gravity="center"
+                    android:text=""
+                    android:textSize="20sp" />
+
+            </LinearLayout>
 
             <com.google.android.material.slider.Slider
                 android:id="@+id/slider_rating"
@@ -104,17 +123,9 @@
                 app:thumbElevation="10.0dp"
                 app:trackHeight="15dp" />
 
-            <TextView
-                android:id="@+id/slider_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text=""
-                android:textSize="20sp" />
-
             <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="15dp" />
+                android:layout_height="10dp" />
 
             <!-- Data de visualização -->
             <TextView
@@ -135,7 +146,7 @@
 
             <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="15dp" />
+                android:layout_height="10dp" />
 
             <!-- Fotografias sobre o filme -->
             <TextView
@@ -154,11 +165,11 @@
                 android:id="@+id/rv_images"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="5dp" />
 
             <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="15dp" />
+                android:layout_height="10dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -180,7 +191,7 @@
 
             <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="15dp" />
+                android:layout_height="20dp" />
 
             <Button
                 android:id="@+id/btn_submit"
@@ -190,7 +201,7 @@
 
             <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="15dp" />
+                android:layout_height="10dp" />
         </LinearLayout>
 
         <androidx.legacy.widget.Space

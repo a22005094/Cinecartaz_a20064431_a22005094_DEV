@@ -22,6 +22,26 @@ interface WatchedMovieDao {
     @Query("SELECT * FROM watched_movies WHERE uuid = :uuid")
     fun getByUuid(uuid: String): WatchedMovieRoom?
 
+    // Credits pela concatenação:
+    // https://stackoverflow.com/questions/44184769/android-room-select-query-with-like
+    @Query(
+        "SELECT watched_movies.uuid FROM watched_movies " +
+                "INNER JOIN omdb_movies ON watched_movies.movie_imdb_id = omdb_movies.imdb_id " +
+                "WHERE omdb_movies.title LIKE '%' || :name || '%'"
+    )
+    fun getAllUuidsWithOmdbMovieTitleLike(name: String): List<String>
+
+
+    //@Query("SELECT * FROM watched_movies INNER JOIN omdb_movies ON watched_movies.movie_imdb_id = omdb_movies.imdb_id ORDER BY watched_movies.review LIMIT 1")
+    @Query("SELECT * FROM watched_movies ORDER BY watched_movies.review LIMIT 1")
+    fun getWorstRated(): WatchedMovieRoom?
+
+
+    //@Query("SELECT * FROM watched_movies INNER JOIN omdb_movies ON watched_movies.movie_imdb_id = omdb_movies.imdb_id ORDER BY watched_movies.review DESC LIMIT 1")
+    @Query("SELECT * FROM watched_movies ORDER BY watched_movies.review DESC LIMIT 1")
+    fun getBestRated(): WatchedMovieRoom?
+
+
     @Query("DELETE FROM watched_movies")
     fun deleteAll()
 

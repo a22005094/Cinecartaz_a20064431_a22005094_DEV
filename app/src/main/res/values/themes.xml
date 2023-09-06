@@ -2,30 +2,26 @@
     <!-- Base application theme. -->
     <style name="Theme.Cinecartaz" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/color_primary</item>
-        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorPrimary">@color/color_light_primary</item>
+        <item name="colorPrimaryDark">@color/color_light_primary_dark</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorAccent">@color/color_accent</item>
 
-        <!-- @@@ Usar esta cor alternativa? (@Ficha da Calculadora)
-            <item name="colorPrimary">@color/purple_500</item>
-            <item name="colorPrimaryVariant">@color/purple_700</item>
-        -->
-
-        <!-- @@@ Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
+        <!-- Secondary brand color. -->
+        <!-- (A cor secundária neste tema é de momento igual à Primary, sujeito a possíveis mudanças) -->
+        <item name="colorSecondary">@color/color_light_primary</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
 
         <!-- Status bar color. -->
         <!-- <item name="android:statusBarColor">?attr/colorPrimaryVariant</item> -->
-        <item name="android:statusBarColor">@color/color_primary</item>
+        <item name="android:statusBarColor">@color/color_light_primary</item>
 
         <!-- Customize your theme here. -->
     </style>
 
     <style name="ToolbarTheme" parent="Theme.Cinecartaz">
-        <item name="android:background">@color/color_primary</item>
+        <item name="android:background">@color/color_light_primary</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
     </style>

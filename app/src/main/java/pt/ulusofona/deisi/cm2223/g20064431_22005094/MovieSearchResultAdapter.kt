@@ -88,20 +88,11 @@ class MovieSearchResultAdapter(
                 .error(Uri.parse("file:///android_asset/$ASSET_PLACEHOLDER_NO_IMAGE")).into(holder.binding.ivPoster)
         }
 
-
-        // (Old - OkHttp)
-        // val movieImg = CinecartazRepository.getInstance().getMoviePosterFromUrl(movie.posterUrl) { response ->
-        //     if (response.isSuccess) {
-        //         holder.binding.imgViewThumbnail.setImageBitmap(response.getOrDefault(null))
-        //     }
-        // }
-
-
         // Dados de momento preenchidos: [Title] [Year] [Genre] [Rating IMDB] [Director]
         holder.binding.tvMovieTitle.text = moviePos.title
-        holder.binding.tvYear.text = "${moviePos.year}"
+        holder.binding.tvYear.text = "${moviePos.year ?: "N/A"}"
         holder.binding.tvGenre.text = moviePos.genre
-        holder.binding.tvRatingImdb.text = "${moviePos.ratingImdb}"
+        holder.binding.tvRatingImdb.text = "${moviePos.ratingImdb ?: "N/A"}"
         holder.binding.tvDirector.text = moviePos.director
     }
 

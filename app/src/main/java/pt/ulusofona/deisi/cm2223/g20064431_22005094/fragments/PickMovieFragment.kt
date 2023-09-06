@@ -93,7 +93,7 @@ class PickMovieFragment : Fragment() {
         if (movieName.isNotEmpty()) {
 
             CoroutineScope(Dispatchers.IO).launch {
-                model.getMoviesByName(movieName, pageNumberToSearch) { apiResult ->
+                model.getOmdbMoviesByName(movieName, pageNumberToSearch) { apiResult ->
                     if (apiResult.isSuccess) {
                         // Obter dados da API, ou se não conseguir, default para s/ resultados
                         val resultsInfo = apiResult.getOrDefault(MovieSearchResultInfo(0, mutableListOf()))

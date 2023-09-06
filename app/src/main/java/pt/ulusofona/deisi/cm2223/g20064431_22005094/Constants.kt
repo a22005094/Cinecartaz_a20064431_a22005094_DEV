@@ -25,3 +25,15 @@ val MAP_BOUNDS    = LatLngBounds(MAP_BOUNDS_SW, MAP_BOUNDS_NE)
 
 // bundled argument constants
 val ARG_WATCHED_MOVIE_UUID = "ARG_WATCHED_MOVIE_UUID"
+
+// Tags for Fragments (Navigation purposes)
+val TAG_DASHBOARD_FRAGMENT = "DASHBOARD_FRAGMENT"
+val TAG_REGISTER_WATCHED_MOVIE_FRAGMENT = "REGISTER_WATCHED_MOVIE_FRAGMENT"
+val TAG_PICK_MOVIE_FRAGMENT = "PICK_MOVIE_FRAGMENT"
+val TAG_WATCHED_MOVIE_LIST_FRAGMENT = "WATCHED_MOVIE_LIST_FRAGMENT"
+val TAG_MAP_FRAGMENT = "MAP_FRAGMENT"
+val TAG_WATCHED_MOVIE_DETAILS_FRAGMENT = "WATCHED_MOVIE_DETAILS_FRAGMENT"
+
+// Accelerometer: Constant for threshold and time between further Accelerometer shake detections
+val TIME_MILLIS_BETWEEN_SHAKE_DETECTIONS: Long = 3000  // 3 segundos de timeout até permitir a funcionalidade de novo
+val THRESHOLD_ACCELERATION_DETECT_SHAKE: Int = 11

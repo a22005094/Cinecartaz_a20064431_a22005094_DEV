@@ -36,7 +36,7 @@ class CinecartazOkHttp : Cinecartaz() {
     // v2 - Cliente independente. Gere internamente a instância OkHttp e o acesso a parâmetros (@Constants.kt)
     private val client: OkHttpClient = OkHttpClient()
 
-    override fun getMoviesByName(
+    override fun getOmdbMoviesByName(
         movieName: String, pageNumber: Int, onFinished: (Result<MovieSearchResultInfo>) -> Unit
     ) {
         // 1. Preparar o pedido OkHttp (usar ApiKey & Url respetivos à API OMDB)
@@ -196,26 +196,39 @@ class CinecartazOkHttp : Cinecartaz() {
         throw Exception("Illegal operation")
     }
 
+    override fun getWatchedMoviesImdbIdsWithTitleLike(name: String, onFinished: (Result<List<String>>) -> Unit) {
+        throw Exception("Illegal operation")
+    }
+
     override fun getWatchedMovie(UuiD: String, onFinished: (Result<WatchedMovie>) -> Unit) {
         throw Exception("Illegal operation")
     }
 
+    override fun getWorstRatedWatchedMovie(onFinished: (Result<WatchedMovie>) -> Unit) {
+        throw Exception("Illegal operation")
+    }
+
+    override fun getBestRatedWatchedMovie(onFinished: (Result<WatchedMovie>) -> Unit) {
+        throw Exception("Illegal operation")
+    }
+
     override fun insertWatchedMovie(watchedMovie: WatchedMovie, onFinished: () -> Unit) {
-        TODO("Not yet implemented")
-    }
-
-    override fun insertImage(image: CustomImage, onFinished: () -> Unit) {
-        TODO("Not yet implemented")
-    }
-
-    override fun insertOMDBMovie(movie: OMDBMovie, onFinished: () -> Unit) {
-        // Log.e("APP", "web service is not able to insert Movies!")
         throw Exception("Illegal operation")
     }
 
-    override fun clearAllMovies(onFinished: () -> Unit) {
-        // Log.e("APP", "web service is not able to clear all Movies!")
-        throw Exception("Illegal operation")
-    }
+    //
+    // Removido: estas operações são asseguradas via "insertWatchedMovie()" (@ Room)
+    //
+    // override fun insertOMDBMovie(movie: OMDBMovie, onFinished: () -> Unit) {
+    //    throw Exception("Illegal operation")
+    // }
+    //
+    // override fun insertImage(image: CustomImage, onFinished: () -> Unit) {
+    //    throw Exception("Illegal operation")
+    // }
+    //
+    // override fun clearAllMovies(onFinished: () -> Unit) {
+    //     throw Exception("Illegal operation")
+    // }
 
 }

@@ -1,5 +1,6 @@
 package pt.ulusofona.deisi.cm2223.g20064431_22005094.fragments
 
+import FusedLocation
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import pt.ulusofona.deisi.cm2223.g20064431_22005094.WatchedMoviesAdapter
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.data.CinecartazRepository
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.databinding.FragmentWatchedMoviesBinding
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.WatchedMovie
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.util.Utils
 
 
 class WatchedMoviesFragment(
@@ -62,7 +64,8 @@ class WatchedMoviesFragment(
             model.getWatchedMovies { result ->
                 if (result.isSuccess) {
 
-                    val listOfWatchedMovies: List<WatchedMovie> = result.getOrDefault(mutableListOf())
+                    var listOfWatchedMovies: MutableList<WatchedMovie> = result.getOrDefault(mutableListOf()).toMutableList()
+
                     adapter = WatchedMoviesAdapter(listOfWatchedMovies, ::onMovieClick)
 
                     // update UI thread with the list of watched movies
@@ -113,11 +116,11 @@ class WatchedMoviesFragment(
 
         CoroutineScope(Dispatchers.IO).launch {
             val searchTerm: String? = binding.etMovieName.text?.toString()
-            var listOfWatchedMovies: List<WatchedMovie>
+            var listOfWatchedMovies: MutableList<WatchedMovie>
 
 
             // Verificar se foi aplicado algum tipo de filtro de distancia
-            var distancia = 0
+            var distancia = Int.MAX_VALUE
             if (binding.radioDistance500.isChecked) {
                 distancia = 500
             } else if (binding.radioDistance1000.isChecked) {
@@ -128,29 +131,40 @@ class WatchedMoviesFragment(
             // #1 - obter os filmes que correspondem ao nome de pesquisa
             if (!searchTerm.isNullOrEmpty()) {
                 //
-                // Vamos querer filtrar os resultados pelo nome
+                // Vamos querer usar todos os filmes inseridos
                 //
                 model.getWatchedMovies { result ->
                     if (result.isSuccess) {
-                        listOfWatchedMovies = result.getOrDefault(mutableListOf())
+                        listOfWatchedMovies = result.getOrDefault(mutableListOf()).toMutableList().toMutableList()
 
+                        // calculate distances
+                        listOfWatchedMovies = Utils.calcDistancesOnMoviesList(listOfWatchedMovies, Utils.lastKnownLocation)
+
+                        // filter
+                        listOfWatchedMovies.filterTo(listOfWatchedMovies, { it.calcDistance < distancia})
                     }
                 }
 
 
             } else {
                 //
-                // Vamos querer usar todos os filmes inseridos
+                // Vamos querer filtrar os resultados pelo nome
                 //
                 model.getWatchedMoviesWithTitleLike(searchTerm!!) { result ->
                     if (result.isSuccess) {
-                        listOfWatchedMovies = result.getOrDefault(mutableListOf())
+                        listOfWatchedMovies = result.getOrDefault(mutableListOf()).toMutableList()
 
+                        // calculate distances
+                        listOfWatchedMovies = Utils.calcDistancesOnMoviesList(listOfWatchedMovies, Utils.lastKnownLocation)
+
+                        // filter
+                        listOfWatchedMovies.filterTo(listOfWatchedMovies, { it.calcDistance < distancia})
                     }
                 }
 
 
             }
+
 
             // #2 - dentro dos filmes obtidos, filtrar por distância
 

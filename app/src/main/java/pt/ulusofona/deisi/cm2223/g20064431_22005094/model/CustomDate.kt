@@ -12,14 +12,16 @@ import java.util.Locale
 // - Feito com ligeiro recurso ao ChatGPT, usando queries semelhantes a:
 //    "How to manage Android dates on API level 23?"; "How to get the device's current date in Android API 23?", etc.
 
-class CustomDate {
+class CustomDate(dateInMillis: Long = System.currentTimeMillis()) {
     // Para armazenar a Data
     private val calendar = Calendar.getInstance()
     private val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
-    // Por default, seleciona a data atual no dispositivo.
+    // - Nesta classe é possível instanciar um objeto com uma Data predefinida,
+    //     preenchendo o parâmetro [dateInMillis] (data pretendida em milissegundos).
+    // - Caso não seja fornecido, predefine para a data atual no dispositivo.
     init {
-        calendar.timeInMillis = System.currentTimeMillis()
+        calendar.timeInMillis = dateInMillis
     }
 
     fun getYear(): Int = calendar.get(Calendar.YEAR)

@@ -8,10 +8,10 @@ import com.bumptech.glide.Glide
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.databinding.ItemWatchedMoviesBinding
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.WatchedMovie
 
-class WatchedMoviesAdapter (
+class WatchedMoviesAdapter(
     private var watchedMovies: List<WatchedMovie> = listOf(),
     private val onMovieClick: (String) -> Unit
-):
+) :
     RecyclerView.Adapter<WatchedMoviesAdapter.WatchedMoviesHolder>() {
 
     // Item holder class (in this case a single movie
@@ -39,12 +39,23 @@ class WatchedMoviesAdapter (
         //TODO: Get image from IMDB:  holder.binding.ivImageview.setImageBitmap(watchedMovies[position].movie.posterUrl)
 
         //holder.binding.ivImageview.setImageURI(Uri.parse(watchedMovies[position].movie.posterUrl))
-        Glide.with(holder.binding.ivImageview.context).
-            load(Uri.parse(watchedMovies[position].movie.posterUrl))
-            .into(holder.binding.ivImageview)// .error(R.drawable.ic_watched_movies);
+
+        if (watchedMovies[position].movie.poster != null) {
+            Glide
+                .with(holder.binding.ivImageview.context)
+                .load(Uri.parse(watchedMovies[position].movie.posterUrl))
+                .into(holder.binding.ivImageview)
+        } else {
+            // Load a custom "No Image" asset as the Poster
+            Glide
+                .with(holder.binding.ivImageview.context)
+                .load(Uri.parse("file:///android_asset/$ASSET_PLACEHOLDER_NO_IMAGE"))
+                .centerCrop()
+                .into(holder.binding.ivImageview)
+        }
 
         // the adapter register the listener, but this "lives" on the parent fragment
-        holder.itemView.setOnClickListener{ onMovieClick(watchedMovies[position].uuid)}
+        holder.itemView.setOnClickListener { onMovieClick(watchedMovies[position].uuid) }
 
         // TODO: Remove!!
         // Log.i("RMata", "@@@ ${watchedMovies[position].movie.title} / ${watchedMovies[position].review}")

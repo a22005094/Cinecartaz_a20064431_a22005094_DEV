@@ -10,6 +10,7 @@ import org.json.JSONObject
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.OMDB_API_URL_MOVIE_DETAILS
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.OMDB_API_URL_MOVIE_TITLE_SEARCH
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.Cinecartaz
+import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.CustomDate
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.CustomImage
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.OMDBMovie
 import pt.ulusofona.deisi.cm2223.g20064431_22005094.model.WatchedMovie
@@ -145,6 +146,16 @@ class CinecartazOkHttp : Cinecartaz() {
                                 val movieImdbRatingStr: String = movieJsonObject.getString("imdbRating")
                                 val movieImdbRating: Double? = movieImdbRatingStr.toDoubleOrNull()
 
+                                val movieReleaseDateStr: String = movieJsonObject.getString("Released")
+                                val movieReleaseDate: Long =
+                                    CustomDate.fromHumanReadableDate(movieReleaseDateStr).toMillis()
+
+                                val movieNumberOfImdbVotesStr: String = movieJsonObject
+                                    .getString("imdbVotes")
+                                    .replace(",", "")
+                                    .replace(".", "")
+                                val movieNumberOfImdbVotes: Int? = movieNumberOfImdbVotesStr.toIntOrNull()
+
                                 // * Carregar objeto OMDBMovie com os detalhes do Filme.
                                 val omdbMovie = OMDBMovie(
                                     movieJsonObject.getString("Title"),
@@ -154,6 +165,8 @@ class CinecartazOkHttp : Cinecartaz() {
                                     movieImdbRating,
                                     movieJsonObject.getString("Director"),
                                     movieJsonObject.getString("Plot"),
+                                    movieReleaseDate,
+                                    movieNumberOfImdbVotes,
                                     movieJsonObject.getString("Poster"),
 
                                     // O parâmetro do Bitmap fica para já a Null.

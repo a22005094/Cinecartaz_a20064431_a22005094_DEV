@@ -26,7 +26,7 @@ object CinemasManager {
     // Créditos: https://stackoverflow.com/questions/26891943/adding-static-json-to-an-android-studio-project
     //  e pequenos ajustes c/ apoio ChatGPT para tornar os recursos mais resistentes a memory leaks (libertação devida de recursos)
     private fun loadCinemasFile(context: Context): String {
-        var jsonString: String = ""
+        var jsonString: String
 
         try {
             val assetManager = context.assets

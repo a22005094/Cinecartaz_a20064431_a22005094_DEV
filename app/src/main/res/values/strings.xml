@@ -69,6 +69,7 @@
     <string name="lbl_searching_for_results">A pesquisar…</string>
     <string name="lbl_showing_results_for_query">A mostrar %1$s resultados para \'%2$s\'.</string>
     <string name="lbl_register_now_shake">Regista Já!</string>
+    <string name="lbl_ratings_word">votos</string>
 
     <!-- Errors & Warnings -->
     <string name="error_missing_movie">ERRO: Deve selecionar um Filme!</string>

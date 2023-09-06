@@ -47,6 +47,11 @@ class CinecartazRoom(
                 // A variável "cinemaObj" não é null-checked, pois neste projeto os dados dos Cinemas vão sempre iguais
                 // (a origem dos dados dos Cinemas, "cinemas.json", é um ficheiro estático).
 
+                // imagens anexadas do dispositivo (0...N imagens)
+                val watchedMovieImgs = getCustomImageByRefId(movieRoomObj.uuid)
+                // poster do filme (ou 0 ou 1 imagem)
+                val omdbMovieImgs = getCustomImageByRefId(omdbMovieRoomObj.imdbId)
+
                 val omdbMovieObj = OMDBMovie(
                     omdbMovieRoomObj.title,
                     omdbMovieRoomObj.year,
@@ -55,8 +60,11 @@ class CinecartazRoom(
                     omdbMovieRoomObj.ratingImdb,
                     omdbMovieRoomObj.director,
                     omdbMovieRoomObj.plotShort,
+                    omdbMovieRoomObj.releaseDate,
+                    omdbMovieRoomObj.imdbVotes,
                     omdbMovieRoomObj.posterUrl,
-                    null              // TODO falta carregar aqui o ByteArray do poster
+                    // Carrega a imagem se tiver
+                    if (omdbMovieImgs.isNotEmpty()) omdbMovieImgs.first() else null
                 )
 
                 // Para estas questões intermédias de conversões [Long] <-> [Date] (bidirecionalmente),
@@ -73,7 +81,7 @@ class CinecartazRoom(
                         review = movieRoomObj.review,
                         date = movieRoomObj.date,
                         comments = movieRoomObj.comments,
-                        null           // TODO falta carregar aqui o ByteArray das imagens anexadas
+                        photos = watchedMovieImgs
                     )
                 )
             }
@@ -82,11 +90,7 @@ class CinecartazRoom(
 
         onFinished(Result.success(listOfWatchedMovies))
 
-        //
-        // TODO - Obter as fotos do WatchedMovie, poster do OMDBMovie e imagens do Cinema.
         // TODO - E se estiver Online... atualizar dados do OMDBMovie?
-        //
-
     }
 
     override fun getWatchedMovie(UuiD: String, onFinished: (Result<WatchedMovie>) -> Unit) {
@@ -105,17 +109,27 @@ class CinecartazRoom(
                 return
             }
 
-            // get photos taken when the theatre was visit TODO
+            // GET PHOTOS
+            // (removed) get photos taken when the theatre was visit TODO
+
+            // imagens anexadas do dispositivo (0...N imagens)
+            val watchedMovieImgs = getCustomImageByRefId(UuiD)
+            // poster do filme (ou 0 ou 1 imagem)
+            val omdbMovieImgs = getCustomImageByRefId(resultMovie.imdbId)
+
+            // atribuir poster (da BD) no objeto OmdbMovie
+            resultMovie.poster = if (omdbMovieImgs.isNotEmpty()) omdbMovieImgs.first() else null
 
             // create return object with retrieved information
             val watchedMovie = WatchedMovie(
                 resultWatchedMovie.uuid,
-                resultMovie!!,
-                resultCinema!!,
+                resultMovie,
+                resultCinema,
                 resultWatchedMovie.review,
                 resultWatchedMovie.date,
                 resultWatchedMovie.comments,
-                null
+                // carregar as imagens anexadas no device (pelo user)
+                watchedMovieImgs
             )
             onFinished(Result.success(watchedMovie))
 
@@ -200,7 +214,9 @@ class CinecartazRoom(
                 watchedMovie.movie.ratingImdb,
                 watchedMovie.movie.director,
                 watchedMovie.movie.plotShort,
-                watchedMovie.movie.posterUrl
+                watchedMovie.movie.posterUrl,
+                watchedMovie.movie.releaseDate,
+                watchedMovie.movie.imdbVotes
             )
         )
 
@@ -307,6 +323,8 @@ class CinecartazRoom(
                 resultMovieDao.ratingImdb,
                 resultMovieDao.director,
                 resultMovieDao.plotShort,
+                resultMovieDao.releaseDate,
+                resultMovieDao.imdbVotes,
                 resultMovieDao.posterUrl,
                 getCustomImageByRefId(resultMovieDao.imdbId).let {
                     if (it.isNotEmpty()) it.first() else null

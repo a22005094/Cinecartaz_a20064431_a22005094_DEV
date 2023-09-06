@@ -92,7 +92,12 @@ class WatchedMoviesFragment(
             )
         }
         // invoque movie detail fragment
-        activity?.supportFragmentManager?.let { NavigationManager.goToWatchedMovieDetailsFragment(it, watchedMovieUUID) }
+        activity?.supportFragmentManager?.let {
+            NavigationManager.goToWatchedMovieDetailsFragment(
+                it,
+                watchedMovieUUID
+            )
+        }
 
     }
 
@@ -103,10 +108,22 @@ class WatchedMoviesFragment(
     }
 
     private fun searchForResults() {
+        // Reset nos resultados atuais
+        listOfCurrentResults = mutableListOf()
 
         CoroutineScope(Dispatchers.IO).launch {
             val searchTerm: String? = binding.etMovieName.text?.toString()
             var listOfWatchedMovies: List<WatchedMovie>
+
+
+            // Verificar se foi aplicado algum tipo de filtro de distancia
+            var distancia = 0
+            if (binding.radioDistance500.isChecked) {
+                distancia = 500
+            } else if (binding.radioDistance1000.isChecked) {
+                distancia = 1000
+            }
+
 
             // #1 - obter os filmes que correspondem ao nome de pesquisa
             if (!searchTerm.isNullOrEmpty()) {
@@ -136,6 +153,10 @@ class WatchedMoviesFragment(
             }
 
             // #2 - dentro dos filmes obtidos, filtrar por distância
+
+
+            // No final, passar os resultados finais para o objeto global neste fragmento, "listOfCurrentResults"
+            // (isto vai ser preciso para a ordenação)
         }
 
     }

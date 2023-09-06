@@ -83,6 +83,37 @@
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
+                <RadioGroup
+                    android:id="@+id/radio_group"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.75"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <RadioButton
+                        android:id="@+id/radio_distance_na"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:text="@string/lbl_distance_select_none" />
+
+                    <RadioButton
+                        android:id="@+id/radio_distance_500"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:text="@string/lbl_distance_select_500m" />
+
+                    <RadioButton
+                        android:id="@+id/radio_distance_1000"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:text="@string/lbl_distance_select_1000m" />
+                </RadioGroup>
+
+
 
             </LinearLayout>
 
@@ -96,10 +127,9 @@
 
                 <Button
                     android:id="@+id/btn_filter"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_weight="0.5"
                     android:text="@string/lbl_apply_filter" />
 
             </LinearLayout>

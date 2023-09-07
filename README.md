@@ -169,7 +169,7 @@ Optámos pela criação de um novo ecrã, como a nossa funcionalidade extra para
 Considerámos que a simples pesquisa e apresentação de mensagens de erro ao utilizador poderia trazer uma experiência mais limitada na utilização da aplicação, portanto, como forma de melhorar este ponto e tirar maior proveito da API da OMDB disponibilizada, neste menu é possível introduzir um ou vários termos de pesquisa, e verificar que resultados existem. Mediante os resultados obtidos, caso existam múltiplos resultados (>10 resultados), a pesquisa é dividida em várias páginas para consulta (já por imposição da API), e é permitido ao utilizador navegar entre as próximas e anteriores páginas de resultados. Nos resultados de pesquisa são apresentados pontos-chave na seleção do filme pretendido, com o Poster, o título do filme, o Rating IMDB, o ano, diretor do filme e o género. Mediante o click num dos resultados de pesquisa, é preenchida uma variável que indica o filme selecionado, sendo esta utilizada como validação e como ponto de referência para o filme que o utilizador selecionou, e permitindo assim fazer o seu registo.
 De notar que esta funcionalidade, e como parte do âmbito do projeto, só está disponível se a aplicação estiver em modo Online. Caso o dispositivo não tenha acesso à Internet, é apresentada uma mensagem Toast respetiva, e não é efetuada qualquer pesquisa; derivado disto, também não vai ser possível selecionar um filme e, portanto, o utilizador não poderá registar novos filmes.
 
-## 4 - Reflexão e autoavaliação ##
+## 4 - Autoavaliação ##
 
 
 ## 5 - Outras notas ##

@@ -11,7 +11,7 @@ Rui Joaquim - a22005094
 https://grupolusofona-my.sharepoint.com/:u:/g/personal/a22005094_alunos_ulht_pt/EZjQHKIx0FBDkm6vf0ptk4ABavplCGjP0n6KoIjgtpp9-w?e=EsHyoc
 
 ## Link do Vídeo (Youtube)
-https://youtu.be/Mh3M5EwAVt4
+https://youtu.be/g7H9mPQ96Zs
 
 ## [0] - Nota importante: Erro de instalação do .APK em Android API 23 ##
 O ambiente de desenvolvimento recorreu ao uso do Android Studio com 2 imagens, uma Android API 23 e outra com a API 31, sendo a segunda para permitir o Debugging e App Inspection das bases de dados Room em utilização no projeto.
@@ -98,21 +98,8 @@ Classe com maior foco utilitário, para ajudar na conversão rápida de datas en
     * toMillis() - Long
     * toString() - String   // imprime a data já no formato estabelecido pelo SimpleDateFormatter
     * @JvmStatic fromHumanReadableDate(dtString: String) - CustomDate   // Factory. Devolve um objeto preenchido com base numa Data em formato String.
-      
 
-### Classe OMDBMovie (detalhes do filme visualizado, carregado via API) ###
-
-| Nome | Tipo |
-| :---: | :---: |
-|  |  |
-
-### Classe Cinema (carregados via ficheiro .JSON) ###
-
-| Nome | Tipo |
-| :---: | :---: |
-|  |  |
-
-## X - Funcionalidades desenvolvidas ##
+## [3.1] - Funcionalidades desenvolvidas ##
 
 | Funcionalidade | Desenvolvido? | Feedback |
 | :---: | :---: | :---:|
@@ -130,7 +117,7 @@ Classe com maior foco utilitário, para ajudar na conversão rápida de datas en
 | [RECURSO] Filtro na Lista: proximidade | [x] Sim | Totalmente funcional, no entanto, é importante notar que o intervalo de Polling para atualização da posição (nova amostra a cada 20 segundos) do dispositivo requer algum tempo de espera para aplicar alterações à localização. Faz uso de técnicas de Observable, Listeners e outros já aplicados na funcionalidade do Mapa, para deteção da localização do dispositivo e cálculos de distâncias para os Cinemas dos filmes da lista. Suporta a aplicação deste filtro em conjunto com o outro, e também a ordenação de resultados. |
 | [RECURSO] Ordenação de resultados | [x] Sim | Funcional. Suporta a ordenação em conjunto com filtragens. |
 
-## X.2 - Markers do Mapa ##
+## [3.2] - Markers do Mapa ##
 Relativamente aos markers da funcionalidade de Listagem por GoogleMap, é feita a seguinte distinção de cores dos Markers:
 * Rating de 1 a 2 (Muito Fraco): vermelho
 * Rating de 3 a 4 (Fraco): cor-de-laranja
@@ -139,24 +126,26 @@ Relativamente aos markers da funcionalidade de Listagem por GoogleMap, é feita 
 * Rating de 9 a 10 (Excelente): verde
 * Cor alternativa (fallback): ciano
 
-## X.3 - Outras funcionalidades pretendidas ##
+## [3.3] - Outras funcionalidades pretendidas ##
 | Nome | Descrição da funcionalidade |
 | :---: | :---: |
 | Splash Screen | Pretendíamos ter desenvolvido também um Splash Screen, para minimizar eventuais problemas com a execução de Corotinas no arranque da aplicação, dando tempo para assegurar que tudo está devidamente carregado e pronto a utilizar. A ideia seria ter um género de "SplashActivity" de onde seriam feitas as invocações/inicializações necessárias, passando o controlo para a MainActivity ao finalizar estas operações. |
 | Imagens dos cinemas | Era também desejada a utilização das imagens dos Cinemas na aplicação, sendo estas apresentadas no ecrã de detalhes de um Filme visualizado, junto com os detalhes do Cinema (e como se pode verificar no código, pois as respetivas funções foram construídas e preparadas para uso). Contudo, sendo um tópico mais secundário e que levou um determinado grau de perda de performance na aplicação (inúmeros pedidos lançados em simultâneo para obter as imagens), esta funcionalidade foi então arquivada e não mais investigada. |
+| Dark Mode | Existe uma base de desenvolvimento conseguida, com recurso ao ficheiro "Themes.xml" específico para Dark Mode, e que trocando o tema no dispositivo, aplica de imediato o esquema de cores alternativo para o tema Dark do sistema operativo. Contudo, apenas se estende ao nível da configuração dessas cores alternativas. |
 
-
-## X.4 - Funcionalidade EXTRA: página de seleção de um filme ##
+## [3.4] - Funcionalidade EXTRA: página de seleção de um filme ##
 Optámos pela criação de um novo ecrã, como a nossa funcionalidade extra para que exista uma zona reservada para a seleção de um Filme.
 Considerámos que a simples pesquisa e apresentação de mensagens de erro ao utilizador poderia trazer uma experiência mais limitada na utilização da aplicação, portanto, como forma de melhorar este ponto e tirar maior proveito da API da OMDB disponibilizada, neste menu é possível introduzir um ou vários termos de pesquisa, e verificar que resultados existem. Mediante os resultados obtidos, caso existam múltiplos resultados (>10 resultados), a pesquisa é dividida em várias páginas para consulta (já por imposição da API), e é permitido ao utilizador navegar entre as próximas e anteriores páginas de resultados. Nos resultados de pesquisa são apresentados pontos-chave na seleção do filme pretendido, com o Poster, o título do filme, o Rating IMDB, o ano, diretor do filme e o género. Mediante o click num dos resultados de pesquisa, é preenchida uma variável que indica o filme selecionado, sendo esta utilizada como validação e como ponto de referência para o filme que o utilizador selecionou, e permitindo assim fazer o seu registo.
 De notar que esta funcionalidade, e como parte do âmbito do projeto, só está disponível se a aplicação estiver em modo Online. Caso o dispositivo não tenha acesso à Internet, é apresentada uma mensagem Toast respetiva, e não é efetuada qualquer pesquisa; derivado disto, também não vai ser possível selecionar um filme e, portanto, o utilizador não poderá registar novos filmes.
 
-## X.5 - Reflexão e autoavaliação ##
+## 4 - Reflexão e autoavaliação ##
 
-## X.6 - Fontes de informação ##
+
+## 5 - Outras notas ##
+* Procurando cumprir com rigor a utilização das bibliotecas fornecidas pelo Android, o uso de bibliotecas limitou-se àquelas que foram fornecidas em teor das aulas teóricas e práticas, com exceção da biblioteca Glide, que foi adicionada para procurar assegurar conceitos como a otimização de recursos (memória), caching automático de imagens, entre outras vantagens.
+* Para assegurar certas comunicações assíncrona sob iterações que envolviam chamadas sequencais à Internet e cujos resultados dependiam da finalização de cada iteração, houve a necessidade de um maior estudo sobre o funcionamento deste tipo de chamadas, tendo sido utilizado num determinado caso o tipo de dados "Deferred", que disponibiliza uma função "awaitAll()" para esperar resultados de operações assíncronas. Apesar disso, esta situação foi assegurada numa Background thread (CoroutineScope(Dispatchers.IO)), portanto o Utilizador não é impactado na UI da aplicação sobre este assunto.
+
+## 6 - Fontes de informação ##
 Todos os excertos de código que suscitaram maior dúvida e provocaram maior investigação/debate estão diretamente colocados junto com os blocos de código.
 Existe uma vasta lista de pequenas referências diretas para determinados problemas específicos que foram surgindo, ao qual convidamos a identificar a documentação e comentários que por todo o código foram sempre sendo colocados.
 Como fontes, destacamos o StackOverflow em primeiro lugar (dúvidas pontuais), em conjunto com a documentação oficial do Kotlin (dúvidas de código, sintaxe Kotlin, corotinas e processamento assíncrono), da Google (para temas com o Room e o Google Maps), o ChatGPT (questões mais específicas onde não foi possível obter uma melhor resposta; divulgação de demos de código), e por último, alguns blogs populares, tais como o GeeksForGeeks, também para questões pontuais.
-
-
-

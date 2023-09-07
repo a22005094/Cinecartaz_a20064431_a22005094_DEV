@@ -3,6 +3,7 @@
 Projeto de Computação Móvel - ULHT 2022-23\
 Época Especial (06/09/2023)
 
+## Constituição do Grupo ##
 Rui Mata - a20064431\
 Rui Joaquim - a22005094
 
@@ -13,7 +14,7 @@ https://grupolusofona-my.sharepoint.com/:u:/g/personal/a22005094_alunos_ulht_pt/
 https://youtu.be/Mh3M5EwAVt4
 
 
-## 1 - Erro de instalação do .APK em Android API 23 ##
+## [0] - Nota importante: Erro de instalação do .APK em Android API 23 ##
 O ambiente de desenvolvimento recorreu ao uso do Android Studio com 2 imagens, uma Android API 23 e outra com a API 31, sendo a segunda para permitir o Debugging e App Inspection das bases de dados Room em utilização no projeto.
 Durante este processo, ambas imagens não ofereceram qualquer problema, e permitiram sempre a compilação e execução direta da aplicação no IDE, tanto em modo "Run" como em "Debug", e sempre seguindo as instruções de compilação do enunciado do projeto (minSdk = 23, compileSdk = 31, targetSdk = 31).
 
@@ -23,9 +24,27 @@ Tal situação obrigou o grupo a verificar o porquê deste erro de instalação 
 
 Por este motivo, foi submetido um segundo APK via Moodle (que termina com a nomenclatura "_build", para distinção), e recomenda-se a utilização de uma imagem mais recente do Android para minimizar eventuais erros de instalação do ficheiro, lamentando o transtorno causado.
 
-## 2 - Screenshots da aplicação ##
+## [1] - Screenshots dos ecrãs da aplicação ##
 
+## [2] - Classes de lógica de negócio (excluindo classes Room, de Utilitários, etc.)
 
+### Classe WatchedMovie (filmes registados na App) ###
+
+| Nome | Tipo |
+| :---: | :---: |
+|  |  |
+
+### Classe OMDBMovie (detalhes do filme visualizado, carregado via API) ###
+
+| Nome | Tipo |
+| :---: | :---: |
+|  |  |
+
+### Classe Cinema (carregados via ficheiro .JSON) ###
+
+| Nome | Tipo |
+| :---: | :---: |
+|  |  |
 
 ## X - Funcionalidades desenvolvidas ##
 
@@ -36,7 +55,7 @@ Por este motivo, foi submetido um segundo APK via Moodle (que termina com a nome
 | Lista de filmes - Landscape | [+/-] Suporte limitado | |
 | Lista de filmes - Mapa | [x] Sim | Totalmente funcional - os Markers do mapa estão a actualizar com base nos registos de filmes que vão sendo feitos na aplicação, indicando a localização dos respetivos Cinemas. O clique num dos Markers leva a aplicação para a página de detalhes |
 | Detalhes do filme | [x] Sim | Totalmente funcional. Carrega os campos esperados no ecrã, fazendo uso dos campos armazenados em Base de Dados e das respetivas imagens (anexadas e Poster), dispostas num género de galeria. |
-| Pesquisa por Voz | [x] Sim | Totalmente funcional. Acessível através de um botão na ActionBar da aplicação. Conforme o idioma do sistema, a aplicação para input de voz adapta-se ao idioma que é esperado (ex. com o sistema em EN-US, a aplicação espera que falemos em Inglês, etc.). É feita a pesquisa por resultados que contenham as palavras ditas pelo utilizador, sendo que: 1) é apresentada mensagem de erro se não existem resultados; 2) a aplicação abre a página de detalhes do filme caso seja o único resultado, e 3) caso existam múltiplos resultados, o utilizador é encaminhado para a página da Lista de filmes, de forma a que possa confirmar o que tem inserido. Como ambição do grupo, a ideia era aplicar imediatamente um filtro por nome no último cenário, para que a página de Listar filmes já indicasse apenas os resultados da pesquisa, mas, infelizmente, esta funcionalidade adicional não foi conseguida atempadamente. |
+| Pesquisa por Voz | [x] Sim | Totalmente funcional. Acessível através de um botão na ActionBar da aplicação. Conforme o idioma do sistema, a aplicação para input de voz adapta-se ao idioma que é esperado (ex. com o sistema em EN-US, a aplicação espera que falemos em Inglês, etc.). É feita a pesquisa por resultados que contenham as palavras ditas pelo utilizador, sendo que: 1) é apresentada mensagem de erro se não existem resultados; 2) a aplicação abre a página de detalhes do filme caso seja o único resultado, e 3) caso existam múltiplos resultados, o utilizador é encaminhado para a página da Lista de filmes, de forma a que possa confirmar o que tem inserido. Como ambição do grupo, a ideia era aplicar imediatamente um filtro por nome no último cenário, para que a página de Listar filmes já indicasse apenas os resultados da pesquisa, mas, infelizmente, esta funcionalidade adicional não foi conseguida atempadamente. A sua funcionalidade recorre a um AlertDialog, com um conjunto de botões para iniciar input por voz, submeter os resultados obtidos, e uma caixa para consulta dos resultados que vão sendo obtidos por voz. |
 | Suporte multi-idioma | [+/-] Parcialmente | A aplicação foi parcialmente traduzida. Os ficheiros foram criados (original em Português, e os 2 novos idiomas pretendidos, para o qual foram escolhidos o Inglês e Espanhol), e a aplicação está a adaptar as traduções (que existem) para o idioma do sistema automaticamente. Carece, portanto, apenas de finalizar as restantes entradas no ficheiro, ainda que o suporte já esteja assegurado |
 | RegistaJá | [x] Sim | Totalmente funcional. Suspende a funcionalidade durante os próximos 3 segundos, até permitir voltar a acionar esta feature |
 | Modo Offline / Repository | [+/-] Parcialmente | Os dados dos filmes visualizados (e avaliação dos mesmos) estão a ser armazenados em Base de Dados, numa tabela para tal dedicada. Também os detalhes do filme em si selecionado pelo utilizador (proveniente da API OMDB) estão a ser armazenados, estes noutra tabela distinta para esse fim, disponibilizando assim o acesso offline na aplicação para futura consulta no respetivo ecrã de detalhes. As imagens, tanto as anexadas do telemóvel como o Poster do filme, são armazenadas por uma tabela comum de imagens, utilizando uma chave "ID externo de referência" para associar as imagens com a respetiva entidade. Como sugestão de melhoria, poderiam ser feitos novos acessos à API ao consultar os detalhes de um Filme visualizado, para que as suas informações possam ser atualizadas com o decorrer do tempo.|
@@ -63,6 +82,13 @@ Relativamente aos markers da funcionalidade de Listagem por GoogleMap, é feita 
 Optámos pela criação de um novo ecrã, como a nossa funcionalidade extra para que exista uma zona reservada para a seleção de um Filme.
 Considerámos que a simples pesquisa e apresentação de mensagens de erro ao utilizador poderia trazer uma experiência mais limitada na utilização da aplicação, portanto, como forma de melhorar este ponto e tirar maior proveito da API da OMDB disponibilizada, neste menu é possível introduzir um ou vários termos de pesquisa, e verificar que resultados existem. Mediante os resultados obtidos, caso existam múltiplos resultados (>10 resultados), a pesquisa é dividida em várias páginas para consulta (já por imposição da API), e é permitido ao utilizador navegar entre as próximas e anteriores páginas de resultados. Nos resultados de pesquisa são apresentados pontos-chave na seleção do filme pretendido, com o Poster, o título do filme, o Rating IMDB, o ano, diretor do filme e o género. Mediante o click num dos resultados de pesquisa, é preenchida uma variável que indica o filme selecionado, sendo esta utilizada como validação e como ponto de referência para o filme que o utilizador selecionou, e permitindo assim fazer o seu registo.
 De notar que esta funcionalidade, e como parte do âmbito do projeto, só está disponível se a aplicação estiver em modo Online. Caso o dispositivo não tenha acesso à Internet, é apresentada uma mensagem Toast respetiva, e não é efetuada qualquer pesquisa; derivado disto, também não vai ser possível selecionar um filme e, portanto, o utilizador não poderá registar novos filmes.
+
+## X.5 - Reflexão e autoavaliação ##
+
+## X.6 - Fontes de informação ##
+Todos os excertos de código que suscitaram maior dúvida e provocaram maior investigação/debate estão diretamente colocados junto com os blocos de código.
+Existe uma vasta lista de pequenas referências diretas para determinados problemas específicos que foram surgindo, ao qual convidamos a identificar a documentação e comentários que por todo o código foram sempre sendo colocados.
+Como fontes, destacamos o StackOverflow em primeiro lugar (dúvidas pontuais), em conjunto com a documentação oficial do Kotlin (dúvidas de código, sintaxe Kotlin, corotinas e processamento assíncrono), da Google (para temas com o Room e o Google Maps), o ChatGPT (questões mais específicas onde não foi possível obter uma melhor resposta; divulgação de demos de código), e por último, alguns blogs populares, tais como o GeeksForGeeks, também para questões pontuais.
 
 
 

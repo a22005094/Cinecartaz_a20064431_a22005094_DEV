@@ -171,7 +171,7 @@ object Utils {
         val c = 2 * atan2(sqrt(a), sqrt(1 - a))
 
         // Calculate the distance
-        return earthRadius * c
+        return earthRadius * c * 1000
     }
 
     fun calcDistancesOnMoviesList(watchedMovies: MutableList<WatchedMovie>, point: LatLng): MutableList<WatchedMovie>{

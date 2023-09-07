@@ -13,7 +13,6 @@ https://grupolusofona-my.sharepoint.com/:u:/g/personal/a22005094_alunos_ulht_pt/
 ## Link do Vídeo (Youtube)
 https://youtu.be/Mh3M5EwAVt4
 
-
 ## [0] - Nota importante: Erro de instalação do .APK em Android API 23 ##
 O ambiente de desenvolvimento recorreu ao uso do Android Studio com 2 imagens, uma Android API 23 e outra com a API 31, sendo a segunda para permitir o Debugging e App Inspection das bases de dados Room em utilização no projeto.
 Durante este processo, ambas imagens não ofereceram qualquer problema, e permitiram sempre a compilação e execução direta da aplicação no IDE, tanto em modo "Run" como em "Debug", e sempre seguindo as instruções de compilação do enunciado do projeto (minSdk = 23, compileSdk = 31, targetSdk = 31).
@@ -27,12 +26,79 @@ Por este motivo, foi submetido um segundo APK via Moodle (que termina com a nome
 ## [1] - Screenshots dos ecrãs da aplicação ##
 
 ## [2] - Classes de lógica de negócio (excluindo classes Room, de Utilitários, etc.)
+NOTA: Existem várias classes que foram excluídas desta listagem, por não se tratarem de classes "puras" do Modelo de dados, tais como classes para funções de "utilitário", classes associadas a Base de Dados (classes "Room", "Dao" entre outras), Adapters, Navegação, funções de Repository/Offline, entre outras; sugere-se uma análise do código para melhor verificação do que foi implementado.
 
-### Classe WatchedMovie (filmes registados na App) ###
+### Classe WatchedMovie (Data class para Filmes registados na App) ###
+- Atributos:
+    * uuid - String (auto-gerida)
+    * movie - OMDBMovie
+    * theatre - Cinema
+    * review - Int
+    * date - Long
+    * comments - String
+    * photos - List<CustomImage>? (nullable)
+    * calcDistance - Double (default: 0.0)
+- Métodos:
+    * Não tem - é uma Data class simples
 
-| Nome | Tipo |
-| :---: | :---: |
-|  |  |
+### Classe OMDBMovie (Data class de detalhes da API sobre um Filme) ###
+- Atributos:
+    * val title - String       // ex.  "Avatar Spirits"
+    * year - Int?              // ex.  "2010", "N/A", etc. Nullable pois a API nem sempre disponibiliza o ano como inteiro. ("N/A")
+    * imdbId - String          // ex.  "tt1900832"
+    * genre - String           // ex.  "Documentary, Biography, Sport"
+    * ratingImdb - Double?   // ex.  "8.2", "N/A", etc. Nullable pois a API nem sempre disponibiliza este rating como inteiro. ( filmes sem rating = "N/A" )
+    * director - String      // ex.  "Christopher Nolan"
+    * plotShort - String     // ex.  "The quick brown fox jumps over the lazy dog"
+    * releaseDate - Long,    // ex.  Data de lançamento em formato milissegundos
+    * imdbVotes - Int?,      // ex.  "42", "N/A", etc. Nullable pois a API nem sempre disponibiliza esta contagem como inteiro. ( = "N/A" )
+    * posterUrl - String,     // URL do Poster (se não tem, devolve "N/A", ex.: "https://m.media-amazon.com/images/M/MV5BMzQ4MDMxNjExNl5BMl5BanBnXkFtZTgwOTYzODI5NTE@._V1_SX300.jpg")
+    * poster - CustomImage?   // variável que referencia a entidade que a detém, e respetivos dados (ByteArray) da imagem. Preenchido ao selecionar um filme visto.
+- Métodos:
+    * toString() - String    // devolve uma representação sucinta do filme: Nome e Ano (usado p.ex. na página Registar Filme)
+
+### Classe Cinema (Data class para Cinemas carregados para a App via JSON) ###
+- Atributos:
+    * id - Int
+    * name - String
+    * provider - String
+    * latitude - Double
+    * longitude - Double
+    * address - String
+    * postcode - String
+    * county - String
+    * imageUrls - List<String>    // lista de URLs para transferir as imagens do Cinema
+    * photos - List<CustomImage>? // (Nullable) Lista de fotos do Cinema carregados em memória (NOTA: foi desenvolvido código para esta funcionalidade, mas depois suspenso)
+- Métodos:
+    * toString() - String         // ToString() para simplificação da representação do objeto; indica apenas o seu Nome.
+
+### Classe CustomImage (Para armazenar imagens em memória, e associadas tipicamente a instâncias) ###
+- Atributos:
+    * uuid - String          // (auto-gerida)
+    * refId - String         // o ID da entidade (Avaliação de filme / Filme OMDB / Cinema)
+    * imageName - String     // File name (para desambiguação entre várias imagens do mesmo ID de Referência) 
+    * imageData - ByteArray  // Contém um objeto com os dados em si da imagem (este tipo de dados facilita o carregamento de Vistas de imagens na aplicação)
+- Métodos:
+    * Não tem - é uma Data class simples
+
+### Classe CustomDate ###
+Classe com maior foco utilitário, para ajudar na conversão rápida de datas entre formatos, de registos em milissegundos para determinados padrões de datas (ex. 2007/12/31), e vice-versa. Procurando ultrapassar a limitação em não conseguir utilizar o tipo LocalDate, recorre ao tipo Calendar para transformações intermédias e SimpleDateFormatters para o parse de transformações de datas em Strings formatadas.
+
+- Atributos:
+    * calendar - Calendar      // (Para gestão interna das Datas)
+    * sdf - SimpleDateFormat   // Para formatações
+    * imageName - String       // File name (para desambiguação entre várias imagens do mesmo ID de Referência) 
+    * imageData - ByteArray    // Contém um objeto com os dados em si da imagem (este tipo de dados facilita o carregamento de Vistas de imagens na aplicação)
+- Métodos:
+    * getYear() - Int
+    * getMonth() - Int
+    * getDayOfMonth() - Int
+    * addDays(nrOfDays: Int) - Unit
+    * setDateTo(ano: Int, mes: Int, dia: Int) - Unit
+    * toMillis() - Long
+    * toString() - String   // imprime a data já no formato estabelecido pelo SimpleDateFormatter
+    * @JvmStatic fromHumanReadableDate(dtString: String) - CustomDate   // Factory. Devolve um objeto preenchido com base numa Data em formato String.
+      
 
 ### Classe OMDBMovie (detalhes do filme visualizado, carregado via API) ###
 

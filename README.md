@@ -40,15 +40,14 @@ Por este motivo, foi submetido um segundo APK via Moodle (que termina com a nome
 ### 1.5 - Detalhes de filme - pt2 ###
 [![5-Details2.png](https://i.postimg.cc/ydvbGs34/5-Details2.png)](https://postimg.cc/mz1jzxS8)
 
-### 1.6 - Lista de filmes (Mapa) - pt2 ###
+### 1.6 - Lista de filmes (Mapa) - pt1 ###
 [![6-Map1.png](https://i.postimg.cc/vH1NPRQk/6-Map1.png)](https://postimg.cc/svrmXNG4)
 
-### 1.7 - Registar novo Filme  ###
+### 1.7 - Lista de filmes (Mapa) - pt2 ###
 [![7-Map2.png](https://i.postimg.cc/4420b4Tp/7-Map2.png)](https://postimg.cc/7b7XqkhL)
+
+### 1.8 - Registar um novo Filme ###
 [![8-Register-Movie.png](https://i.postimg.cc/9Q7sQ6KZ/8-Register-Movie.png)](https://postimg.cc/Xrns2zVY)
-
-### 1.8 - Pesquisar por um Filme (API OMDB) ###
-
 
 ### 1.9 - Selecionar um Filme IMDB (API OMDB) ###
 [![9-Select-AImdb-Movie.png](https://i.postimg.cc/FR96G7RV/9-Select-AImdb-Movie.png)](https://postimg.cc/rdPgwy5D)

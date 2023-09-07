@@ -25,6 +25,36 @@ Por este motivo, foi submetido um segundo APK via Moodle (que termina com a nome
 
 ## [1] - Screenshots dos ecrãs da aplicação ##
 
+### 1.1 - Dashboard ###
+[![1-Dashboard.png](https://i.postimg.cc/TYhZZLck/1-Dashboard.png)](https://postimg.cc/ZCt7Nq23)
+
+### 1.2 - Nav Drawer ###
+[![2-Navigation-Drawer.png](https://i.postimg.cc/J4g9mr6R/2-Navigation-Drawer.png)](https://postimg.cc/Xpf2kb6P)
+
+### 1.3 - Lista de filmes vistos - pt1 ###
+[![3-Watched-List.png](https://i.postimg.cc/VNPpr7PT/3-Watched-List.png)](https://postimg.cc/LJvNG3XB)
+
+### 1.4 - Detalhes de filme - pt1 ###
+[![4-Details1.png](https://i.postimg.cc/zvvcZ6TL/4-Details1.png)](https://postimg.cc/LgdTjyCR)
+
+### 1.5 - Detalhes de filme - pt2 ###
+
+[![6-Map1.png](https://i.postimg.cc/vH1NPRQk/6-Map1.png)](https://postimg.cc/svrmXNG4)
+
+### 1.6 - Lista de filmes (Mapa) - pt2 ###
+[![7-Map2.png](https://i.postimg.cc/4420b4Tp/7-Map2.png)](https://postimg.cc/7b7XqkhL)
+
+### 1.7 - Registar novo Filme  ###
+[![8-Register-Movie.png](https://i.postimg.cc/9Q7sQ6KZ/8-Register-Movie.png)](https://postimg.cc/Xrns2zVY)
+
+### 1.8 - Pesquisar por um Filme (API OMDB) ###
+
+
+### 1.9 - Pesquisa por Voz ###
+
+
+
+
 ## [2] - Classes de lógica de negócio (excluindo classes Room, de Utilitários, etc.)
 NOTA: Existem várias classes que foram excluídas desta listagem, por não se tratarem de classes "puras" do Modelo de dados, tais como classes para funções de "utilitário", classes associadas a Base de Dados (classes "Room", "Dao" entre outras), Adapters, Navegação, funções de Repository/Offline, entre outras; sugere-se uma análise do código para melhor verificação do que foi implementado.
 
@@ -115,7 +145,7 @@ Classe com maior foco utilitário, para ajudar na conversão rápida de datas en
 | [RECURSO] RegistaJá | [x] Sim | Totalmente funcional. Suspende a funcionalidade durante os próximos 3 segundos, até permitir voltar a acionar esta feature. Faz uso do Acelerómetro do dispositivo para deteção do gesto no dispositivo. |
 | [RECURSO] Filtro na Lista: nome do filme | [x] Sim | Totalmente funcional. Atualiza os resultados conforme esperado, de acordo com os termos de pesquisa inseridos. Suporta a aplicação deste filtro em conjunto com o outro, e também a ordenação de resultados. |
 | [RECURSO] Filtro na Lista: proximidade | [x] Sim | Totalmente funcional, no entanto, é importante notar que o intervalo de Polling para atualização da posição (nova amostra a cada 20 segundos) do dispositivo requer algum tempo de espera para aplicar alterações à localização. Faz uso de técnicas de Observable, Listeners e outros já aplicados na funcionalidade do Mapa, para deteção da localização do dispositivo e cálculos de distâncias para os Cinemas dos filmes da lista. Suporta a aplicação deste filtro em conjunto com o outro, e também a ordenação de resultados. |
-| [RECURSO] Ordenação de resultados | [x] Sim | Funcional. Suporta a ordenação em conjunto com filtragens. |
+| [RECURSO] Ordenação de resultados | [x] Sim | Funcional. Suporta a ordenação em conjunto com filtragens. No entanto, há uma disparidade entre a ordenação e o rating que é apresentado (rating IMDB e rating do utilizador, respetivamente) |
 
 ## [3.2] - Markers do Mapa ##
 Relativamente aos markers da funcionalidade de Listagem por GoogleMap, é feita a seguinte distinção de cores dos Markers:
